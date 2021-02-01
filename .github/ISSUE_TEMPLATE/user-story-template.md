@@ -8,10 +8,10 @@ assignees: ''
 ---
 
 **Description**:  
-As a user, I want to be able to create a post searching for players.
+description
 
 **Acceptance Criteria**:  
-* [criteria 1]
+* criteria 1
 
 **Dev Tasks**:  
 [text to display](url to task)
