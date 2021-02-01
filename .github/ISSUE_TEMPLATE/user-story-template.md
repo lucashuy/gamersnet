@@ -10,8 +10,12 @@ assignees: ''
 **Description**:  
 [desc here]
 
-**Acceptance Tasks**:  
+**Dev tasks**: 
 [dev task1 link]
 [dev task2 link]
+
+**Acceptance Criteria**:  
+[desc here]
+
 
 **Story Points (1 - 5**):
