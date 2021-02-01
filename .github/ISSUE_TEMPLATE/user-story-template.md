@@ -8,14 +8,12 @@ assignees: ''
 ---
 
 **Description**:  
-[desc here]
+As a user, I want to be able to create a post searching for players.
 
-**Dev tasks**: 
-[dev task1 link]
-[dev task2 link]
+**Acceptance Tasks**:  
+* [criteria 1]
 
-**Acceptance Criteria**:  
-[desc here]
-
+**Dev Tasks**:  
+[text to display](url to task)
 
 **Story Points (1 - 5**):
