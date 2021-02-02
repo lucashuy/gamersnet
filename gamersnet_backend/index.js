@@ -10,26 +10,42 @@ let app = express();
 let server = require('http').createServer();
 server.on('request', app);
 
-// define routes
-app.get('/', (request, response) => {
-    response.send('this is the home page');
+app.use((request, response, next) => {
+    // we have to set CORS to let our frontend access the backend
+    // our frontend is (currently) set to port 3001 while this backend is on 3000
+    response.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+
+    next();
 });
 
+// define routes
+// here we have the base route, if someone went to "example.com/" they would get here
+app.get('/', (request, response) => {
+    let numbers = [];
+
+    // fill array with 5 random floats
+    for (let i = 0; i < 5; i++) numbers.push(Math.random());
+
+    // return this array in a JSON object
+    response.json({
+        'numbers': numbers
+    });
+});
+
+// this is the page1 route, they would access "example.com/page1" to get here
 app.get('/page1', (request, response) => {
-    response.send('this is page one, but in plain text');
+    response.json({
+        'str1': 'this is page1',
+        1: 'lol'
+    });
 });
 
 app.get('/page2', (request, response) => {
     response.json({
         'str1': 'this is page2',
-        'str2': 'but this time in json'
+        1: 'lol'
     });
 });
-
-// define 404 for nonexistant endpoints
-app.use((request, response, next) => {
-    response.status(404).send();
-})
 
 // start server
 server.listen(PORT, () => {});
