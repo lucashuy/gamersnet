@@ -14,5 +14,6 @@
 ### Languages and Tools
 
 ### Meeting Notes
+* Meeting notes and time tracking can be found on the [wiki page](https://github.com/itslupus/gamersnet/wiki/Meetings)
 
 ### System Architecture Design
