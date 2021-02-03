@@ -1,29 +1,46 @@
-# Programming Standards
+# Contributing
+This document outlines basic coding and repository standards for this project.
 
-This document outlines basic programming standards for this project.
+## Naming Standards
+* Use lowerCamelCase when naming functions and variables
+    * `let myVariable` instead of `let my_variable`
+    * `function myFunction` instead of `function MyFunctionName`
+* Use UpperCamelCase when naming classes and interfaces
+    * `class MyClass` instead of `class myClass`
 
-## _Standards_
+## Coding Standards
+* “blocked” statements have the bracket on the same line
+```javascript
+if (condition) {
+    ...
+}
 
-1. _Anything_ gets done.... **PUSH IT**
-    - If we finish anything, no matter how small. Just push it and merge with dev<br><br>
-2. Use Variables
-    - For long get calls, operations from other functions, or anything really... even if it seems obvious
-    _create a variable_... its a simple thing but can make your code much _much_ more readable. (Especially if we
-    use that variable more than once)<br><br>
-3. UI message displaying (or other message displaying?)
-    - Only have _ONE_ display call. Set a string called 'message' or something and pass it to the display function.<br><br>
-4. **NO** huge blocks of code.
-    - Space things out... we have room.
-    - As a general rule, break blocks of code up into steps. For example;
-    ```
-    This block;
-    Does one step;
+function myFunction() {
+    ...
+}
+```
 
-    This block;
-    Does another;
-    ```
-    If this is still unclear, feel free to message another group member for clarification.
-<br>
+* Have spaces between operators and parameters
+```javascript
+let myVariable = 123;
+myVariable += 111;
 
-## _Variable/Function Naming_
-1. Function naming - _camelCase_
+for (let i = 0; i < 10; i++) {...}
+
+myFunction(a, b, c);
+```
+
+* Place your comments on newlines, not inline
+```javascript
+// comments go here
+let myVariable = 123;
+
+let myVariable = 312; // not here
+```
+## Branch Standards
+* Develop features and user stories on their own branches
+* `master` is a protected branch, all updates to that branch must be approved in a merge/pull request
+    * Merge/pull requests can be reviewed by any other member
+    * The reviewee should make sure that their local branch is even with `master` before submitting their request
+    * Any coding style changes that are required should be made by the reviewer
+
