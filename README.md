@@ -19,5 +19,5 @@
 * Meeting notes and time tracking can be found on the [wiki page](https://github.com/itslupus/gamersnet/wiki/Meetings).
 
 ### System Architecture Design
-* The architecture can be found [here](https://github.com/itslupus/gamersnet/wiki/Architecture).
+* The architecture can be found [here](.github/architecture/Architecture.png).
 
