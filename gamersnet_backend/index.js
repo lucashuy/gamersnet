@@ -1,7 +1,7 @@
 'use strict';
 
 // include main express object
-import app from './app';
+let app = require('./app');
 
 // define the backend server object and bind all HTTP requests to our express object
 let server = require('http').createServer();
