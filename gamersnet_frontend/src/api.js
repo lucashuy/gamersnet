@@ -1,7 +1,7 @@
 // helper function get get data from the backend
 export default async function APIFetch(endpoint) {
     // define our server
-    const SERVER = 'http://localhost:3000/';
+    const SERVER = 'http://localhost:3000' + (process.env.NODE_ENV === 'production' ? '/api/' : '/');
     
     // a fetch() is a "promise" in javascript
     // basically, this "promise" will get fulfilled at some point in the future
