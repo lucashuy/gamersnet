@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 // include main express object
 let app = require('./app');
 
@@ -8,4 +10,5 @@ let server = require('http').createServer();
 server.on('request', app);
 
 // start server using port in .env file
+console.log(process.env);
 server.listen(process.env.PORT, () => {});
