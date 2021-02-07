@@ -1,0 +1,14 @@
+[Unit]
+Description=GamersNet Backend Service
+
+[Service]
+WorkingDirectory=/home/comp4350/gamersnet/gamersnet_backend/
+ExecStart=/usr/bin/npm start
+
+Restart=always
+RestartSec=5
+
+User=comp4350
+
+[Install]
+WantedBy=multi-user.target

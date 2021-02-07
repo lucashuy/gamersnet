@@ -1,0 +1,1 @@
+comp4350 ALL=(ALL) NOPASSWD: /bin/systemctl start gamersnet_backend.service, /bin/systemctl restart gamersnet_backend.service, /bin/systemctl stop gamersnet_backend.service
