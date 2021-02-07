@@ -2,15 +2,15 @@ name: Deployment
 on:
   push:
     branches: [master]
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: appleboy/ssh-action@master
-          name: deploy project
-          with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            key: ${{ secrets.KEY }}
-            port: ${{ secrets.PORT }}
-            script: ./gamersnet_deploy.sh
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        name: deploy project
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: ./gamersnet_deploy.sh
