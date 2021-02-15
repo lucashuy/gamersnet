@@ -1,0 +1,15 @@
+name: Frontend Testing
+on:
+  push:
+    branches: ['!master']
+	paths: ['gamersnet_frontend/**']
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test frontend
+        run: |
+          cd gamersnet_frontend
+          npm ci
+          npm test
