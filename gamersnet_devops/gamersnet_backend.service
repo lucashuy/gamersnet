@@ -6,7 +6,7 @@ WorkingDirectory=/home/comp4350/gamersnet/gamersnet_backend/
 ExecStart=/usr/bin/npm start
 
 Restart=always
-RestartSec=5
+RestartSec=10
 
 User=comp4350
 
