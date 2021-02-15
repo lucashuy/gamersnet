@@ -2,7 +2,7 @@ name: Frontend Testing
 on:
   push:
     branches: ['!master']
-	paths: ['gamersnet_frontend/**']
+    paths: ['gamersnet_frontend/**']
 jobs:
   backend:
     runs-on: ubuntu-latest
