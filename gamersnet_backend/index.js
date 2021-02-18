@@ -1,6 +1,7 @@
 'use strict';
 
 require('dotenv').config();
+const MongoDB = require('./persistence/mongodb')
 
 // include main express object
 let app = require('./app');
@@ -10,4 +11,6 @@ let server = require('http').createServer();
 server.on('request', app);
 
 // start server using port in .env file
-server.listen(process.env.PORT, () => {});
+server.listen(process.env.PORT, async () => {
+    await MongoDB.open();
+});
