@@ -4,6 +4,8 @@
 let express = require('express');
 let app = express();
 
+let users = require('./routes/users');
+
 app.use((request, response, next) => {
     // we have to set CORS to let our frontend access the backend
     // our frontend is (currently) set to port 3001 while this backend is on 3000
@@ -11,6 +13,8 @@ app.use((request, response, next) => {
 
     next();
 });
+
+app.use('/users', users);
 
 // define routes
 // here we have the base route, if someone went to "example.com/" they would get here
