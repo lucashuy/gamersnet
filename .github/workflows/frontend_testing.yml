@@ -3,7 +3,7 @@ on:
   push:
     paths: ['gamersnet_frontend/**']
 jobs:
-  backend:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
