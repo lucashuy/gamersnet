@@ -5,7 +5,7 @@
 ```
 npm install
 ```
-Additionally, copy the `.env.sample` file to `.env` in the same directory. Remember to fill out the MongoDB related details.
+Additionally, copy the `.env.sample` file to `.env` in the same directory. Remember to fill all necessary values.
 
 ## Running
 To run locally execute `npm start`.  
