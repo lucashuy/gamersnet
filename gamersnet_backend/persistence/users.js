@@ -14,17 +14,21 @@ async function getUsers() {
     return result.toArray();;
 }
 
-async function addUser(username) {
+async function getUserByUsername(username) {
+    let db = await MongoDB.open();
+    let users = db.collection('users');
+
+    let result = users.findOne({username: username});
+    return result;
+}
+
+async function addUser(username, hashedPassword) {
     // wait for db connection and get users collection
     let db = await MongoDB.open();
     let users = db.collection('users');
 
-    // insert one row into the database, where the username key is our parameter
-    users.insertOne({username: username});
-
-    // return something...
-    return {status: 200};
+    return await users.insertOne({username: username, password: hashedPassword});
 }
 
 // make these two functions "public" to the rest of the project
-module.exports = {getUsers, addUser};
+module.exports = {getUsers, addUser, getUserByUsername};

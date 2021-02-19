@@ -1,14 +1,46 @@
 'use strict';
 
-// include our function from the database to add user
-let {addUser} = require('../../persistence/users');
+let bcrypt = require('bcrypt');
+let {addUser, getUserByUsername} = require('../../persistence/users');
 
-// this function handles the /user/createAccount/ endpoint
+function verifyUsernameRequirements(username) {
+    if (username == false) return false;
+
+    return true;
+}
+
+async function verifyUsernameUnused(username) {
+    let result = await getUserByUsername(username);
+    
+    return result === null;
+}
+
+function verifyPasswordRequirements(password) {
+    if (password == false) return false;
+
+    return true;
+}
+
 async function createAccount(request, response) {
-    // make random number for username
-    let result = await addUser(Math.random() * Math.floor(100));
+    let body = request.body;
 
-    response.json(result);
+    let validUsername = verifyUsernameRequirements(body.username);
+    let usernameNotUsed = await verifyUsernameUnused(body.username);
+    let validPassword = verifyPasswordRequirements(body.password);
+
+    if (validUsername && usernameNotUsed && validPassword) {
+        await bcrypt.hash(body.password, 10, async (error, hash) => {
+            if (error) {
+                response.status(500).end();
+            } else {
+                await addUser(body.username, hash);
+
+                response.status(200).json({status: 'good'});
+            }
+        });
+    } else {
+        response.status(400).end();
+    }
 }
 
 module.exports = createAccount;

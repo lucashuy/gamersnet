@@ -6,6 +6,8 @@ let app = express();
 
 let users = require('./routes/users');
 
+app.use(express.json());
+
 app.use((request, response, next) => {
     // we have to set CORS to let our frontend access the backend
     // our frontend is (currently) set to port 3001 while this backend is on 3000
