@@ -1,7 +1,6 @@
 name: Backend Testing
 on:
   push:
-    branches: ['!master']
     paths: ['gamersnet_backend/**']
 jobs:
   backend:
