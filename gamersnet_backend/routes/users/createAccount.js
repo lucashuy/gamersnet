@@ -1,7 +1,6 @@
 'use strict';
 
 let bcrypt = require('bcrypt');
-let jwt = require('jsonwebtoken');
 let {addUser, getUserByUsername} = require('../../persistence/users');
 
 function verifyUsernameRequirements(username) {
@@ -36,9 +35,7 @@ async function createAccount(request, response) {
             } else {
                 await addUser(body.username, hash);
 
-                let token = jwt.sign({username: body.username}, process.env.JWT_SECRET, {expiresIn: '1d'});
-
-                response.status(200).json({token: token});
+                response.status(200).json({status: 'good'});
             }
         });
     } else {
