@@ -1,7 +1,10 @@
 'use strict';
 
 let bcrypt = require('bcrypt');
+
+let {addUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
 let {addUser, getUserByUsername} = require('../../persistence/users');
+let generateToken = require('./generateToken');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
@@ -29,16 +32,15 @@ async function createAccount(request, response) {
     let validPassword = verifyPasswordRequirements(body.password);
 
     if (validUsername && usernameNotUsed && validPassword) {
-        await bcrypt.hash(body.password, 10, async (error, hash) => {
-            if (error) {
-                response.status(500).end();
-            } else {
-                await addUser(body.username, hash);
+        await bcrypt.hash(body.password, 10, async (error, passwordHash) => {
+            let result = await addUser(body.username, passwordHash);
+            let id = result.insertedId;
+            
+            let token = await generateToken(id);
+            await addUserToken(id, token);
 
-                let token = '';
-
-                response.status(200).json({token: token});
-            }
+            response.cookie('token', token, {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
+            response.status(204).end();
         });
     } else {
         response.status(400).end();
