@@ -5,6 +5,7 @@ let express = require('express');
 let app = express();
 
 let users = require('./routes/users');
+let posts = require('./routes/posts');
 
 app.use((request, response, next) => {
     // we have to set CORS to let our frontend access the backend
@@ -41,8 +42,16 @@ app.get('/page1', (request, response) => {
 app.get('/page2', (request, response) => {
     response.json({
         'str1': 'this is page2',
-        1: 'lol'
+         1: 'lol'
     });
 });
+
+app.use('/posts', posts);
+// app.get('/', (request, response) => {
+//     response.json({
+//         'str1': 'this is a post',
+//          1: 'lol'
+//     });
+// });
 
 module.exports = app;
