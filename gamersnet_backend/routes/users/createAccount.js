@@ -1,14 +1,50 @@
 'use strict';
 
-// include our function from the database to add user
-let {addUser} = require('../../persistence/users');
+let bcrypt = require('bcrypt');
 
-// this function handles the /user/createAccount/ endpoint
+let {addUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
+let {addUser, getUserByUsername} = require('../../persistence/users');
+let generateToken = require('./generateToken');
+
+function verifyUsernameRequirements(username) {
+    if (username == false) return false;
+
+    return true;
+}
+
+async function verifyUsernameUnused(username) {
+    let result = await getUserByUsername(username);
+    
+    return result === null;
+}
+
+function verifyPasswordRequirements(password) {
+    if (password == false) return false;
+
+    return true;
+}
+
 async function createAccount(request, response) {
-    // make random number for username
-    let result = await addUser(Math.random() * Math.floor(100));
+    let body = request.body;
 
-    response.json(result);
+    let validUsername = verifyUsernameRequirements(body.username);
+    let usernameNotUsed = await verifyUsernameUnused(body.username);
+    let validPassword = verifyPasswordRequirements(body.password);
+
+    if (validUsername && usernameNotUsed && validPassword) {
+        await bcrypt.hash(body.password, 10, async (error, passwordHash) => {
+            let result = await addUser(body.username, passwordHash);
+            let id = result.insertedId;
+            
+            let token = await generateToken(id);
+            await addUserToken(id, token);
+
+            response.cookie('token', token, {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
+            response.status(204).end();
+        });
+    } else {
+        response.status(400).end();
+    }
 }
 
 module.exports = createAccount;

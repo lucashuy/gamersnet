@@ -14,16 +14,16 @@ async function getPosts() {
     return result.toArray();;
 }
 
-async function addPost(username) {
+async function addPost(username, content) {
     // wait for db connection and get users collection
     let db = await MongoDB.open();
     let posts = db.collection('posts');
 
     // insert one row into the database, where the username key is our parameter
-    posts.insertOne({username: username});
+    return await posts.insertOne({username: username, content: content});
 
     // return something...
-    return {status: 200};
+    // return {status: 200};
 }
 
 // make these two functions "public" to the rest of the project

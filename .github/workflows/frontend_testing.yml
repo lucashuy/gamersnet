@@ -1,10 +1,9 @@
 name: Frontend Testing
 on:
   push:
-    branches: ['!master']
     paths: ['gamersnet_frontend/**']
 jobs:
-  backend:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
