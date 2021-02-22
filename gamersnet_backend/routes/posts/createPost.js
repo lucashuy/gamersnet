@@ -7,7 +7,7 @@ let {addPost} = require('../../persistence/posts');
 async function createPost(request, response) {
     let body = request.body
     
-    await addPost(body.userId, body.description, body.gameName, body.numPlayers, body.gameTime, body.duration);
+    await addPost(body.userId, body.description, body.gameName, body.numPlayers, body.gameTime, body.duration, body.location);
 
     response.status(204).end();
 }
