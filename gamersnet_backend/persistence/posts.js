@@ -2,8 +2,9 @@
 
 let MongoDB = require('./mongodb');
 let ObjectId = require('mongodb').ObjectID;
+const MAX_MONTHS_POST_VIEW = 2;//see posts within 2 months from today
 
-async function getPosts() {
+async function getAllPosts() {
   // connect wait for server to connect to db
   let db = await MongoDB.open();
 
@@ -15,33 +16,47 @@ async function getPosts() {
   return result.toArray();
 }
 
+//assuming posts expire if the gametime is older than current time
+//so get posts from today upto one month
+async function getValidPosts() {
+    let db = await MongoDB.open();
+    let posts = db.collection('posts');
+
+    let upperLimit = new Date(new Date().setMonth(new Date().getMonth() + MAX_MONTHS_POST_VIEW));
+    
+    let result = await posts.find({ gameTimeUTC: {$gte: new Date(), $lte: upperLimit}});
+
+    return result.toArray();
+}
+
+
 /**
  * Adds a post to the db
  * All parameters should be string type to be consistent and avoid confusion
- * @param {*} userId id of the owner of this post
+ * @param {*} username name of the owner of this post
  * @param {*} description 
  * @param {*} gameName 
  * @param {*} numPlayers 
- * @param {*} localGameTime when it will be played
+ * @param {*} gameTimeUTC when it will be played
  * @param {*} duration how long will it be played
  * @param {*} location location of game
  */
-async function addPost(userId, description, gameName, numPlayers, localGameTime, duration, location) {
+async function addPost(username, description, gameName, numPlayers, gameTimeUTC, duration, location) {
   // wait for db connection and get users collection
   let db = await MongoDB.open();
 
   let posts = db.collection('posts');
 
   return await posts.insertOne({
-    userId: ObjectId(userId),// intended to link to existing users in db, otherwise new id is generated
+    username: username,// intended to link to existing users in db
     description: description,
     gameName: gameName,
     numPlayers: parseInt(numPlayers, 10), //null in case of incorrect format
-    localGameTime: new Date(localGameTime), 
+    gameTimeUTC: new Date(gameTimeUTC), 
     duration: duration,
     location: location
   })
 }
 
 // make these two functions "public" to the rest of the project
-module.exports = { getPosts, addPost };
+module.exports = { getAllPosts, addPost, getValidPosts };
