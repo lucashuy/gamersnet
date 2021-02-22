@@ -7,11 +7,9 @@ let {addPost} = require('../../persistence/posts');
 async function createPost(request, response) {
     let body = request.body
     
-    await addPost(body.username, body.content);
-    // make random number for username
-    // let result = await addPost(Math.random() * Math.floor(100));
+    await addPost(body.userId, body.description, body.gameName, body.numPlayers, body.gameTime, body.duration);
 
-    response.status(204).end;
+    response.status(204).end();
 }
 
 module.exports = createPost;
