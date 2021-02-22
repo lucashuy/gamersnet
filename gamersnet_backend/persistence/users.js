@@ -1,34 +1,27 @@
 'use strict';
 
 let MongoDB = require('./mongodb');
+let db, users;
 
-async function getUsers() {
+async function connect() {
     // connect wait for server to connect to db
-    let db = await MongoDB.open();
+    db = await MongoDB.open();
 
     // once it connected, get the "users" collection (aka a table in SQL)
-    let users = db.collection('users');
-
-    // wait for the server to find all users and return as an array
-    let result = await users.find({});
-    return result.toArray();;
+    users = db.collection('users');
 }
 
 async function getUserByUsername(username) {
-    let db = await MongoDB.open();
-    let users = db.collection('users');
+    await connect();
 
     let result = users.findOne({username: username});
     return result;
 }
 
 async function addUser(username, hashedPassword) {
-    // wait for db connection and get users collection
-    let db = await MongoDB.open();
-    let users = db.collection('users');
+    await connect();
 
     return await users.insertOne({username: username, password: hashedPassword});
 }
 
-// make these two functions "public" to the rest of the project
-module.exports = {getUsers, addUser, getUserByUsername};
+module.exports = {addUser, getUserByUsername};
