@@ -1,6 +1,5 @@
 'use strict';
 
-const { response } = require('express');
 // include our function from the database to add post
 let {getAllPosts, getValidPosts} = require('../../persistence/posts');
 

@@ -1,8 +1,6 @@
 'use strict';
 
 let MongoDB = require('./mongodb');
-let ObjectId = require('mongodb').ObjectID;
-const MAX_MONTHS_POST_VIEW = 2;//see posts within 2 months from today
 
 async function getAllPosts() {
   // connect wait for server to connect to db
@@ -17,14 +15,12 @@ async function getAllPosts() {
 }
 
 //assuming posts expire if the gametime is older than current time
-//so get posts from today upto one month
+//so get posts for games scheduled today or in future
 async function getValidPosts() {
     let db = await MongoDB.open();
     let posts = db.collection('posts');
-
-    let upperLimit = new Date(new Date().setMonth(new Date().getMonth() + MAX_MONTHS_POST_VIEW));
     
-    let result = await posts.find({ gameTimeUTC: {$gte: new Date(), $lte: upperLimit}});
+    let result = await posts.find({ gameTimeUTC: {$gte: new Date()}});
 
     return result.toArray();
 }
