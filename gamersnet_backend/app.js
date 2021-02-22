@@ -49,11 +49,5 @@ app.get('/page2', (request, response) => {
 });
 
 app.use('/posts', posts);
-// app.get('/', (request, response) => {
-//     response.json({
-//         'str1': 'this is a post',
-//          1: 'lol'
-//     });
-// });
 
 module.exports = app;
