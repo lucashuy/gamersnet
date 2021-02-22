@@ -5,11 +5,13 @@ let createPost = require('./createPost');
 let {listAllPosts, listValidPosts} = require('./getPosts');
 
 // specify the routes under /posts/ and pass them off to each function
-router.get('/', (req, res) => {//check http://localhost:3000/posts to see it working
+// check http://localhost:3000/posts to see it working
+router.get('/', (req, res) => {
     res.json({
         '/posts': 'Working!'
     });
 });
+
 router.post('/createPost', createPost);
 router.get('/listAllPosts', listAllPosts);
 router.get('/listValidPosts', listValidPosts);

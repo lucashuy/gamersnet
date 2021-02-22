@@ -4,7 +4,8 @@
 let {addPost} = require('../../persistence/posts');
 let {getUserByUsername} = require('../../persistence/users')
 
-async function verifyUserExists(username) {//to only let existing users to create post, not guests
+//to only let existing users to create post, not guests
+async function verifyUserExists(username) {
     if(username) {
         let result = await getUserByUsername(username);
         return result != null;
