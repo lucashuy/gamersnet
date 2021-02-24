@@ -1,8 +1,7 @@
 import React from 'react';
 import APIFetch from '../../api';
 
-// this page is similar to Home
-export default class Page1 extends React.Component {
+export default class Password extends React.Component {
     constructor(props) {
         super(props);
 
@@ -10,8 +9,7 @@ export default class Page1 extends React.Component {
     }
 
     componentDidMount() {
-        // turn our JSON object into a string for easy printing
-        let fetchData = APIFetch('page1');
+        let fetchData = APIFetch('page2');
         fetchData.then((data) => {
             this.setState({data: JSON.stringify(data)});
         });
@@ -20,7 +18,7 @@ export default class Page1 extends React.Component {
     render() {
         return (
             <div>
-                <p>this is page 1, the server says: {this.state.data}</p>
+                <p>this is page 2 and the server says: {this.state.data}</p>
             </div>
         );
     }
