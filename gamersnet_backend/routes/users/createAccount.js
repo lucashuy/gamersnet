@@ -44,7 +44,7 @@ async function createAccount(request, response) {
             await addUserToken(id, token);
 
             // send the client said token
-            response.cookie('token', token, {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
+            response.cookie('token', token, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
             response.status(204).end();
         });
     } else {
