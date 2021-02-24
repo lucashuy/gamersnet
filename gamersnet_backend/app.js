@@ -4,13 +4,22 @@
 let express = require('express');
 let app = express();
 
+let users = require('./routes/users');
+
+app.use(express.json());
+
 app.use((request, response, next) => {
     // we have to set CORS to let our frontend access the backend
     // our frontend is (currently) set to port 3001 while this backend is on 3000
     response.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, POST, PATCH, DELETE');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+    response.setHeader('Access-Control-Allow-Credentials', true);
 
     next();
 });
+
+app.use('/users', users);
 
 // define routes
 // here we have the base route, if someone went to "example.com/" they would get here
