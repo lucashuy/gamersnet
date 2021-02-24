@@ -4,6 +4,8 @@ import {withRouter} from 'react-router-dom';
 import APIFetch from '../../api';
 import cookieCheck from '../../cookieCheck';
 
+import './styles.css';
+
 class SignIn extends React.Component {
     constructor(props) {
         super(props);
@@ -48,8 +50,9 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit = {this.handle} autoComplete = 'off'>
+            <div className = 'login-form'>
+                <p>Login to GamersNet</p>
+                <form onSubmit = {this.handle} autoComplete = 'off' className = 'vertical-center'>
                     <input type = 'text' onChange = {this.inputUsername} placeholder = 'username' />
                     <input type = 'password' onChange = {this.inputPassword} placeholder = 'password' />
                     <button onClick = {this.handle}>press me</button>

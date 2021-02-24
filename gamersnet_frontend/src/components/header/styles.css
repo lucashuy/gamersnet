@@ -1,7 +1,7 @@
 .header {
     font-size: 1.25rem;
     padding: 1rem 2rem 1rem 2rem;
-    border-bottom: 1px solid #d4d4d4;
+    border-bottom: 1px solid var(--accent);
     margin-bottom: 2rem;
 }
 
