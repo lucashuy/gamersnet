@@ -4,7 +4,7 @@ let bcrypt = require('bcrypt');
 
 let {addUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
 let {addUser, getUserByUsername} = require('../../persistence/users');
-let generateToken = require('./generateToken');
+let randomString = require('../../utilites/randomString');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
@@ -40,7 +40,7 @@ async function createAccount(request, response) {
             let id = result.insertedId;
             
             // create new token and add it to database
-            let token = await generateToken(id);
+            let token = await randomString(id);
             await addUserToken(id, token);
 
             // send the client said token

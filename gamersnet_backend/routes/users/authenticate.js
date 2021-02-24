@@ -4,7 +4,7 @@ let bcrypt = require('bcrypt');
 
 let {TOKEN_LIFE_SPAN, updateUserToken} = require('../../persistence/tokens');
 let {getUserByUsername} = require('../../persistence/users');
-let generateToken = require('./generateToken');
+let generateToken = require('../../utilites/randomString');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
