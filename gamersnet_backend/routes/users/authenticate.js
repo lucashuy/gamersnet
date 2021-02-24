@@ -39,7 +39,7 @@ async function authenticate(request, response) {
             await updateUserToken(result._id, tokenNew);
 
             // give client token
-            response.cookie('token', tokenNew, {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
+            response.cookie('token', tokenNew, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
             response.status(204).end();
         } else {
             response.status(401).end();
