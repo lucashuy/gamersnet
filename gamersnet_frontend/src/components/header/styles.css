@@ -1,0 +1,20 @@
+.header {
+    font-size: 1.25rem;
+    padding: 1rem 2rem 1rem 2rem;
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 2rem;
+}
+
+.header > * {
+    display: inline;
+}
+
+.header a {
+    text-decoration: none;
+    color: rgb(53, 53, 53);
+}
+
+.header .header-link {
+    float: right;
+    margin-left: 1rem;
+}

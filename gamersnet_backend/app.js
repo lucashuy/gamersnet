@@ -13,6 +13,9 @@ app.use((request, response, next) => {
     // we have to set CORS to let our frontend access the backend
     // our frontend is (currently) set to port 3001 while this backend is on 3000
     response.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, POST, PATCH, DELETE');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+    response.setHeader('Access-Control-Allow-Credentials', true);
 
     next();
 });
@@ -47,7 +50,5 @@ app.get('/page2', (request, response) => {
          1: 'lol'
     });
 });
-
-app.use('/posts', posts);
 
 module.exports = app;
