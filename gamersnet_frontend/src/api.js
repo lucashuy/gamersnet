@@ -1,19 +1,22 @@
 // helper function get get data from the backend
-export default async function APIFetch(endpoint) {
+export default async function APIFetch(endpoint, body = null, method = 'GET') {
     // define our server
-    const SERVER = 'http://localhost:3000' + (process.env.NODE_ENV === 'production' ? '/api/' : '/');
+    let server = 'http://localhost:3000';
+    
+    if (process.env.NODE_ENV === 'production') {
+        server = process.env.REACT_APP_API_SERVER;
+    }
     
     // a fetch() is a "promise" in javascript
     // basically, this "promise" will get fulfilled at some point in the future
     // this function is asynchonous
-	return fetch(SERVER + endpoint)
-	.then((response) => {
-        // make sure the request went through okay
-		if (response.ok === false) throw new Error('invalid request');
-
-        // if it did, return JSON
-        // here we are assuming the server will always send JSON
-        return response.json();
+    return fetch(server + endpoint, {
+        method: method,
+        headers: {'Content-Type': 'application/json'},
+        body: body
+    })
+    .then((response) => {
+        return response;
     })
 	.catch((error) => {
 		console.log('error', error);

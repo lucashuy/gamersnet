@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link, Route, BrowserRouter} from 'react-router-dom';
 
+import PrivateRoute from './PrivateRoute';
+
 // import all the pages from their component folders
 import Home from './components/home';
-import Page1 from './components/page1';
-import Page2 from './components/page2';
+import SignIn from './components/signin';
+import Password from './components/password';
 
 // function to render the "header" (just the links at the top)
 // this returns a set of <a> HTML tags that tell react to go to a page (using react-router)
@@ -13,8 +15,8 @@ function Header() {
 	return (
 		<div>
 			<Link to = '/'>home</Link><br />
-			<Link to = '/page1'>page1</Link><br />
-			<Link to = '/page2'>page2</Link><br />
+			<Link to = '/signin'>sign in</Link><br />
+			<Link to = '/password'>password</Link><br />
 		</div>
 	);
 }
@@ -25,8 +27,8 @@ function Routes() {
 	return (
 		<div>
 			<Route exact path = '/' component = {Home} />
-			<Route path = '/page1' component = {Page1} />
-			<Route path = '/page2' component = {Page2} />
+			<Route path = '/signin' component = {SignIn} />
+			<PrivateRoute path = '/password' component = {Password} />
 		</div>
 	);
 }

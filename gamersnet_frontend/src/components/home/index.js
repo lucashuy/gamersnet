@@ -17,10 +17,11 @@ export default class Home extends React.Component {
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
         // create a temporary variable to hold our "promise"
-        let fetchData = APIFetch('');
+        let fetchData = APIFetch('/');
 
         // when our promise gets fulfilled, we "then" act on it and save it
-        fetchData.then((data) => {
+        fetchData.then(async (response) => {
+            let data = await response.json();
             this.setState({data: data.numbers});
         });
     }
