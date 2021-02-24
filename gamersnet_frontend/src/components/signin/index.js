@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../api';
+import cookieCheck from '../../cookieCheck';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -12,6 +13,10 @@ class SignIn extends React.Component {
         this.inputUsername = this.inputUsername.bind(this);
         this.inputPassword = this.inputPassword.bind(this);
         this.handle = this.handle.bind(this);
+
+        if (cookieCheck()) {
+            this.props.history.push('/');
+        }
     }
 
     inputUsername(event) {
@@ -31,6 +36,7 @@ class SignIn extends React.Component {
             fetchData.then(async (data) => {
                 if (await data.ok) {
                     this.props.history.push('/');
+                    this.props.updateHeader();
                 } else {
                     this.setState({message: 'something went wrong'});
                 }

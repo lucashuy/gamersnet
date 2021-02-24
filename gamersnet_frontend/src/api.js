@@ -12,6 +12,7 @@ export default async function APIFetch(endpoint, body = null, method = 'GET') {
     // this function is asynchonous
     return fetch(server + endpoint, {
         method: method,
+        credentials: 'include',
         headers: {'Content-Type': 'application/json'},
         body: body
     })

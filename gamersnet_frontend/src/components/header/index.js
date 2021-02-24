@@ -1,14 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import cookieCheck from '../../cookieCheck';
-
 import './styles.css';
 
 export default class Header extends React.Component {
     authLinks() {
         return (
             <div>
+                <Link to = '/logout' className = 'header-link'>Logout</Link>
                 <Link to = '/password' className = 'header-link'>password</Link>
             </div>
         );
@@ -27,9 +26,7 @@ export default class Header extends React.Component {
     }
 
     render() {
-        let auth = cookieCheck();
-
-        if (auth) {
+        if (this.props.auth) {
             return (
                 <div className = 'header'>
                     {this.homeLink()}

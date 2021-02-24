@@ -11,7 +11,7 @@ export default class Home extends React.Component {
         super(props);
 
         // define an initial state for our data we will fetch
-        this.state = {data: []}
+        this.state = {data: []};
     }
 
     // this function will be automatically called when react creates this "Home" object in the browser
