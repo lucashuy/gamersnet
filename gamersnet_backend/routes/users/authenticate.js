@@ -42,10 +42,10 @@ async function authenticate(request, response) {
             response.cookie('token', tokenNew, {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
             response.status(204).end();
         } else {
-            response.status(400).end();
+            response.status(401).end();
         }
     } else {
-        response.status(400).end();
+        response.status(401).end();
     }
 }
 
