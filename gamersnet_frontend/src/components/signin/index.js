@@ -1,7 +1,9 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
+
 import APIFetch from '../../api';
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
     constructor(props) {
         super(props);
 
@@ -28,7 +30,7 @@ export default class SignIn extends React.Component {
 
             fetchData.then(async (data) => {
                 if (await data.ok) {
-                    this.setState({message: 'ok login'});
+                    this.props.history.push('/');
                 } else {
                     this.setState({message: 'something went wrong'});
                 }
@@ -51,3 +53,5 @@ export default class SignIn extends React.Component {
         );
     }
 }
+
+export default withRouter(SignIn);
