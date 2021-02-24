@@ -10,9 +10,8 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {email: '', username: '', password: '', message: ''}
+        this.state = {username: '', password: '', message: ''}
 
-        this.inputEmail = this.inputEmail.bind(this);
         this.inputUsername = this.inputUsername.bind(this);
         this.inputPassword = this.inputPassword.bind(this);
         this.handle = this.handle.bind(this);
@@ -20,10 +19,6 @@ class Register extends React.Component {
         if (cookieCheck()) {
             this.props.history.push('/');
         }
-    }
-
-    inputEmail(event) {
-        this.setState({email: event.target.value});
     }
 
     inputUsername(event) {
@@ -35,19 +30,19 @@ class Register extends React.Component {
     }
 
     handle(event) {
-        if (this.state.email !== '' && this.state.username !== '' && this.state.password !== '') {
-            let body = {email: this.state.email, username: this.state.username, password: this.state.password};
+        if (this.state.username !== '' && this.state.password !== '') {
+            let body = {username: this.state.username, password: this.state.password};
 
-            // let fetchData = APIFetch('/users/authenticate', JSON.stringify(body), 'POST');
+            let fetchData = APIFetch('/users/createAccount', JSON.stringify(body), 'POST');
 
-            // fetchData.then(async (data) => {
-            //     if (await data.ok) {
-            //         this.props.history.push('/');
-            //         this.props.updateHeader();
-            //     } else {
-            //         this.setState({message: 'something went wrong'});
-            //     }
-            // });
+            fetchData.then(async (data) => {
+                if (await data.ok) {
+                    this.props.history.push('/');
+                    this.props.updateHeader();
+                } else {
+                    this.setState({message: 'something went wrong'});
+                }
+            });
         }
 
         event.preventDefault();
@@ -58,7 +53,6 @@ class Register extends React.Component {
             <div className = 'register-form'>
                 <p>Create a GamersNet account</p>
                 <form onSubmit = {this.handle} autoComplete = 'off' className = 'vertical-center'>
-                    <input type = 'text' onChange = {this.inputEmail} placeholder = 'email' />
                     <input type = 'text' onChange = {this.inputUsername} placeholder = 'username' />
                     <input type = 'password' onChange = {this.inputPassword} placeholder = 'password' />
                     <button onClick = {this.handle}>press me</button>
