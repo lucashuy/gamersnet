@@ -10,6 +10,7 @@ import cookieCheck from './cookieCheck';
 // import all the pages from their component folders
 import Home from './components/home';
 import SignIn from './components/signin';
+import Register from './components/register';
 import Password from './components/password';
 import Logout from './components/logout';
 
@@ -43,6 +44,7 @@ class App extends React.Component {
 			<div>
 				<Route exact path = '/' component = {Home} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
+				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<PrivateRoute path = '/password' component = {Password} />
 			</div>

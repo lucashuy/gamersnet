@@ -17,6 +17,8 @@ export default class Header extends React.Component {
         return (
             <div>
                 <Link to = '/signin' className = 'header-link'>sign in</Link>
+                <p className = 'header-link-text'>or</p>
+                <Link to = '/register' className = 'header-link'>register</Link>
             </div>
         );
     }
