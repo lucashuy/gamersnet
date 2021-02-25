@@ -1,5 +1,6 @@
 'use strict';
 
+
 // include our function from the database to add post
 let {getAllPosts, getValidPosts} = require('../../persistence/posts');
 
