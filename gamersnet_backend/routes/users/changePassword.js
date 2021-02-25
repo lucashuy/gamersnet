@@ -38,7 +38,6 @@ async function changePassword(request, response) {
 
         await updateUserToken(userID, alphaNumericToken);
 
-        
         response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
         response.status(204).end();
     } else {
