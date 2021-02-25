@@ -1,10 +1,17 @@
 import React from 'react';
-import APIFetch from '../../api';
+import {withRouter} from 'react-router-dom';
 
+import APIFetch from '../../api';
+import cookieCheck from '../../cookieCheck';
+
+import './styles.css';
 export default class AddPost extends React.Component{
 
     constructor(props){
         super(props);
+
+        this.state = {userID:'',gameName: '', description: '', numPlayers: '',gameTimeUTC: '', duration: '', location:'', message: ''}
+
     }
 
     componentDidMount() {
@@ -17,55 +24,60 @@ export default class AddPost extends React.Component{
 
     render() {
         return (
-          <form>
+            <div className = "post-form">
+                <form onSubmit = {this.handle} autoComplete = 'off' className = "vertical-center">
+                    <h1>Create a Post: </h1>
 
-            <h1>Create a Post: </h1>
-
-            <p>Add Game Name you want to play:</p>
-                <select>
-                    <option value="ApexLegends"> Apex Legends </option>
-                    <option value="Dota"> Dota </option>
-                    <option value="CS:Go"> CS:GO </option>
-                    <option value="Fortnite"> Fortnite </option>
-                    <option value="Fifa 2021"> Fifa 2021 </option>
-                    <option value="PUB-G"> PUB-G </option>
-                </select>
-
-            <p>Description</p>
-                <input
-                    type='text'
-                    name='description'
-                />
-
-            <p>Number of players to play with:</p>
-                <select>
-                    <option value = "1">1</option>
-                    <option value = "2">2</option>
-                    <option value = "3">3</option>
-                    <option value = "4">4</option>
-                    <option value = "5">5</option>
-                    <option value = "6">6</option>
-                    <option value = "7">7</option>
-                    <option value = "8">8</option>    
-                </select>
+                    <br/>
+                    <p>Add Game Name you want to play:</p>
+                        <select >
+                            <option value="ApexLegends"> Apex Legends </option>
+                            <option value="Dota"> Dota </option>
+                            <option value="CS:Go"> CS:GO </option>
+                            <option value="Fortnite"> Fortnite </option>
+                            <option value="Fifa 2021"> Fifa 2021 </option>
+                            <option value="PUB-G"> PUB-G </option>
+                        </select>
         
-            <p>Add location:</p>
-                <input
-                    type='text'
-                    name='location'
-                />
-            <p>Duration to play:</p>
-                <input
-                    type='time'
-                    name='duration'
-                />
-            <p>Select a date to play on:</p>
-                <input
-                    type='date'
-                    name='date'
-                />
-          </form>
+                    <p>Description</p>
+                        <input
+                            type='text'
+                            name='description'
+                        />
+                   
+                    <p >Number of players to play with:</p>
+                        <select>
+                            <option value = "1">1</option>
+                            <option value = "2">2</option>
+                            <option value = "3">3</option>
+                            <option value = "4">4</option>
+                            <option value = "5">5</option>
+                            <option value = "6">6</option>
+                            <option value = "7">7</option>
+                            <option value = "8">8</option>    
+                        </select>
+                    
+                    <p id = "location">Add location:</p>
+                        <input
+                            type='text'
+                            name='location'
+                        />
+                    
+                    <p id = "duration">Duration to play:</p>
+                        <input
+                            type='time'
+                            name='duration'
+                        />
+                    
+                    <p id = "date">Select a date to play on:</p>
+                        <input
+                            type='date'
+                            name='date'
+                        />
+                    <button onClick = {this.handle}>Post</button>
+                </form>
+            </div>
         );
     }
-    
 }
+export default withRouter(SignIn);
