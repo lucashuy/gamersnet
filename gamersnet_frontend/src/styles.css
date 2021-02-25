@@ -1,0 +1,15 @@
+:root {
+    --accent: #d4d4d4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: 18px;
+    background-color: #e9e9e9;
+}

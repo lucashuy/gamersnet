@@ -1,0 +1,31 @@
+.header {
+    font-size: 1.25rem;
+    padding: 1rem 2rem 1rem 2rem;
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 2rem;
+}
+
+.header > * {
+    display: inline;
+}
+
+.header a {
+    text-decoration: none;
+    color: rgb(49, 49, 49);
+}
+
+.header .header-link {
+    float: right;
+    margin-left: 0.5rem;
+    color: rgb(95, 95, 255)
+}
+
+.header-link:hover {
+    text-decoration: underline;
+    color: rgb(47, 47, 255);
+}
+
+.header .header-link-text {
+    float: right;
+    margin-left: 0.5rem;
+}
