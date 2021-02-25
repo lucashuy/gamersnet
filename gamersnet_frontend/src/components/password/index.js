@@ -27,8 +27,7 @@ export default class Password extends React.Component {
 
             fetchData.then(async (data) => {
                 if (await data.ok) {
-                    this.props.history.push('/');
-                    this.props.updateHeader();
+                    this.setState({message: 'password changed successfully'});
                 } else {
                     this.setState({message: 'something went wrong'});
                 }
