@@ -4,7 +4,8 @@ let bcrypt = require('bcrypt');
 
 let {TOKEN_LIFE_SPAN, updateUserToken} = require('../../persistence/tokens');
 let {getUserByUsername} = require('../../persistence/users');
-let generateToken = require('./generateToken');
+let alphaNumericize = require('../utilities/alphaNumericize');
+let makeHash = require('../utilities/makeHash');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
@@ -35,11 +36,14 @@ async function authenticate(request, response) {
 
         if (correctPassword) {
             // make a new token and update it
-            let tokenNew = await generateToken(result._id);
-            await updateUserToken(result._id, tokenNew);
+            let tokenNew = await makeHash(result._id);
+            let alphaNumericToken = alphaNumericize(tokenNew);
+
+            await updateUserToken(result._id, alphaNumericToken);
+
 
             // give client token
-            response.cookie('token', tokenNew, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false, domain: 'localhost'});
+            response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
             response.status(204).end();
         } else {
             response.status(401).end();

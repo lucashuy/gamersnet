@@ -1,30 +1,30 @@
 'use strict';
 
+let ObjectId = require('mongodb').ObjectID;
+
 // include our function from the database to add post
 let {addPost} = require('../../persistence/posts');
-let {getUserByUsername} = require('../../persistence/users')
-
-//to only let existing users to create post, not guests
-async function verifyUserExists(username) {
-    if(username) {
-        let result = await getUserByUsername(username);
-        return result != null;
-    }
-    return false;
-}
+let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
 // this function handles the /post/createPost/ endpoint
 async function createPost(request, response) {
-    let body = request.body
-    let userExists = await verifyUserExists(body.username);
+    let body = request.body;
+    let cookie = request.headers.cookie;
+
+    let loggedIn = await verifyUserLoggedIn(cookie);
     
-    if(userExists && body.description && body.gameTimeUTC && body.gameName) {
-        await addPost(body.username, body.description, body.gameName, body.numPlayers, body.gameTimeUTC, body.duration, body.location);
+    if(body.userID && loggedIn && body.description && body.gameTimeUTC && body.gameName) {
+
+        //input type are verified here
+        let userID = ObjectId(body.userID);
+        let numPlayers = parseInt(body.numPlayers);
+        let gameTimeUTC = new Date(body.gameTimeUTC);
+
+        await addPost(userID, body.description, body.gameName, numPlayers, gameTimeUTC, body.duration, body.location);
         response.status(204).end();
     } else {
         response.status(400).end();
     }
-    
 }
 
-module.exports = createPost;
+module.exports = {createPost};

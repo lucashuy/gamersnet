@@ -11,10 +11,21 @@
 
 .header a {
     text-decoration: none;
-    color: rgb(53, 53, 53);
+    color: rgb(49, 49, 49);
 }
 
 .header .header-link {
     float: right;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+    color: rgb(95, 95, 255)
+}
+
+.header-link:hover {
+    text-decoration: underline;
+    color: rgb(47, 47, 255);
+}
+
+.header .header-link-text {
+    float: right;
+    margin-left: 0.5rem;
 }

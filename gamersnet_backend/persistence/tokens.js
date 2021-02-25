@@ -41,4 +41,20 @@ async function updateUserToken(id, token) {
     );
 }
 
-module.exports = {addUserToken, TOKEN_LIFE_SPAN, updateUserToken};
+async function tokenValid(cookie) {
+    await connect();
+
+    let result = await tokens.find({ token: cookie, expires: {$gte: new Date().getTime()}});
+    
+    return result.toArray();
+}
+
+async function getUserIDFromToken(token) {
+    await connect();
+
+    let result = await tokens.findOne({token: token});
+    
+    return result;
+}
+
+module.exports = {addUserToken, TOKEN_LIFE_SPAN, updateUserToken, tokenValid, getUserIDFromToken};

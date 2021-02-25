@@ -29,7 +29,7 @@ async function getValidPosts() {
 /**
  * Adds a post to the db
  * All parameters should be string type to be consistent and avoid confusion
- * @param {*} username name of the owner of this post
+ * @param {*} userId userId of the owner of this post
  * @param {*} description 
  * @param {*} gameName 
  * @param {*} numPlayers 
@@ -37,18 +37,18 @@ async function getValidPosts() {
  * @param {*} duration how long will it be played
  * @param {*} location location of game
  */
-async function addPost(username, description, gameName, numPlayers, gameTimeUTC, duration, location) {
+async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, duration, location) {
   // wait for db connection and get users collection
   let db = await MongoDB.open();
 
   let posts = db.collection('posts');
 
   return await posts.insertOne({
-    username: username,// intended to link to existing users in db
+    userID: userID,// intended to link to existing users in db
     description: description,
     gameName: gameName,
-    numPlayers: parseInt(numPlayers, 10), //null in case of incorrect format
-    gameTimeUTC: new Date(gameTimeUTC), 
+    numPlayers: numPlayers, //null in case of incorrect format
+    gameTimeUTC: gameTimeUTC, 
     duration: duration,
     location: location
   })

@@ -24,4 +24,17 @@ async function addUser(username, hashedPassword) {
     return await users.insertOne({username: username, password: hashedPassword});
 }
 
-module.exports = {addUser, getUserByUsername};
+async function updateUserPassword(id, hashedPassword) {
+    await connect();
+    
+    return await users.findOneAndUpdate(
+        {_id: id},
+        {
+            $set: {
+                password: hashedPassword
+            }
+        }
+    );
+}
+
+module.exports = {addUser, getUserByUsername, updateUserPassword};
