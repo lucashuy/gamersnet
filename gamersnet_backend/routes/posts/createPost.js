@@ -6,13 +6,12 @@ let ObjectId = require('mongodb').ObjectID;
 let {addPost} = require('../../persistence/posts');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-
 // this function handles the /post/createPost/ endpoint
 async function createPost(request, response) {
     let body = request.body;
     let cookie = request.headers.cookie;
 
-    let loggedIn = await verifyUserLoggedIn(cookie, body.userID);
+    let loggedIn = await verifyUserLoggedIn(cookie);
     
     if(body.userID && loggedIn && body.description && body.gameTimeUTC && body.gameName) {
 
@@ -26,21 +25,6 @@ async function createPost(request, response) {
     } else {
         response.status(400).end();
     }
-    
 }
 
-async function testCookie(request, response) {
-    let body = request.body;
-    let cookie = request.headers.cookie;
-
-    let loggedIn = await verifyUserLoggedIn('e3db2b14396953cb10607c2c36fbdfee');
-    
-    if(loggedIn) {
-        response.status(200).end();
-    } else {
-        response.status(404).end();
-    }
-    
-}
-
-module.exports = {createPost, testCookie};
+module.exports = {createPost};

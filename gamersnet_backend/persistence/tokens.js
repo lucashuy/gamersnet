@@ -42,9 +42,7 @@ async function updateUserToken(id, token) {
 }
 
 async function tokenValid(cookie) {
-    let db = await MongoDB.open();
-
-    let tokens = db.collection('tokens');
+    await connect();
 
     let result = await tokens.find({ token: cookie, expires: {$gte: new Date().getTime()}});
     
