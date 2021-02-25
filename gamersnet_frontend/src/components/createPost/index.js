@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../api';
-import cookieCheck from '../../cookieCheck';
+// import cookieCheck from '../../cookieCheck';
 
 import './styles.css';
 export default class AddPost extends React.Component{
@@ -10,16 +10,67 @@ export default class AddPost extends React.Component{
     constructor(props){
         super(props);
 
-        this.state = {userID:'',gameName: '', description: '', numPlayers: '',gameTimeUTC: '', duration: '', location:'', message: ''}
+        this.state = {userID:'',gameName: '', description: '', numPlayers: '',gameTimeUTC: '', duration: '', location:'', message: ''};
+
+        this.inputgameName = this.inputgameName.bind(this);
+        this.inputDescription = this.inputDescription.bind(this);
+        this.inputLocation = this.inputLocation.bind(this);
+        this.inputDuration = this.inputDuration.bind(this);
+        this.inputPlayers = this.inputPlayers.bind(this);
+        this.inputDate = this.inputDate.bind(this);
+
+        this.handle = this.handle.bind(this);
+
 
     }
 
-    componentDidMount() {
-        // turn our JSON object into a string for easy printing
-        let fetchData = APIFetch('addPost');
-        fetchData.then((data) => {
-            this.setState({data: JSON.stringify(data)});
+    inputDescription(event){
+        this.setState({description: event.target.value});
+    }
+
+    inputgameName(event){
+        this.setState({gameName: event.target.value});
+    }
+
+    inputLocation(event){
+        this.setState({location: event.target.value});
+    }
+
+    inputPlayers(event){
+        this.setState({numPlayers: event.target.value});
+    }
+
+    inputDuration(event){
+        this.setState({duration: event.target.value});
+    }
+
+    inputDate(event){
+        this.setState({gameTimeUTC: event.target.value});
+    }
+
+
+    handle(event) {
+
+        let description = this.state.description, gameName = this.state.gameName, duration = this.state.duration, location = this.state.location;
+        let numPlayers = this.state.numPlayers, date = this.state.date;
+
+        // also pass in the username
+        
+        let body = {userID:'',gameName: gameName, description: description, numPlayers: numPlayers, gameTimeUTC: date , duration: duration, location: location};
+
+        let fetchData = APIFetch('/users/createPost', JSON.stringify(body), 'POST');
+
+        fetchData.then(async (data) => {
+            if (await data.ok) {
+                this.props.history.push('/');
+                this.props.updateHeader();
+            } else {
+                this.setState({message: 'something went wrong'});
+            }
         });
+        
+
+        event.preventDefault();
     }
 
     render() {
@@ -30,7 +81,7 @@ export default class AddPost extends React.Component{
 
                     <br/>
                     <p>Add Game Name you want to play:</p>
-                        <select >
+                        <select onChange = {this.inputgameName}>
                             <option value="ApexLegends"> Apex Legends </option>
                             <option value="Dota"> Dota </option>
                             <option value="CS:Go"> CS:GO </option>
@@ -43,10 +94,11 @@ export default class AddPost extends React.Component{
                         <input
                             type='text'
                             name='description'
+                            onChange = {this.inputDescription}
                         />
                    
                     <p >Number of players to play with:</p>
-                        <select>
+                        <select onChange = {this.inputPlayers}>
                             <option value = "1">1</option>
                             <option value = "2">2</option>
                             <option value = "3">3</option>
@@ -59,25 +111,28 @@ export default class AddPost extends React.Component{
                     
                     <p id = "location">Add location:</p>
                         <input
-                            type='text'
-                            name='location'
+                            type = 'text'
+                            name = 'location'
+                            onChange = {this.inputLocation} 
                         />
                     
                     <p id = "duration">Duration to play:</p>
                         <input
                             type='time'
                             name='duration'
+                            onChange = {this.inputDuration}
                         />
                     
                     <p id = "date">Select a date to play on:</p>
                         <input
                             type='date'
                             name='date'
+                            onChange = {this.inputDate}
                         />
                     <button onClick = {this.handle}>Post</button>
                 </form>
+                <p>{this.state.message}</p>
             </div>
         );
     }
 }
-export default withRouter(SignIn);
