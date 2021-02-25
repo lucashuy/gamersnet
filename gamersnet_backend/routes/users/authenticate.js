@@ -37,10 +37,13 @@ async function authenticate(request, response) {
         if (correctPassword) {
             // make a new token and update it
             let tokenNew = await makeHash(result._id);
-            await updateUserToken(result._id, tokenNew);
+            let alphaNumericToken = alphaNumericize(tokenNew);
+
+            await updateUserToken(result._id, alphaNumericToken);
+
 
             // give client token
-            response.cookie('token', alphaNumericize(tokenNew), {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
+            response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
             response.status(204).end();
         } else {
             response.status(401).end();

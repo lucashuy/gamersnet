@@ -1,10 +1,9 @@
 'use strict';
 
-let bcrypt = require('bcrypt');
-
 let {addUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
 let {addUser, getUserByUsername} = require('../../persistence/users');
-let alphaNumericize = require('../../utilities/alphaNumericize');
+let alphaNumericize = require('../utilities/alphaNumericize');
+let makeHash = require('../utilities/makeHash');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
@@ -34,19 +33,21 @@ async function createAccount(request, response) {
 
     if (validUsername && usernameNotUsed && validPassword) {
         // hash password
-        await bcrypt.hash(body.password, 10, async (error, passwordHash) => {
-            // add new account to database and get the unique id of inserted account
-            let result = await addUser(body.username, passwordHash);
-            let id = result.insertedId;
-            
-            // create new token and add it to database
-            let token = await makeHash(id);
-            await addUserToken(id, token);
+        let hashedPassword = await makeHash(body.password);
 
-            // send the client said token
-            response.cookie('token', alphaNumericize(token), {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
-            response.status(204).end();
-        });
+        // add new account to database and get the unique id of inserted account
+        let result = await addUser(body.username, hashedPassword);
+        let id = result.insertedId;
+
+        let token = await makeHash(id);
+        let alphaNumericToken = alphaNumericize(token);
+
+        await addUserToken(id, alphaNumericToken);
+
+
+        // send the client said token
+        response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
+        response.status(204).end();
     } else {
         response.status(400).end();
     }
