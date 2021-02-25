@@ -2,15 +2,21 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../api';
-// import cookieCheck from '../../cookieCheck';
-
 import './styles.css';
 class AddPost extends React.Component{
 
     constructor(props){
         super(props);
 
-        this.state = {gameName: '', description: '', numPlayers: '',gameTimeUTC: '', duration: '', location:'', message: ''};
+        this.state = {
+            gameName: 'Apex Legends',
+            description: '',
+            numPlayers: 1,
+            gameTimeUTC: 0,
+            duration: '',
+            location: '',
+            message: ''
+        };
 
         this.inputgameName = this.inputgameName.bind(this);
         this.inputDescription = this.inputDescription.bind(this);
@@ -43,20 +49,21 @@ class AddPost extends React.Component{
     }
 
     inputDate(event){
-        this.setState({gameTimeUTC: event.target.value});
+        this.setState({gameTimeUTC: event.target.valueAsNumber});
     }
 
 
     handle(event) {
-
-        let description = this.state.description, gameName = this.state.gameName, duration = this.state.duration, location = this.state.location;
-        let numPlayers = this.state.numPlayers, date = this.state.date;
-
-        // also pass in the username
-        
-        let body = {gameName: gameName, description: description, numPlayers: numPlayers, gameTimeUTC: date , duration: duration, location: location};
-
-        let fetchData = APIFetch('/createPost', JSON.stringify(body), 'POST');
+        let body = {
+            gameName: this.state.gameName,
+            description: this.state.description,
+            numPlayers: this.state.numPlayers,
+            gameTimeUTC: this.state.gameTimeUTC,
+            duration: this.state.duration,
+            location: this.state.location
+        };
+console.log(body);
+        let fetchData = APIFetch('/posts/createPost', JSON.stringify(body), 'POST');
 
         fetchData.then(async (data) => {
             if (await data.ok) {
@@ -116,9 +123,10 @@ class AddPost extends React.Component{
                     
                     <p id = "duration">Duration to play:</p>
                         <input
-                            type='time'
-                            name='duration'
+                            type = 'text'
+                            name = 'location'
                             onChange = {this.inputDuration}
+                            placeholder = 'eg. 1hr 30mins'
                         />
                     
                     <p id = "date">Select a date to play on:</p>
