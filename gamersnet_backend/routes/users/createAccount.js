@@ -4,7 +4,7 @@ let bcrypt = require('bcrypt');
 
 let {addUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
 let {addUser, getUserByUsername} = require('../../persistence/users');
-let randomString = require('../../utilites/randomString');
+let alphaNumericize = require('../../utilites/alphaNumericize');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
@@ -40,11 +40,11 @@ async function createAccount(request, response) {
             let id = result.insertedId;
             
             // create new token and add it to database
-            let token = await randomString(id);
+            let token = await makeHash(id);
             await addUserToken(id, token);
 
             // send the client said token
-            response.cookie('token', token, {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
+            response.cookie('token', alphaNumericize(token), {maxAge: TOKEN_LIFE_SPAN, httpOnly: true});
             response.status(204).end();
         });
     } else {

@@ -1,10 +1,9 @@
 'use strict';
 
-let bcrypt = require('bcrypt');
 let crypto = require('crypto');
 const makeHash = require('./makeHash');
 
-async function randomString(input) {
+async function alphaNumericize(input) {
     let token = await makeHash(input);
 
     // turn it into an alpha numeric string by computing MD5
@@ -13,4 +12,4 @@ async function randomString(input) {
     return token;
 }
 
-module.exports = randomString;
+module.exports = alphaNumericize;
