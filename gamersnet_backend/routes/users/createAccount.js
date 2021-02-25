@@ -4,7 +4,7 @@ let bcrypt = require('bcrypt');
 
 let {addUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
 let {addUser, getUserByUsername} = require('../../persistence/users');
-let alphaNumericize = require('../../utilites/alphaNumericize');
+let alphaNumericize = require('../../utilities/alphaNumericize');
 
 function verifyUsernameRequirements(username) {
     if (username == false) return false;
