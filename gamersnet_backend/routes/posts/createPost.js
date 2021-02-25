@@ -4,15 +4,8 @@ let ObjectId = require('mongodb').ObjectID;
 
 // include our function from the database to add post
 let {addPost} = require('../../persistence/posts');
-let {getUserByUsername} = require('../../persistence/users')
-let {findCookie} = require('../../persistence/utilities')
+let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-//to only let logged in users to create post
-async function verifyUserLoggedIn( cookie, userId) {
-    let found = await findCookie(cookie, userId);
-    
-    return found != null;
-}
 
 // this function handles the /post/createPost/ endpoint
 async function createPost(request, response) {
@@ -40,7 +33,7 @@ async function testCookie(request, response) {
     let body = request.body;
     let cookie = request.headers.cookie;
 
-    let loggedIn = await verifyUserLoggedIn('e3db2b14396953cb10607c2c36fbdfee', '6036d930b3e9df063ee517d4');
+    let loggedIn = await verifyUserLoggedIn('e3db2b14396953cb10607c2c36fbdfee',ObjectId('6036d930b3e9df063ee517d4'));
     
     if(loggedIn) {
         response.status(200).end();

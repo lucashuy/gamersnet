@@ -41,4 +41,15 @@ async function updateUserToken(id, token) {
     );
 }
 
-module.exports = {addUserToken, TOKEN_LIFE_SPAN, updateUserToken};
+async function tokenValid(cookie, userId) {
+    let db = await MongoDB.open();
+
+    let tokens = db.collection('tokens');
+
+    let result = await tokens.find({ token: cookie, userID: userId, expires: {$gte: new Date().getTime()}});
+    
+
+    return result.toArray();
+}
+
+module.exports = {addUserToken, TOKEN_LIFE_SPAN, updateUserToken, tokenValid};
