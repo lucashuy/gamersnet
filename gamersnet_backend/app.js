@@ -5,6 +5,7 @@ let express = require('express');
 let app = express();
 
 let users = require('./routes/users');
+let posts = require('./routes/posts');
 
 app.use(express.json());
 
@@ -46,8 +47,10 @@ app.get('/page1', (request, response) => {
 app.get('/page2', (request, response) => {
     response.json({
         'str1': 'this is page2',
-        1: 'lol'
+         1: 'lol'
     });
 });
+
+app.use('/posts', posts);
 
 module.exports = app;
