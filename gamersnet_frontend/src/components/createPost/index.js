@@ -5,12 +5,12 @@ import APIFetch from '../../api';
 // import cookieCheck from '../../cookieCheck';
 
 import './styles.css';
-export default class AddPost extends React.Component{
+class AddPost extends React.Component{
 
     constructor(props){
         super(props);
 
-        this.state = {userID:'',gameName: '', description: '', numPlayers: '',gameTimeUTC: '', duration: '', location:'', message: ''};
+        this.state = {gameName: '', description: '', numPlayers: '',gameTimeUTC: '', duration: '', location:'', message: ''};
 
         this.inputgameName = this.inputgameName.bind(this);
         this.inputDescription = this.inputDescription.bind(this);
@@ -20,8 +20,6 @@ export default class AddPost extends React.Component{
         this.inputDate = this.inputDate.bind(this);
 
         this.handle = this.handle.bind(this);
-
-
     }
 
     inputDescription(event){
@@ -56,9 +54,9 @@ export default class AddPost extends React.Component{
 
         // also pass in the username
         
-        let body = {userID:'',gameName: gameName, description: description, numPlayers: numPlayers, gameTimeUTC: date , duration: duration, location: location};
+        let body = {gameName: gameName, description: description, numPlayers: numPlayers, gameTimeUTC: date , duration: duration, location: location};
 
-        let fetchData = APIFetch('/users/createPost', JSON.stringify(body), 'POST');
+        let fetchData = APIFetch('/createPost', JSON.stringify(body), 'POST');
 
         fetchData.then(async (data) => {
             if (await data.ok) {
@@ -136,3 +134,4 @@ export default class AddPost extends React.Component{
         );
     }
 }
+export default withRouter(AddPost);
