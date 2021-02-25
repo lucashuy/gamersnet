@@ -4,8 +4,8 @@
 let {tokenValid} = require('../../persistence/tokens');
 
 
-async function verifyUserLoggedIn( cookie, userId) {
-    let found = await tokenValid(cookie, userId);
+async function verifyUserLoggedIn( cookie) {
+    let found = await tokenValid(cookie);
     
     return found.length > 0;
 }

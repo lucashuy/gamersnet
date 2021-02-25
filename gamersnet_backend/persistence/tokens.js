@@ -41,12 +41,12 @@ async function updateUserToken(id, token) {
     );
 }
 
-async function tokenValid(cookie, userId) {
+async function tokenValid(cookie) {
     let db = await MongoDB.open();
 
     let tokens = db.collection('tokens');
 
-    let result = await tokens.find({ token: cookie, userID: userId, expires: {$gte: new Date().getTime()}});
+    let result = await tokens.find({ token: cookie, expires: {$gte: new Date().getTime()}});
     
 
     return result.toArray();

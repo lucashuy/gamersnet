@@ -33,7 +33,7 @@ async function testCookie(request, response) {
     let body = request.body;
     let cookie = request.headers.cookie;
 
-    let loggedIn = await verifyUserLoggedIn('e3db2b14396953cb10607c2c36fbdfee',ObjectId('6036d930b3e9df063ee517d4'));
+    let loggedIn = await verifyUserLoggedIn('e3db2b14396953cb10607c2c36fbdfee');
     
     if(loggedIn) {
         response.status(200).end();
