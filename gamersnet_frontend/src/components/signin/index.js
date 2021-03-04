@@ -6,7 +6,7 @@ import cookieCheck from '../../cookieCheck';
 
 import './styles.css';
 
-class SignIn extends React.Component {
+export class SignIn extends React.Component {
     constructor(props) {
         super(props);
 
