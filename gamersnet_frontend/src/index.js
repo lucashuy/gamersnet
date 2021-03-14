@@ -44,10 +44,10 @@ class App extends React.Component {
 		return (
 			<div>
 				<Route exact path = '/' component = {Home} />
-				<PrivateRoute path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
+				<PrivateRoute path = '/post' component = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
-				<PrivateRoute path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
+				<PrivateRoute path = '/logout' component = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<PrivateRoute path = '/password' component = {Password} />
 			</div>
 		);

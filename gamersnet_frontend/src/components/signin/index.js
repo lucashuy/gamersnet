@@ -31,12 +31,17 @@ class SignIn extends React.Component {
 
     handle(event) {
         if (this.state.username !== '' && this.state.password !== '') {
+            this.setState({message: 'loading...'});
+
             let body = {username: this.state.username, password: this.state.password};
 
             let fetchData = APIFetch('/users/authenticate', JSON.stringify(body), 'POST');
 
             fetchData.then(async (data) => {
                 if (await data.ok) {
+                    let result = await data.json();
+                    localStorage.setItem('id', result.user_id);
+                    
                     this.props.history.push('/');
                     this.props.updateHeader();
                 } else {
