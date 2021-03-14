@@ -1,34 +1,12 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../utilities/api';
-import cookieCheck from '../../utilities/cookieCheck';
 
-import './styles.css';
-
-class SignIn extends React.Component {
+export default class ChangeAvatar extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {username: '', password: '', message: ''}
-
-        this.inputUsername = this.inputUsername.bind(this);
-        this.inputPassword = this.inputPassword.bind(this);
-        this.handle = this.handle.bind(this);
-
-        if (cookieCheck()) {
-            this.props.history.push('/');
-        }
     }
-
-    inputUsername(event) {
-        this.setState({username: event.target.value});
-    }
-
-    inputPassword(event) {
-        this.setState({password: event.target.value});
-    }
-
+    
     handle(event) {
         if (this.state.username !== '' && this.state.password !== '') {
             let body = {username: this.state.username, password: this.state.password};
@@ -62,5 +40,3 @@ class SignIn extends React.Component {
         );
     }
 }
-
-export default withRouter(SignIn);

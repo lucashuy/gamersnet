@@ -1,8 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 
-import APIFetch from '../../api';
-import cookieCheck from '../../cookieCheck';
+import APIFetch from '../../utilities/api';
+import cookieCheck from '../../utilities/cookieCheck';
 
 import './styles.css';
 

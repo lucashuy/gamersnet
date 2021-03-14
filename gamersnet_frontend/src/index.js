@@ -5,7 +5,7 @@ import {Route, BrowserRouter} from 'react-router-dom';
 import './styles.css';
 
 import PrivateRoute from './components/PrivateRoute';
-import cookieCheck from './cookieCheck';
+import cookieCheck from './utilities/cookieCheck';
 
 // import all the pages from their component folders
 import Home from './components/home';
@@ -44,10 +44,10 @@ class App extends React.Component {
 		return (
 			<div>
 				<Route exact path = '/' component = {Home} />
-				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
+				<PrivateRoute path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
-				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
+				<PrivateRoute path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<PrivateRoute path = '/password' component = {Password} />
 			</div>
 		);
