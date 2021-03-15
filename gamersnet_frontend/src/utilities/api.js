@@ -1,5 +1,5 @@
 // helper function get get data from the backend
-export default async function APIFetch(endpoint, body = null, method = 'GET') {
+export default async function APIFetch(endpoint, body = null, method = 'GET', headers = {'Content-Type': 'application/json'}) {
     // define our server
     let server = 'http://localhost:3000';
     
@@ -13,7 +13,7 @@ export default async function APIFetch(endpoint, body = null, method = 'GET') {
     return fetch(server + endpoint, {
         method: method,
         credentials: 'include',
-        headers: {'Content-Type': 'application/json'},
+        headers: headers,
         body: body
     })
     .then((response) => {

@@ -41,10 +41,9 @@ async function authenticate(request, response) {
 
             await updateUserToken(result._id, alphaNumericToken);
 
-
             // give client token
             response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
-            response.status(204).end();
+            response.status(200).end(JSON.stringify({user_id: result._id}));
         } else {
             response.status(401).end();
         }
