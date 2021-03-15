@@ -7,7 +7,7 @@ let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 let {getUserIDFromToken} = require('../../persistence/tokens.js')
 
 // this function handles the /posts/deletePost endpoint
-async function deletePost(request, response) {
+async function removePost(request, response) {
     let body = request.body;
     let cookie = request.headers.cookie;
 
@@ -32,4 +32,4 @@ async function deletePost(request, response) {
     }
 }
 
-module.exports = {deletePost};
+module.exports = {removePost};
