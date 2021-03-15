@@ -1,5 +1,6 @@
 'use strict';
 
+const { ObjectId } = require('bson');
 let MongoDB = require('./mongodb');
 
 async function getAllPosts() {
@@ -54,5 +55,14 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
   })
 }
 
+async function deletePost(_id, userID){
+  let db = await MongoDB.open();
+
+  let posts = db.collection('posts');
+
+  return await posts.deleteOne({"_id" : ObjectId(_id), userID : userID}); // just making sure the post is only deleted by the user that created it
+
+}
+
 // make these two functions "public" to the rest of the project
-module.exports = { getAllPosts, addPost, getValidPosts };
+module.exports = { getAllPosts, addPost, getValidPosts, deletePost };
