@@ -9,7 +9,7 @@ class MongoDB {
     static async open() {
         let url = '';
 
-        if (process.env.NODE_ENV === 'test') {
+        if (process.env.NODE_ENV === 'memory') {
             this.__testingServer = new MongoMemoryServer();
 
             url = await this.__testingServer.getUri();
