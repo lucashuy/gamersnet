@@ -1,5 +1,5 @@
 import React from 'react';
-import APIFetch from '../../api';
+import APIFetch from '../../utilities/api';
 
 import './styles.css';
 
