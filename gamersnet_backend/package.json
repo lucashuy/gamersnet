@@ -4,13 +4,15 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "NODE_ENV=test; jest",
+		"test": "cross-env NODE_ENV=memory jest",
+		"memory": "cross-env NODE_ENV=memory node index.js",
 		"start": "node index.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^5.0.0",
+		"cross-env": "^7.0.3",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"image-size": "^0.9.5",
