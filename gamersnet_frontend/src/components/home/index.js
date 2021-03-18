@@ -1,7 +1,7 @@
 import React from 'react';
 
 // include our API helper
-import APIFetch from '../../api';
+import APIFetch from '../../utilities/api';
 
 // include our reusable "BlueBox" component
 import BlueBox from './BlueBox';
