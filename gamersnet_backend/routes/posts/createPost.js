@@ -27,7 +27,7 @@ async function createPost(request, response) {
         let gameTimeUTC = new Date(body.gameTimeUTC);
 
         await addPost(userID, body.description, body.gameName, numPlayers, gameTimeUTC, body.duration, body.location);
-        response.status(204).end();
+        response.status(201).end();
     } else {
         response.status(400).end();
     }
