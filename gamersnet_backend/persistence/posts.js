@@ -1,6 +1,19 @@
 'use strict';
 
+const { ObjectID } = require('bson');
 let MongoDB = require('./mongodb');
+
+async function getPost(_id) {
+  // connect wait for server to connect to db
+  let db = await MongoDB.open();
+
+  // once it connected, get the "posts" collection (aka a table in SQL)
+  let posts = db.collection('posts');
+
+  // wait for the server to find the specified post
+  let result = await posts.find({ "_id": new ObjectID(_id)});
+  return result.toArray();
+}
 
 async function getAllPosts() {
   // connect wait for server to connect to db
@@ -55,4 +68,4 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 }
 
 // make these two functions "public" to the rest of the project
-module.exports = { getAllPosts, addPost, getValidPosts };
+module.exports = { getPost, getAllPosts, addPost, getValidPosts };
