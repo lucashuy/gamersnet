@@ -3,7 +3,7 @@ import APIFetch from '../../utilities/api';
 
 import './styles.css';
 
-export default class Password extends React.Component {
+export default class ProfilePassword extends React.Component {
     constructor(props) {
         super(props);
 

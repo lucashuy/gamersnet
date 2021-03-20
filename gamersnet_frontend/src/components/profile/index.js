@@ -1,29 +1,16 @@
 import React from 'react';
-import APIFetch from '../../utilities/api';
+import ProfileAvatar from '../profileAvatar';
 
-export default class Password extends React.Component {
+export default class Profile extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {avatar: undefined};
-    }
-
-    componentDidMount() {
-        let fetchData = APIFetch('/users/changePassword', JSON.stringify(body), 'POST');
-
-        fetchData.then(async (data) => {
-            if (await data.ok) {
-                this.setState({message: 'password changed successfully'});
-            } else {
-                this.setState({message: 'something went wrong'});
-            }
-        });
+        this.state = {edit: false};
     }
     
     render() {
         return (
-            // <img src = ></img>
-            <p></p>
+            <ProfileAvatar userID = {this.props.match.params.id} />
         );
     }
 }

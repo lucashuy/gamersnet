@@ -8,7 +8,7 @@ const BUTTON_STATE = {
     VALID_IMAGE: 'change avatar'
 };
 
-export default class ChangeAvatar extends React.Component {
+export default class ProfileChangeAvatar extends React.Component {
     constructor(props) {
         super(props);
 
