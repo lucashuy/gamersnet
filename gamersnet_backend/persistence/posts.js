@@ -79,7 +79,7 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
  * @param {*} duration how long will it be played
  * @param {*} location location of game
  */
- async function updatePost_db(_id, description, gameName, numPlayers, gameTimeUTC, duration, location) {
+ async function updatePostDB(_id, description, gameName, numPlayers, gameTimeUTC, duration, location) {
   // wait for db connection and get users collection
   let db = await MongoDB.open();
 
@@ -103,4 +103,4 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
   return updated
 }
 // make these two functions "public" to the rest of the project
-module.exports = { getPost, getAllPosts, addPost, getValidPosts, updatePost_db};
+module.exports = { getPost, getAllPosts, addPost, getValidPosts, updatePostDB};

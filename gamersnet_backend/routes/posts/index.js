@@ -13,8 +13,8 @@ router.get('/getPostbyID', getPostbyID);
 router.post('/updatePost', updatePost);
 
 //test routes
-// let {updatePost_unauthorized} = require('./updatePost')
-// router.post('/updatePost_unauthorized', updatePost_unauthorized);
+// let {updatePostUnauthorized} = require('./updatePost')
+// router.post('/updatePostUnauthorized', updatePostUnauthorized);
 
 
 // return the above routes

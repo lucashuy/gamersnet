@@ -1,7 +1,7 @@
 'use strict';
 
 // include our function from the database to add post
-let {updatePost_db, getPost} = require('../../persistence/posts');
+let {updatePostDB, getPost} = require('../../persistence/posts');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 let {getUserIDFromToken} = require('../../persistence/tokens.js')
 
@@ -15,7 +15,7 @@ let {getUserIDFromToken} = require('../../persistence/tokens.js')
  * 
  * PLEASE DON'T USE THIS IN FRONTEND !! For backend testing only.
  */
-async function updatePost_unauthorized(request, response) {
+async function updatePostUnauthorized(request, response) {
     let body = request.body;
     //console.log(request)
 
@@ -25,7 +25,7 @@ async function updatePost_unauthorized(request, response) {
         let gameTimeUTC = new Date(body.gameTimeUTC);
         let postID = body._id.$oid; //Object Id String
 
-        await updatePost_db(postID, body.description, body.gameName, numPlayers, gameTimeUTC, body.duration, body.location);
+        await updatePostDB(postID, body.description, body.gameName, numPlayers, gameTimeUTC, body.duration, body.location);
 
         response.status(201).send("Updated post successfully.");
     } else {
@@ -65,11 +65,9 @@ async function updatePost(request, response) {
             postUserID = oldPost[0].userID
         }
             
-        console.log(loggedUserID.equals(postUserID))
-
         if(loggedUserID.equals(postUserID)) {//only the user who created the post can update it.
             console.log("Correct User.")
-            updatePost_unauthorized(request, response)
+            updatePostUnauthorized(request, response)
         }  
         else{
             response.status(401).send('You are not authorized to change this post. Only owner of this post can change it.'); //status code: unauthorized
@@ -79,4 +77,4 @@ async function updatePost(request, response) {
     }
 }
 
-module.exports = {updatePost_unauthorized, updatePost };
+module.exports = {updatePostUnauthorized, updatePost };
