@@ -6,7 +6,6 @@ let app = express();
 
 let users = require('./routes/users');
 let posts = require('./routes/posts');
-let avatar = require('./routes/avatar');
 
 app.use(express.json());
 
@@ -38,6 +37,5 @@ app.get('/', (request, response) => {
 });
 
 app.use('/posts', posts);
-app.use('/avatar', avatar);
 
 module.exports = app;

@@ -13,6 +13,7 @@ import Register from './components/register';
 import Password from './components/password';
 import Logout from './components/logout';
 import AddPost from './components/createPost';
+import Avatar from './components/changeAvatar';
 
 // import header
 import Header from './components/header';
@@ -48,6 +49,7 @@ export default class App extends React.Component {
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<PrivateRoute path = '/password' component = {Password} />
+				<PrivateRoute path = '/changeAvatar' component = {Avatar} />
 			</div>
 		);
 	}

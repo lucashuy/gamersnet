@@ -57,7 +57,7 @@ export default class ChangeAvatar extends React.Component {
             let body = new FormData();
             body.append('image', this.state.image);
 
-            let fetchData = APIFetch('/avatar/changeAvatar', body, 'POST', {});
+            let fetchData = APIFetch('/users/changeAvatar', body, 'PATCH', {});
 
             fetchData.then(async (data) => {
                 if (await data.ok) {

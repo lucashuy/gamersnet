@@ -28,10 +28,8 @@ async function changeAvatar(request, response) {
             if (size.height <= 256 && size.width <= 256) {
                 let tokenDocument = await getUserIDFromToken(token);
                 let userID = tokenDocument.userID;
-    
-                let imageBase64 = request.file.buffer.toString('base64');
-
-                await upsertAvatar(userID, imageBase64);
+                
+                await upsertAvatar(userID, request.file.buffer, request.file.mimetype);
                 validImage = true;
             }
         }
@@ -42,7 +40,6 @@ async function changeAvatar(request, response) {
     } else {
         response.status(400).end();
     }
-
 }
 
 module.exports = changeAvatar;

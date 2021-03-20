@@ -23,7 +23,7 @@ export default class Password extends React.Component {
         if (this.state.newPassword !== '') {
             let body = {password: this.state.newPassword};
 
-            let fetchData = APIFetch('/users/changePassword', JSON.stringify(body), 'POST');
+            let fetchData = APIFetch('/users/changePassword', JSON.stringify(body), 'PATCH');
 
             fetchData.then(async (data) => {
                 if (await data.ok) {

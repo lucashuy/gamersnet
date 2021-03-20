@@ -1,5 +1,6 @@
 'use strict';
 
+let ObjectID = require('mongodb').ObjectId;
 let MongoDB = require('./mongodb');
 let db, users;
 
@@ -9,6 +10,13 @@ async function connect() {
 
     // once it connected, get the "users" collection (aka a table in SQL)
     users = db.collection('users');
+}
+
+async function getUserByID(id) {
+    await connect();
+
+    let result = users.findOne({_id: new ObjectID(id)});
+    return result;
 }
 
 async function getUserByUsername(username) {
@@ -37,4 +45,4 @@ async function updateUserPassword(id, hashedPassword) {
     );
 }
 
-module.exports = {addUser, getUserByUsername, updateUserPassword};
+module.exports = {addUser, getUserByUsername, updateUserPassword, getUserByID};

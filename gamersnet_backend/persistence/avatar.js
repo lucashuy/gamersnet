@@ -1,5 +1,6 @@
 'use strict';
 
+let ObjectID = require('mongodb').ObjectId;
 let MongoDB = require('./mongodb');
 let db, avatar;
 
@@ -9,14 +10,15 @@ async function connect() {
     avatar = db.collection('avatar');
 }
 
-async function upsertAvatar(id, image) {
+async function upsertAvatar(id, imageBuffer, mimeType) {
     await connect();
 
-    let result = avatar.update(
+    let result = avatar.updateOne(
         {userID: id},
         {
             userID: id,
-            avatar: image
+            contentType: mimeType,
+            avatar: imageBuffer
         },
         {upsert: true}
     );
@@ -24,4 +26,11 @@ async function upsertAvatar(id, image) {
     return result;
 }
 
-module.exports = upsertAvatar;
+async function getAvatarByUserID(userID) {
+    await connect();
+
+    let result = avatar.findOne({userID: new ObjectID(userID)});
+    return result;
+}
+
+module.exports = {upsertAvatar, getAvatarByUserID};
