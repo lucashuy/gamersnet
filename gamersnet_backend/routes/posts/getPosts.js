@@ -9,7 +9,8 @@ let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 let {getUserIDFromToken} = require('../../persistence/tokens.js')
 
 // this function handles the /posts/listUserPosts/ endpoint
-async function listAllUserPosts(request, response) {
+async function listUserPosts(request, response) {
+    let body = request.body;
     let cookie = request.headers.cookie;
 
     let loggedIn = false;
@@ -22,8 +23,14 @@ async function listAllUserPosts(request, response) {
     if (loggedIn){
         let tokenDocument = await getUserIDFromToken(cookie);
 
-        //input type are verified here
-        let userID = tokenDocument.userID;
+        // Note: when fetching users' posts, an empty string is passed if it is requested by the user that's logged in
+        // This can/should be changed later but for now , it's okay
+        // - Jay
+        let userID = body.userID;
+        if(userID == ""){
+            userID = tokenDocument.userID;
+        }
+        
         let results = await getUserPosts(userID);
 
         if(results.length > 0) {
@@ -62,4 +69,4 @@ async function listValidPosts(request, response) {
     }
 }
 
-module.exports = {listAllPosts, listValidPosts, listAllUserPosts};
+module.exports = {listAllPosts, listValidPosts, listUserPosts};
