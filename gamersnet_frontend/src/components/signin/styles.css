@@ -1,11 +1,8 @@
 .login-form {
-    width: 25%;
+    width: 50%;
+    padding: 2rem 3rem 2rem 3rem;
     left: 50%;
     transform: translateX(-50%);
-    position: relative;
-    padding: 3rem 4rem 3rem 4rem;
-    border-radius: 15px;
-    border: 1px solid var(--accent);
 }
 
 .login-form > .vertical-center {

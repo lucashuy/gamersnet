@@ -1,5 +1,8 @@
 import React from 'react';
+
 import APIFetch from '../../utilities/api';
+
+import './styles.css';
 
 export default class ProfileAvatar extends React.Component {
     constructor(props) {
@@ -24,7 +27,9 @@ export default class ProfileAvatar extends React.Component {
     
     render() {
         return (
-            <img src = {this.state.avatar} />
+            <div className = 'profile-image'>
+                <img src = {this.state.avatar} alt = '' />
+            </div>
         );
     }
 }

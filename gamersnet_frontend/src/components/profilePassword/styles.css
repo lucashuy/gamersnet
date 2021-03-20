@@ -1,0 +1,20 @@
+.password-inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.password-inputs > * {
+    position: relative;
+    width: 45%;
+}
+
+.submit > * {
+    float: right;
+    display: inline;
+}
+
+.submit > button {
+    margin-left: 1rem;
+}

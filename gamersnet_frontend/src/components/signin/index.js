@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../utilities/api';
 import cookieCheck from '../../utilities/cookieCheck';
+import RoundedBox from '../roundedBox';
 
 import './styles.css';
 
@@ -55,7 +56,7 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <div className = 'login-form'>
+            <RoundedBox className = 'login-form'>
                 <p>Login to GamersNet</p>
                 <form onSubmit = {this.handle} autoComplete = 'off' className = 'vertical-center'>
                     <input type = 'text' onChange = {this.inputUsername} placeholder = 'username' />
@@ -63,7 +64,7 @@ class SignIn extends React.Component {
                     <button onClick = {this.handle}>press me</button>
                 </form>
                 <p>{this.state.message}</p>
-            </div>
+            </RoundedBox>
         );
     }
 }

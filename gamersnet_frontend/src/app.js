@@ -3,7 +3,6 @@ import {Route, BrowserRouter} from 'react-router-dom';
 
 import './styles.css';
 
-import PrivateRoute from './components/PrivateRoute';
 import cookieCheck from './utilities/cookieCheck';
 
 // import all the pages from their component folders

@@ -1,0 +1,16 @@
+.status {
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.status.normal {
+    border: 1px solid var(--accent);
+}
+
+.status.error {
+    border: 1px solid red;
+}
+
+.status.success {
+    border: 1px solid green;
+}
