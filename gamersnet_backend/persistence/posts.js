@@ -62,7 +62,7 @@ async function deletePost(_id, userID){
 
   // just making sure the post is only deleted by the user that created it , just a note; for some reason (unknown)
   // passing in userID was not working 
-  return await posts.deleteOne({"_id" : ObjectId(_id)}); 
+  return await posts.deleteOne({"_id" : ObjectId(_id), userID}); 
 
 }
 
