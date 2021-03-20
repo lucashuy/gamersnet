@@ -28,7 +28,7 @@ export default class ProfileAvatar extends React.Component {
     render() {
         return (
             <div className = 'profile-image'>
-                <img src = {this.state.avatar} alt = '' />
+                <img src = {this.state.avatar} id = 'profile-avatar' alt = '' />
             </div>
         );
     }

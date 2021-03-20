@@ -7,6 +7,7 @@ import Button from '../button';
 
 import './styles.css';
 import ProfilePassword from '../profilePassword';
+import ProfileChangeAvatar from '../profileChangeAvatar';
 
 const EDIT_BUTTON_TEXT = {
     EDIT: 'edit profile',
@@ -44,9 +45,15 @@ export default class Profile extends React.Component {
         event.preventDefault();
     }
 
-    passwordChange() {
+    renderPasswordChange() {
         if (this.state.us && this.state.edit) {
             return <ProfilePassword />
+        }
+    }
+
+    renderAvatarChange() {
+        if (this.state.us && this.state.edit) {
+            return <ProfileChangeAvatar />
         }
     }
 
@@ -56,12 +63,15 @@ export default class Profile extends React.Component {
                 {this.state.us && <Button className = 'normal edit-button' onClick = {this.editProfile}>{this.state.editButtonText}</Button>}
 
                 <RoundedBox className = 'row'>
-                    <ProfileAvatar userID = {this.props.match.params.id} />
+                    <div className = 'profile-image-wrapper'>
+                        <ProfileAvatar userID = {this.props.match.params.id} />
+                        {this.renderAvatarChange()}
+                    </div>
                     <ProfileInfo userID = {this.props.match.params.id} />
                 </RoundedBox>
 
                 <RoundedBox className = 'row'>
-                    {this.passwordChange()}
+                    {this.renderPasswordChange()}
                 </RoundedBox>
             </div>
         );

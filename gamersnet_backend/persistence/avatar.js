@@ -16,9 +16,11 @@ async function upsertAvatar(id, imageBuffer, mimeType) {
     let result = avatar.updateOne(
         {userID: id},
         {
-            userID: id,
-            contentType: mimeType,
-            avatar: imageBuffer
+            $set: {
+                userID: id,
+                contentType: mimeType,
+                avatar: imageBuffer
+            }
         },
         {upsert: true}
     );

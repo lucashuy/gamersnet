@@ -1,6 +1,6 @@
 'use strict';
 
-let upsertAvatar = require('../../persistence/avatar');
+let {upsertAvatar} = require('../../persistence/avatar');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 let {getUserIDFromToken} = require('../../persistence/tokens');
 
