@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 
-import APIFetch from '../../api';
+import APIFetch from '../../utilities/api';
 import './styles.css';
 class AddPost extends React.Component{
 

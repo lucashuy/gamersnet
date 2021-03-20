@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
-import cookieCheck from '../cookieCheck';
+import cookieCheck from '../utilities/cookieCheck';
 
 // argument means: remove "component" from "props" and rename it to "Component"
 // then take whats left in "props" and make variable called "rest"
