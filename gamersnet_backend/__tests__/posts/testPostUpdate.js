@@ -54,6 +54,8 @@ async function seedDB() {
 
     //insert users
     await users.deleteMany();
+    await tokens.deleteMany();
+    await posts.deleteMany();
 
     //user1,token 1, post 1
     let user1Inserted = await users.insertOne(user1);
