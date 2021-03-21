@@ -45,4 +45,17 @@ async function updateUserPassword(id, hashedPassword) {
     );
 }
 
-module.exports = {addUser, getUserByUsername, updateUserPassword, getUserByID};
+async function upsertDetails(id, details) {
+    await connect();
+    
+    return await users.findOneAndUpdate(
+        {_id: id},
+        {
+            $set: {
+                details: details
+            }
+        }
+    );
+}
+
+module.exports = {addUser, getUserByUsername, updateUserPassword, getUserByID, upsertDetails};

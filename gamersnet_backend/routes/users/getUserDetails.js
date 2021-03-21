@@ -2,6 +2,27 @@
 
 let {getUserByID} = require('../../persistence/users');
 
+function buildResponse(userDocument) {
+    let jsonResponse = {
+        connected: 0,
+        username: userDocument.username,
+        details: {
+            age: '',
+            timezone: '',
+            platform: '',
+            games: ''
+        }
+    };
+
+    if (userDocument.details) {
+        Object.keys(userDocument.details).forEach((key) => {
+            jsonResponse.details[key] = userDocument.details[key];
+        });
+    }
+
+    return jsonResponse;
+}
+
 async function getUserDetails(request, response) {
     let id = request.params.id
     let result = null;
@@ -14,12 +35,9 @@ async function getUserDetails(request, response) {
     if (result === null) {
         response.status(404).end();
     } else {
-        let jsonResponse = {
-            connected: 0,
-            username: result.username
-        }
+        let json = buildResponse(result);
 
-        response.status(200).end(JSON.stringify(jsonResponse));
+        response.status(200).end(JSON.stringify(json));
     }
 }
 

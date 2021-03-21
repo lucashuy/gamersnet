@@ -17,6 +17,8 @@ export default class ProfileInfo extends React.Component {
         fetchData.then(async (data) => {
             if (await data.ok) {
                 let json = await data.json();
+                
+                this.props.sendToParent(json.details);
 
                 this.setState({data: json});
             } else {

@@ -1,5 +1,7 @@
 'use strict';
 
+let { getUserIDFromToken } = require('../../persistence/tokens');
+let { upsertDetails } = require('../../persistence/users');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
 const validParameters = {
@@ -9,30 +11,42 @@ const validParameters = {
     games: 1
 }
 
+function validateParameters(body) {
+    Object.keys(body).forEach((value) => {
+        if (!validParameters[value]) return false;
+        if (body[value].length > 32) return false;
+    });
+
+    return true;
+}
+
 async function updateDetails(request, response) {
     let cookies = request.get('Cookie');
 
     // if we dont have cookies, full stop
     if (!cookies) {
-        response.status(400).end();
-
+        response.status(401).end();
         return;
     }
 
-    let validRequest = false;
     let token = cookies.split('=')[1];
-    
-    let body = request.body;
 
-    // invalid cookie
-    if (await verifyUserLoggedIn(token)) {
-        validRequest = true;
+    // bad parameters
+    let body = request.body;
+    if (!validateParameters(body)) {
+        response.status(400).end();
+        return;
     }
 
-    if (validRequest) {
+    //invalid cookie
+    if (await verifyUserLoggedIn(token)) {
+        let tokenDocument = await getUserIDFromToken(token);
+
+        await upsertDetails(tokenDocument.userID, body);
+
         response.status(204).end();
     } else {
-        response.status(400).end();
+        response.status(401).end();
     }
 }
 

@@ -22,10 +22,12 @@ export default class Profile extends React.Component {
         this.state = {
             edit: false,
             us: localStorage.getItem('id') === this.props.match.params.id,
-            editButtonText: EDIT_BUTTON_TEXT.EDIT
+            editButtonText: EDIT_BUTTON_TEXT.EDIT,
+            data: undefined
         };
 
         this.editProfile = this.editProfile.bind(this);
+        this.sendDataToParent = this.sendDataToParent.bind(this);
     }
     
     editProfile(event) {
@@ -66,23 +68,30 @@ export default class Profile extends React.Component {
         if (this.state.us && this.state.edit) {
             return (
                 <RoundedBox className = 'row'>
-                    <ProfileChangeDetails />
+                    <ProfileChangeDetails data = {this.state.data} />
                 </RoundedBox>
             );
         }
     }
 
+    sendDataToParent(data) {
+        this.setState({data: data});
+    }
+
     render() {
         return (
             <div className = 'profile'>
-                {this.state.us && <Button className = 'normal edit-button' onClick = {this.editProfile}>{this.state.editButtonText}</Button>}
+                {
+                    this.state.data && this.state.us &&
+                    <Button className = 'normal edit-button' onClick = {this.editProfile}>{this.state.editButtonText}</Button>
+                }
 
                 <RoundedBox className = 'row'>
                     <div className = 'profile-image-wrapper'>
                         <ProfileAvatar userID = {this.props.match.params.id} />
                         {this.renderAvatarChange()}
                     </div>
-                    <ProfileInfo userID = {this.props.match.params.id} />
+                    <ProfileInfo userID = {this.props.match.params.id} sendToParent = {this.sendDataToParent} />
                 </RoundedBox>
 
                 {this.renderPasswordChange()}
