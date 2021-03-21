@@ -1,7 +1,8 @@
 .profile {
     width: 60%;
     position: relative;
-    left: 20%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .edit-button {

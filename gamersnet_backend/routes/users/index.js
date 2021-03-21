@@ -4,20 +4,21 @@ let upload = multer();
 
 let createAccount = require('./createAccount');
 let authenticate = require('./authenticate');
-let changePassword = require('./changePassword');
-
-let changeAvatar = require('../users/changeAvatar');
+let updatePassword = require('./updatePassword');
+let updateAvatar = require('../users/updateAvatar');
 let getAvatar = require('../users/getAvatar');
 let getUserDetails = require('./getUserDetails');
+let updateDetails = require('./updateDetails');
 
 app.post('/createAccount', createAccount)
-app.patch('/changePassword', changePassword)
 app.post('/authenticate', authenticate)
 
-app.patch('/changeAvatar', upload.single('image'), changeAvatar);
 app.get('/getAvatar/:id', getAvatar);
-
 app.get('/getUserDetails/:id', getUserDetails);
+
+app.patch('/updatePassword', updatePassword)
+app.patch('/updateAvatar', upload.single('image'), updateAvatar);
+app.patch('/updateDetails', updateDetails);
 
 // return the above routes
 module.exports = app;

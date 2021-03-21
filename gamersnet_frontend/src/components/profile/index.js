@@ -6,8 +6,9 @@ import RoundedBox from '../roundedBox';
 import Button from '../button';
 
 import './styles.css';
-import ProfilePassword from '../profilePassword';
+import ProfileChangePassword from '../profileChangePassword';
 import ProfileChangeAvatar from '../profileChangeAvatar';
+import ProfileChangeDetails from '../profileChangeDetails.js';
 
 const EDIT_BUTTON_TEXT = {
     EDIT: 'edit profile',
@@ -47,13 +48,27 @@ export default class Profile extends React.Component {
 
     renderPasswordChange() {
         if (this.state.us && this.state.edit) {
-            return <ProfilePassword />
+            return (
+                <RoundedBox className = 'row'>
+                    <ProfileChangePassword />
+                </RoundedBox>
+            );
         }
     }
 
     renderAvatarChange() {
         if (this.state.us && this.state.edit) {
             return <ProfileChangeAvatar />
+        }
+    }
+
+    renderDetailsChange() {
+        if (this.state.us && this.state.edit) {
+            return (
+                <RoundedBox className = 'row'>
+                    <ProfileChangeDetails />
+                </RoundedBox>
+            );
         }
     }
 
@@ -70,9 +85,8 @@ export default class Profile extends React.Component {
                     <ProfileInfo userID = {this.props.match.params.id} />
                 </RoundedBox>
 
-                <RoundedBox className = 'row'>
-                    {this.renderPasswordChange()}
-                </RoundedBox>
+                {this.renderPasswordChange()}
+                {this.renderDetailsChange()}
             </div>
         );
     }

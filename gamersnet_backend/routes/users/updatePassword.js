@@ -14,7 +14,7 @@ function verifyPasswordRequirements(password) {
     return true;
 }
 
-async function changePassword(request, response) {
+async function updatePassword(request, response) {
     let body = request.body;
     let cookies = request.get('Cookie');
 
@@ -62,4 +62,4 @@ async function changePassword(request, response) {
     response.status(401).end();
 }
 
-module.exports = changePassword;
+module.exports = updatePassword;

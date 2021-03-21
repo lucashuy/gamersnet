@@ -14,7 +14,7 @@ const SUBMIT_STATE = {
     LOADING: 'loading'
 };
 
-export default class ProfilePassword extends React.Component {
+export default class ProfileChangePassword extends React.Component {
     constructor(props) {
         super(props);
 
@@ -61,7 +61,7 @@ export default class ProfilePassword extends React.Component {
                 newPassword: this.state.newPassword
             };
 
-            let fetchData = APIFetch('/users/changePassword', JSON.stringify(body), 'PATCH');
+            let fetchData = APIFetch('/users/updatePassword', JSON.stringify(body), 'PATCH');
 
             fetchData.then(async (data) => {
                 if (await data.ok) {

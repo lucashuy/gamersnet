@@ -6,8 +6,7 @@ let {getUserIDFromToken} = require('../../persistence/tokens');
 
 let imageSize = require('image-size');
 
-// this function handles the /post/getAllPosts/ endpoint
-async function changeAvatar(request, response) {
+async function updateAvatar(request, response) {
     let cookies = request.get('Cookie');
 
     // if we dont have cookies, full stop
@@ -42,4 +41,4 @@ async function changeAvatar(request, response) {
     }
 }
 
-module.exports = changeAvatar;
+module.exports = updateAvatar;
