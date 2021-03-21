@@ -78,13 +78,19 @@ async function seedDB() {
     let userInserted = await users.insertOne(user1);
     user1ID = userInserted.insertedId;
     console.log(userInserted.ops);
+
     token1.userID = user1ID;
     let tokenInserted = await tokens.insertOne(token1)
     console.log(tokenInserted.ops);
+
     post1.userID = user1ID;
     let postInserted = await posts.insertOne(post1);
     console.log(postInserted.ops)
     post1ID = postInserted.insertedId;
+
+    let x = await posts.findOne({gameName:"xyz"});
+
+    console.log(x);
 
 
     //insert tokens
@@ -103,7 +109,7 @@ afterAll(async () => {
 
 
 describe('Test Post Updates', () => {
-    test('User 1 is logged in and can update post of user 1', () => {
+    test('User 1 is logged in and can update post of user 1', (done) => {
         return request(app).post('/posts/updatePost')
         .set('Cookie', 'token=user1_token')
         .send({
@@ -116,7 +122,7 @@ describe('Test Post Updates', () => {
             duration: "1hr",
             location: "Earth"
         })
-        .expect(401);
+        .expect(401).end(done);
     });
     
 });

@@ -5,15 +5,23 @@ let MongoDB = require('./mongodb');
 let ObjectId = require('mongodb').ObjectID;
 
 async function getPost(_id) {
+  console.log("before open db in getPost");
   // connect wait for server to connect to db
   let db = await MongoDB.open();
+  console.log("after open db in getPost");
+
 
   // once it connected, get the "posts" collection (aka a table in SQL)
   let posts = db.collection('posts');
+  console.log("after open collection in getPost");
 
   // wait for the server to find the specified post
-  let result = await posts.find({ _id : new ObjectID(_id)});
-  return result.toArray();
+  // let result = await posts.find({ _id : new ObjectID(_id)});
+  let result = await posts.findOne({});
+  console.log("after find post")
+  console.log(result);
+  //return result.toArray();
+  return result
 }
 
 async function getAllPosts() {

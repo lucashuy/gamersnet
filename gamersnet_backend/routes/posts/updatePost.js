@@ -58,11 +58,15 @@ async function updatePost(request, response) {
         let loggedUserID = tokenDocument.userID;
         let postUserID = null
 
-        let oldPost = await getPost(body._id.$oid)
+        //let oldPost = await getPost(body._id.$oid)
+        console.log("get post before");
+        let oldPost = await getPost(body._id);
+        console.log("get post before");
 
         if(oldPost.length > 0){ //if the post exists, this check also ensures that
             // we don't get out of bounds error while getting userID
-            postUserID = oldPost[0].userID
+            //postUserID = oldPost[0].userID
+            postUserID = oldPost.userID
         }
             
         if(loggedUserID.equals(postUserID)) {//only the user who created the post can update it.
