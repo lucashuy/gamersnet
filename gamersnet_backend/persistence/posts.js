@@ -2,26 +2,18 @@
 
 const { ObjectID } = require('bson');
 let MongoDB = require('./mongodb');
-let ObjectId = require('mongodb').ObjectID;
 
 async function getPost(_id) {
-  console.log("before open db in getPost");
   // connect wait for server to connect to db
   let db = await MongoDB.open();
-  console.log("after open db in getPost");
-
 
   // once it connected, get the "posts" collection (aka a table in SQL)
   let posts = db.collection('posts');
-  console.log("after open collection in getPost");
 
   // wait for the server to find the specified post
-  // let result = await posts.find({ _id : new ObjectID(_id)});
-  let result = await posts.findOne({});
-  console.log("after find post")
-  console.log(result);
-  //return result.toArray();
-  return result
+  let result = await posts.findOne({ _id : ObjectID(_id)});
+
+  return result;
 }
 
 async function getAllPosts() {
@@ -77,7 +69,7 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 }
 
 /**
- * updates the specified post(by post id)
+ * updates the specified post(by post id) and returns the updated document.
  * All parameters should be string type to be consistent and avoid confusion
  * @param {*} userID userId of the owner of this post
  * @param {*} description 
@@ -102,13 +94,13 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
       duration: duration,
       location: location
     }
-  }
-  console.log("updating db...")
+  };
 
-  let updated = await posts.updateOne({ _id: new ObjectID(_id)}, updateValues)
+  let updated = await posts.findOneAndUpdate({ _id: ObjectID(_id)}, updateValues, {returnOriginal: false});
 
-  console.log("Update operation complete.")
-  return updated
+  console.log(updated);
+
+  return updated;
 }
 // make these two functions "public" to the rest of the project
 module.exports = { getPost, getAllPosts, addPost, getValidPosts, updatePostDB};

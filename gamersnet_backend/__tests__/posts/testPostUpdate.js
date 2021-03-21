@@ -76,23 +76,23 @@ async function seedDB() {
     // console.log(userInserted.insertedIds["0"]);
 
     let userInserted = await users.insertOne(user1);
-    user1ID = userInserted.insertedId;
-    console.log(userInserted.ops);
+    user1ID = ObjectId(userInserted.insertedId);
+    //console.log(userInserted.ops);
 
     token1.userID = user1ID;
     let tokenInserted = await tokens.insertOne(token1)
-    console.log(tokenInserted.ops);
+    //console.log(tokenInserted.ops);
 
     post1.userID = user1ID;
     let postInserted = await posts.insertOne(post1);
-    console.log(postInserted.ops)
+    //console.log(postInserted.ops)
     post1ID = postInserted.insertedId;
 
-    let x = await posts.findOne({gameName:"xyz"});
+    //let x = await users.findOne({username: 'user1'});
 
-    console.log(x);
+    //console.log(post1ID.toHexString());------>
 
-
+    //console.log(post1ID);------->looks same as hex string in console
     //insert tokens
     // let user1ID  = user1Doc.toArray();
     // console.log(user1ID);
@@ -101,9 +101,9 @@ async function seedDB() {
 afterAll(async () => {
     // this is important to do, otherwise the db client remains open and tests never exit
 
-    console.log("closing");
+    //console.log("closing");
     await MongoDB.close();
-    console.log("closed");
+    //console.log("closed");
 })
 
 
@@ -112,6 +112,7 @@ describe('Test Post Updates', () => {
     test('User 1 is logged in and can update post of user 1', (done) => {
         return request(app).post('/posts/updatePost')
         .set('Cookie', 'token=user1_token')
+        .query({_id: post1ID.toHexString()})
         .send({
             _id: post1ID,
             userID: user1ID,// intended to link to existing users in db
@@ -122,7 +123,7 @@ describe('Test Post Updates', () => {
             duration: "1hr",
             location: "Earth"
         })
-        .expect(401).end(done);
+        .expect(201).end(done);
     });
     
 });

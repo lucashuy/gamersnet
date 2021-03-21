@@ -17,13 +17,12 @@ let {getUserIDFromToken} = require('../../persistence/tokens.js')
  */
 async function updatePostUnauthorized(request, response) {
     let body = request.body;
-    //console.log(request)
+    let postID = request.query._id; 
 
-    if (body._id && body.description && body.gameTimeUTC && body.gameName) {
+    if (postID && body.description && body.gameTimeUTC && body.gameName) {
         //input type are verified here
         let numPlayers = parseInt(body.numPlayers);
         let gameTimeUTC = new Date(body.gameTimeUTC);
-        let postID = body._id.$oid; //Object Id String
 
         await updatePostDB(postID, body.description, body.gameName, numPlayers, gameTimeUTC, body.duration, body.location);
 
@@ -41,9 +40,8 @@ async function updatePostUnauthorized(request, response) {
  * @param {*} response 
  */
 async function updatePost(request, response) {
-    let body = request.body;
     let cookie = request.headers.cookie;
-
+    let postID = request.query._id;
     let loggedIn = false;
 
     if (cookie) {
@@ -58,19 +56,13 @@ async function updatePost(request, response) {
         let loggedUserID = tokenDocument.userID;
         let postUserID = null
 
-        //let oldPost = await getPost(body._id.$oid)
-        console.log("get post before");
-        let oldPost = await getPost(body._id);
-        console.log("get post before");
+        let oldPost = await getPost(postID);
 
-        if(oldPost.length > 0){ //if the post exists, this check also ensures that
-            // we don't get out of bounds error while getting userID
-            //postUserID = oldPost[0].userID
-            postUserID = oldPost.userID
-        }
-            
+        console.log(oldPost);
+           
+        postUserID = oldPost.userID
+
         if(loggedUserID.equals(postUserID)) {//only the user who created the post can update it.
-            console.log("Correct User.")
             updatePostUnauthorized(request, response)
         }  
         else{
