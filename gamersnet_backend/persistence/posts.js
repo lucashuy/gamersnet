@@ -98,8 +98,6 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 
   let updated = await posts.findOneAndUpdate({ _id: ObjectID(_id)}, updateValues, {returnOriginal: false});
 
-  console.log(updated);
-
   return updated;
 }
 // make these two functions "public" to the rest of the project

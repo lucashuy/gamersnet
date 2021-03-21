@@ -57,8 +57,6 @@ async function updatePost(request, response) {
         let postUserID = null
 
         let oldPost = await getPost(postID);
-
-        console.log(oldPost);
            
         postUserID = oldPost.userID
 
