@@ -20,7 +20,7 @@ async function listAllPosts(request, response) {
 //list of posts that hasn't expired yet(the scheduled game time > current time)
 async function listValidPosts(request, response) {
     let results = await getValidPosts();
-    if(results != null) {
+    if(results.length > 0) {
         response.json(results);
         response.status(200).end();
     } else {

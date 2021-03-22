@@ -36,19 +36,19 @@ afterAll(async () => {
 })
 
 
-describe('Test Post Updates', () => {
+describe('Test get posts from empty db', () => {
     test('Get list of all posts from empty db', (done) => {
-        return request(app).post('/posts/listAllPosts')
+        return request(app).get('/posts/listAllPosts')
         .expect(404).end(done); //no post found
     });
 
     test('Get list of all VALID posts from empty db', (done) => {
-        return request(app).post('/posts/listAllValidPosts')
+        return request(app).get('/posts/listAllValidPosts')
         .expect(404).end(done); //no post found
     });
 
     test('Get list of all VALID posts from empty db', (done) => {
-        return request(app).post('/posts/getPostbyID')
+        return request(app).get('/posts/getPostbyID')
         .expect(404).end(done); //no post found
     });
     
