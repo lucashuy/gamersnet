@@ -96,7 +96,7 @@ describe('Test Post Updates', () => {
         .send({
             description: "post by user1, (UPDATE)",
             gameName: "xyz",
-            numPlayers: 5, //null in case of incorrect format
+            numPlayers: 5, 
             gameTimeUTC: new Date(), 
             duration: "1hr",
             location: "Earth"
@@ -132,7 +132,7 @@ describe('Test Post Updates', () => {
             userID: user1ID,// intended to link to existing users in db
             description: "post by user2, (SHOULD NOT UPDATE)",
             gameName: "xyz",
-            numPlayers: 5, 
+            numPlayers: 5,
             gameTimeUTC: new Date(), 
             duration: "1hr",
             location: "Pluto"
@@ -153,22 +153,6 @@ describe('Test Post Updates', () => {
             gameTimeUTC: new Date(), 
             duration: "1hr",
             location: "Pluto"
-        })
-        .expect(401).end(done);
-    });
-
-    test('User 1 is logged in and shouldn\'t be able to update post that doesn\'t exist', (done) => {
-        return request(app).post('/posts/updatePost')
-        .set('Cookie', '')//clear cookie and reset
-        .set('Cookie', 'token=user1_token')
-        .query({_id: '60526ee026a1403c14f26a4a'})//a non-existing hex id
-        .send({
-            description: "post by user1, (UPDATE)",
-            gameName: "xyz",
-            numPlayers: 5, 
-            gameTimeUTC: new Date(), 
-            duration: "1hr",
-            location: "Earth"
         })
         .expect(401).end(done);
     });

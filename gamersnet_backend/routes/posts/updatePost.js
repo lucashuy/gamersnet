@@ -58,7 +58,8 @@ async function updatePost(request, response) {
 
         let oldPost = await getPost(postID);
            
-        postUserID = oldPost.userID
+        if(oldPost !== null)
+            postUserID = oldPost.userID
 
         if(loggedUserID.equals(postUserID)) {//only the user who created the post can update it.
             updatePostUnauthorized(request, response)
