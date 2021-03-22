@@ -9,32 +9,12 @@ const { ObjectID, ObjectId } = require('bson');
 
 let users, tokens, posts;
 let user1ID, user2ID;
-let post1ID, post2ID;
 
 let user1 = {username: "user1", password: "123"}
 let user2 = {username: "user2", password: "456"}
 
 let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}//logged in
 let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}//not logged in
-
-let post1 = {
-    userID : ObjectID(),
-    description: "post by user1",
-    gameName: "xyz",
-    numPlayers: 5,
-    gameTimeUTC: new Date(),
-    duration: "1hr",
-    location: "Earth"
-}
-let post2 = {
-    userID : ObjectID(),
-    description: "post by user2",
-    gameName: "xyz",
-    numPlayers: 5,
-    gameTimeUTC: new Date(),
-    duration: "1hr",
-    location: "Pluto"
-}
 
 beforeAll(async () => {
     if (db) await MongoDB.close();
@@ -64,21 +44,12 @@ async function seedDB() {
     token1.userID = user1ID;
     let token1Inserted = await tokens.insertOne(token1)
 
-    post1.userID = user1ID;
-    let post1Inserted = await posts.insertOne(post1);
-    post1ID = post1Inserted.insertedId;
-
     //user2,token 2, post 2
     let user2Inserted = await users.insertOne(user2);
     user2ID = ObjectId(user2Inserted.insertedId);
 
     token2.userID = user2ID;
     let token2Inserted = await tokens.insertOne(token2)
-
-    post2.userID = user2ID;
-    let post2Inserted = await posts.insertOne(post2);
-    post2ID = post2Inserted.insertedId;
-
 }
 
 afterAll(async () => {
@@ -88,73 +59,67 @@ afterAll(async () => {
 
 
 
-describe('Test Post Updates', () => {
-    test('User 1 is logged in and can update post of user 1', (done) => {
-        return request(app).post('/posts/updatePost')
+describe('Test Create Posts', () => {
+    test('User 1 logged in and can create post=> 201 created post', (done) => {
+        return request(app).post('/posts/createPost')
+        .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
-        .query({_id: post1ID.toHexString()})
         .send({
-            description: "post by user1, (UPDATE)",
+            description: "post by user1 (CREATED)",
             gameName: "xyz",
             numPlayers: 5, 
             gameTimeUTC: new Date(), 
             duration: "1hr",
-            location: "Earth"
+            location: "someplace"
         })
         .expect(201).end(done);
     });
 
 
-    test('User 1 is logged in and cannot update post of user 2', (done) => {
-        return request(app).post('/posts/updatePost')
+    test('User 2 not logged in and can\'t create post => 401 unauthorized', (done) => {
+        return request(app).post('/posts/createPost')
         .set('Cookie', '')//clear cookie and reset
-        .set('Cookie', 'token=user1_token')//logged in as user 2
-        .query({_id: post2ID.toHexString()}) //request to update post of user 1
+        .set('Cookie', 'token=user2_token')//logged in as user 2 but expired session
         .send({
-            description: "post by user2, (SHOULD NOT UPDATE)",
+            description: "post by user2, (SHOULD NOT BE CREATED)",
             gameName: "xyz",
             numPlayers: 5, 
             gameTimeUTC: new Date(), 
             duration: "1hr",
-            location: "Pluto"
+            location: "someplace"
         })
         .expect(401).end(done);
     });
 
 
-    test('User 2 login session expired and cannot update post of user 2', (done) => {
-        return request(app).post('/posts/updatePost')
+    test('User 1 logged in, but didn\'t post necessary info to create post=>400 bad request', (done) => {
+        return request(app).post('/posts/createPost')
         .set('Cookie', '')//clear cookie and reset
-        .set('Cookie', 'token=user2_token') //was logged as user2 but session expired
-        .query({_id: post1ID.toHexString()})
+        .set('Cookie', 'token=user1_token') //was logged as user1
         .send({
-            _id: post1ID,
-            userID: user1ID,// intended to link to existing users in db
-            description: "post by user2, (SHOULD NOT UPDATE)",
+            description: null,
             gameName: "xyz",
             numPlayers: 5,
-            gameTimeUTC: new Date(), 
+            gameTimeUTC: "", 
             duration: "1hr",
-            location: "Pluto"
+            location: "someplace"
         })
-        .expect(401).end(done);
+        .expect(400).end(done);
     });
 
-    test('No user logged in, so can\'t update post', (done) => {
-        return request(app).post('/posts/updatePost')
-        .set('Cookie', '')//clear cookie and reset, no user logged in
-        .query({_id: post1ID.toHexString()})
+    test('User 1 logged in, but didn\'t post optional info to create post=>201 create post', (done) => {
+        return request(app).post('/posts/createPost')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user1_token') //was logged as user1
         .send({
-            _id: post1ID,
-            userID: user1ID,// intended to link to existing users in db
-            description: "post by user2, (SHOULD NOT UPDATE)",
+            description: "another post by user1 (CREATED)",
             gameName: "xyz",
             numPlayers: 5, 
-            gameTimeUTC: new Date(), 
-            duration: "1hr",
-            location: "Pluto"
+            gameTimeUTC: "2020-01-01T10:10:10Z", 
+            duration: "",//optional
+            location: null
         })
-        .expect(401).end(done);
+        .expect(201).end(done);
     });
     
 });

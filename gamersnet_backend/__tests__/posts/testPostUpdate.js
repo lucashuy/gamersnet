@@ -33,7 +33,7 @@ let post2 = {
     numPlayers: 5,
     gameTimeUTC: new Date(),
     duration: "1hr",
-    location: "Pluto"
+    location: "Mars"
 }
 
 beforeAll(async () => {
@@ -91,6 +91,7 @@ afterAll(async () => {
 describe('Test Post Updates', () => {
     test('User 1 is logged in and can update post of user 1', (done) => {
         return request(app).post('/posts/updatePost')
+        .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
         .query({_id: post1ID.toHexString()})
         .send({
@@ -116,7 +117,7 @@ describe('Test Post Updates', () => {
             numPlayers: 5, 
             gameTimeUTC: new Date(), 
             duration: "1hr",
-            location: "Pluto"
+            location: "Mars"
         })
         .expect(401).end(done);
     });
@@ -128,14 +129,12 @@ describe('Test Post Updates', () => {
         .set('Cookie', 'token=user2_token') //was logged as user2 but session expired
         .query({_id: post1ID.toHexString()})
         .send({
-            _id: post1ID,
-            userID: user1ID,// intended to link to existing users in db
             description: "post by user2, (SHOULD NOT UPDATE)",
             gameName: "xyz",
             numPlayers: 5, 
             gameTimeUTC: new Date(), 
             duration: "1hr",
-            location: "Pluto"
+            location: "Mars"
         })
         .expect(401).end(done);
     });
@@ -145,14 +144,12 @@ describe('Test Post Updates', () => {
         .set('Cookie', '')//clear cookie and reset, no user logged in
         .query({_id: post1ID.toHexString()})
         .send({
-            _id: post1ID,
-            userID: user1ID,// intended to link to existing users in db
             description: "post by user2, (SHOULD NOT UPDATE)",
             gameName: "xyz",
             numPlayers: 5, 
             gameTimeUTC: new Date(), 
             duration: "1hr",
-            location: "Pluto"
+            location: "Mars"
         })
         .expect(401).end(done);
     });
