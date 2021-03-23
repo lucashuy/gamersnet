@@ -17,7 +17,7 @@ afterEach(async () => {
     }
 })
 
-describe('Test Create User Account', () => {
+describe('Test Create User Account (empty database)', () => {
     test('Blank password and username', (done) => {
         return request(app).post('/users/createAccount').send({
             username: '',
@@ -47,7 +47,7 @@ describe('Test Create User Account', () => {
         }).expect(400).end(done);
     });
     
-    test('Valid account creation', (done) => {console.log('test');
+    test('Valid account creation', (done) => {
         return request(app).post('/users/createAccount').send({
             username: 'usrnme',
             password: 'pwd'
@@ -66,4 +66,42 @@ describe('Test Create User Account', () => {
             done();
         });
     });
+
+    test('Valid user ID returned in text response (non empty)', (done) => {
+        return request(app).post('/users/createAccount').send({
+            username: 'usrnme',
+            password: 'pwd'
+        }).expect(200).end((error, response) => {
+            if (error) return done(error);
+            
+            expect(response.text).toBeDefined();
+
+            let json = JSON.parse(response.text);
+            
+            expect(json).toBeDefined();
+            expect(json['user_id']).toBeDefined();
+
+            done();
+        });
+    });
 });
+
+describe('Test Create User Account (populated database)', () => {
+    beforeEach(async () => {
+        db.collection('users').insertOne({username: 'taken', password: '123'});
+    });
+
+    test('Insert new account with already used username', (done) => {
+        return request(app).post('/users/createAccount').send({
+            username: 'taken',
+            password: 'pwd'
+        }).expect(400).end(done);
+    });
+
+    test('Insert new account with new username', (done) => {
+        return request(app).post('/users/createAccount').send({
+            username: 'nottaken',
+            password: 'pwd'
+        }).expect(200).end(done);
+    });
+})
