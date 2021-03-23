@@ -1,7 +1,7 @@
 'use strict';
 
 let { getUserIDFromToken } = require('../../persistence/tokens');
-let { upsertDetails } = require('../../persistence/users');
+let { updateDetails } = require('../../persistence/users');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
 const validParameters = {
@@ -20,7 +20,7 @@ function validateParameters(body) {
     return true;
 }
 
-async function updateDetails(request, response) {
+async function updateDetailsCallback(request, response) {
     let cookies = request.get('Cookie');
 
     // if we dont have cookies, full stop
@@ -42,7 +42,7 @@ async function updateDetails(request, response) {
     if (await verifyUserLoggedIn(token)) {
         let tokenDocument = await getUserIDFromToken(token);
 
-        await upsertDetails(tokenDocument.userID, body);
+        await updateDetails(tokenDocument.userID, body);
 
         response.status(204).end();
     } else {
@@ -50,4 +50,4 @@ async function updateDetails(request, response) {
     }
 }
 
-module.exports = updateDetails;
+module.exports = updateDetailsCallback;

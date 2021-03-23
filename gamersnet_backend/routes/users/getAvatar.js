@@ -7,27 +7,27 @@ let {getAvatarByUserID} = require('../../persistence/avatar');
 
 async function getAvatar(request, response) {
     let id = request.params.id
-    let result = null;
+    let userDocument = null;
 
     // for some reason, an invalid id parameter will be the string "undefined"
     if (id !== 'undefined') {
-        result = await getUserByID(id);
+        userDocument = await getUserByID(id);
     }
     
-    if (result === null) {
+    if (userDocument === null) {
         response.status(404).end();
     } else {
-        result = await getAvatarByUserID(id);
+        let avatarDocument = await getAvatarByUserID(id);
 
         let image;
         let contentType;
 
-        if (result === null) {
+        if (avatarDocument === null) {
             image = fs.readFileSync(`${__dirname}/defaultAvatar.png`);
             contentType = 'image/png';
         } else {
-            image = result.avatar.buffer;
-            contentType = result.contentType;
+            image = avatarDocument.avatar.buffer;
+            contentType = avatarDocument.contentType;
         }
 
         response.contentType(contentType);
