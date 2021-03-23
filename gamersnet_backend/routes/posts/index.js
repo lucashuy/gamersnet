@@ -9,7 +9,7 @@ router.post('/createPost', createPost);
 router.get('/listAllPosts', listAllPosts);
 router.get('/listValidPosts', listValidPosts);
 router.delete('/deletePost', removePost);
-router.post('/listUserPosts', listUserPosts);
+router.get('/listUserPosts', listUserPosts);
 
 
 
