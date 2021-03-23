@@ -8,8 +8,7 @@ let db;
 let users, tokens, posts;
 
 beforeAll(async () => {
-    if (db) await MongoDB.close();
-    db = await MongoDB.open();
+    if (!db) db = await MongoDB.open();
 
     jest.setTimeout(10000);
     //create collections
@@ -17,22 +16,14 @@ beforeAll(async () => {
     tokens = db.collection("tokens");
     posts = db.collection("posts");
 
-    //set up DB with mock data
-    await seedDB();
 });
-
-async function seedDB() {
-
-    //insert users
-    await users.deleteMany();
-    await tokens.deleteMany();
-    await posts.deleteMany();
-
-}
 
 afterAll(async () => {
     // this is important to do, otherwise the db client remains open and tests never exit
-    await MongoDB.close();
+    if (db) {
+        await MongoDB.close();
+        db = null;
+    }
 })
 
 

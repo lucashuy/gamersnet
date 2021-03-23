@@ -17,8 +17,7 @@ let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}/
 let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}//not logged in
 
 beforeAll(async () => {
-    if (db) await MongoDB.close();
-    db = await MongoDB.open();
+    if (!db) db = await MongoDB.open();
 
     jest.setTimeout(10000);
     //create collections
@@ -31,11 +30,6 @@ beforeAll(async () => {
 });
 
 async function seedDB() {
-
-    //insert users
-    await users.deleteMany();
-    await tokens.deleteMany();
-    await posts.deleteMany();
 
     //user1,token 1, post 1
     let user1Inserted = await users.insertOne(user1);
@@ -54,7 +48,10 @@ async function seedDB() {
 
 afterAll(async () => {
     // this is important to do, otherwise the db client remains open and tests never exit
-    await MongoDB.close();
+    if (db) {
+        await MongoDB.close();
+        db = null;
+    }
 })
 
 
