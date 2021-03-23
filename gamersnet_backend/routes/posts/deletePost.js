@@ -24,11 +24,22 @@ async function removePost(request, response) {
         //input type are verified here
         let userID = tokenDocument.userID;
 
+        // Later, we can use getPost(id) to find the user and if they don't match don't delete it
+        // but for now checking deletedCount below will work!
+
         let _id = body.id;
-        await deletePost(_id , userID);
-        response.status(204).end();
+        let result = await deletePost(_id , userID);
+
+        // number of posts deleted; 1 if successful, 0 if not successful
+        let deletedCount = result["deletedCount"];      
+        if(deletedCount  == 1){
+            response.status(204).send("Post successfully deleted!");
+        }
+        else{
+            response.status(401).send("Post could not be deleted. Please try again later");
+        } 
     } else {
-        response.status(400).end();
+        response.status(401).send("User not logged in");
     }
 }
 

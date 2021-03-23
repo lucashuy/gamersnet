@@ -90,7 +90,7 @@ afterAll(async () => {
 
 describe('Test Post Deletes', () => {
     test('User 1 is logged in and can delete post of user 1', (done) => {
-        return request(app).post('/posts/deletePost')
+        return request(app).delete('/posts/deletePost')
         .set('Cookie', 'token=user1_token')
         .send({id : post1ID})
         .expect(204).end(done);
@@ -98,7 +98,7 @@ describe('Test Post Deletes', () => {
 
 
     test('User 1 is logged in but cannot delete post of user 2', (done) => {
-        return request(app).post('/posts/deletePost')
+        return request(app).delete('/posts/deletePost')
         .set('Cookie', '')      //clear cookie and reset
         .set('Cookie', 'token=user1_token')
         .send({id : post2ID})
@@ -106,21 +106,20 @@ describe('Test Post Deletes', () => {
     });
 
 
-    test('User 1 is logged in but cannot delete post that does not exist / deleted', (done) => {
-        await posts.deleteMany();
-        return request(app).post('/posts/deletePost')
+    test('User 1 is logged in but should not be able to delete post that does not exist / deleted', (done) => {
+        return request(app).delete('/posts/deletePost')
         .set('Cookie', '')      //clear cookie and reset
         .set('Cookie', 'token=user1_token')
-        .send({id : post2ID})
+        .send({id : '60526ee026a1403c14f26a4a'})
         .expect(401).end(done);     // don't know what the expected status code should be 
     });
 
 
     test('No user logged in, so cannot delete post', (done) => {
-        return request(app).post('/posts/deletePost')
+        return request(app).delete('/posts/deletePost')
         .set('Cookie', '')       //clear cookie and reset, no user logged in
         .send({id : post2ID})
-        .expect(400).end(done);
+        .expect(401).end(done);
     });
     
 });
