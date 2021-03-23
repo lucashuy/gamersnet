@@ -30,7 +30,7 @@ async function createAccount(request, response) {
     let validUsername = verifyUsernameRequirements(body.username);
     let usernameNotUsed = await verifyUsernameUnused(body.username);
     let validPassword = verifyPasswordRequirements(body.password);
-
+    
     if (validUsername && usernameNotUsed && validPassword) {
         // hash password
         let hashedPassword = await makeHash(body.password);

@@ -13,7 +13,7 @@ export default class ProfileInfo extends React.Component {
             data: {username: 'loading'}
         };
 
-        this.renderTable = this.renderTable.bind(this);
+        this.renderDetails = this.renderDetails.bind(this);
     }
 
     componentDidMount() {
@@ -34,22 +34,35 @@ export default class ProfileInfo extends React.Component {
         });
     }
     
-    renderTable() {
+    renderDetails() {
+        let components = [];
+
         // TODO: finish me
-        console.log(this.state.data);
         if (this.state.status) {
-            let details = this.state.details;
-            return <div>
+            let details = this.state.data.details;
+            
+            components.push(<div>
                 {details.age && <p><b>Age</b>: {details.age}</p>}
-            </div>
+            </div>);
+            components.push(<div>
+                {details.age && <p><b>Games</b>: {details.games}</p>}
+            </div>);
+            components.push(<div>
+                {details.platform && <p><b>Platform</b>: {details.platform}</p>}
+            </div>);
+            components.push(<div>
+                {details.timezone && <p><b>Timezone</b>: {details.timezone}</p>}
+            </div>);
         }
+
+        return components;
     }
 
     render() {
         return (
             <div className = 'profile-info'>
                 <div className = 'username'>{this.state.data.username || ''}</div>
-                {this.renderTable()}
+                {this.renderDetails()}
             </div>
         );
     }
