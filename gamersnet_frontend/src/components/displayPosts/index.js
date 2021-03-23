@@ -5,12 +5,12 @@ import APIFetch from '../../utilities/api';
 import Post from './post'
 
 class DisplayPosts extends React.Component{
-    _isMounted = false;
 
     constructor(props) {
         super(props);
         this.state = {
-            items: []
+            items: [],
+            status : "loading"
         };
         this.delete_post = this.delete_post.bind(this);
     }
@@ -19,37 +19,43 @@ class DisplayPosts extends React.Component{
         this.setState(prevState => ({
             items: prevState.items.filter(post => post["_id"] != id  )
         }));  
+        alert("Post Deleted Successfully");
     }
 
     componentDidMount() {
-        this._isMounted = true;
-
         let userID = "";
         
         let fetchPosts = APIFetch('/posts/listUserPosts?userID=' + userID, null,'GET');
         // for peer reviewers, How can we do error checking here?
-        fetchPosts
-          .then(res => res.json())
-          .then((result) => {
-            console.log(result)
-            this.setState({items: result});
+
+        fetchPosts.then(async (data) => {
+            if(await data.ok){
+                  let posts = await data.json();
+                  this.setState({items: posts, status : ""});
+            }
+            else if (await data.status === 404){
+                  this.setState({status : "No posts found"});
+            }
+            else{
+                  this.setState({status : "Network Problem"});
+            }
+
         });
-    }
-    componentWillUnmount() {
-        this._isMounted = false;
     }
     
     render() {
           let items = this.state.items;
           return (
-            <ul>
-              {items.map(item => (
-                <li key={item._id}>
-                  <Post delete_post = {this.delete_post} post = {item}/>
-                </li>
-              ))}
-            </ul>
-            
+            <div>
+              <div>{this.state.status}</div>
+              <ul>
+                {items.map(item => (
+                  <li key={item._id}>
+                    <Post delete_post = {this.delete_post} post = {item}/>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ); 
     }
 }
