@@ -10,8 +10,8 @@ let {getUserIDFromToken} = require('../../persistence/tokens.js')
 
 // this function handles the /posts/listUserPosts/ endpoint
 async function listUserPosts(request, response) {
-    let body = request.body;
     let cookie = request.headers.cookie;
+    let userID = request.query.userID;
 
     let loggedIn = false;
 
@@ -23,10 +23,9 @@ async function listUserPosts(request, response) {
     if (loggedIn){
         let tokenDocument = await getUserIDFromToken(cookie);
 
-        // Note: when fetching users' posts, an empty string is passed if it is requested by the user that's logged in
-        // This can/should be changed later but for now , it's okay
+        // Note: when fetching users' posts, an empty string is passed in URL if it is requested by the user that's logged in
+        // As lucas already has userID in the frontend, this will be changed after that pr is merged
         // - Jay
-        let userID = body.userID;
         if(userID == ""){
             userID = tokenDocument.userID;
         }

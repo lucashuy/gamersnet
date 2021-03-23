@@ -7,7 +7,7 @@ let {listAllPosts, listValidPosts, listUserPosts} = require('./getPosts');
 router.post('/createPost', createPost);
 router.get('/listAllPosts', listAllPosts);
 router.get('/listValidPosts', listValidPosts);
-router.post('/listUserPosts', listUserPosts);
+router.get('/listUserPosts', listUserPosts);
 
 
 
