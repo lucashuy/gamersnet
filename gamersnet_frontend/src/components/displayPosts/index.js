@@ -24,8 +24,9 @@ class DisplayPosts extends React.Component{
     componentDidMount() {
         this._isMounted = true;
 
-        let json = {userID : ""};
-        let fetchPosts = APIFetch('/posts/listUserPosts', JSON.stringify(json),'POST');
+        let userID = "";
+        
+        let fetchPosts = APIFetch('/posts/listUserPosts?userID=' + userID, null,'GET');
         // for peer reviewers, How can we do error checking here?
         fetchPosts
           .then(res => res.json())
