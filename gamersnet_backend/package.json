@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "cross-env NODE_ENV=memory jest --forceExit --detectOpenHandles",
+		"test": "cross-env NODE_ENV=memory jest --detectOpenHandles --forceExit",
 		"memory": "cross-env NODE_ENV=memory node index.js",
 		"start": "node index.js"
 	},
