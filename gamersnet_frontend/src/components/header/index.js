@@ -8,6 +8,7 @@ export default class Header extends React.Component {
         return (
             <div>
                 <Link to = '/post' className = 'header-link'>Post</Link>
+                <Link to = '/displayPosts' className = 'header-link'>Profile</Link>
                 <Link to = '/logout' className = 'header-link'>Logout</Link>
                 <Link to = '/password' className = 'header-link'>password</Link>
             </div>
