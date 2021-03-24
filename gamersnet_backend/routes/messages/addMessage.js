@@ -9,6 +9,11 @@ let {getUserIDFromToken} = require('../../persistence/tokens.js')
 async function newMessage(request, response) {
 
     let body = request.body;
+
+    let message = body.message;
+    let receiver = body.receiver;
+    let timestamp = body.timestamp;
+
     let cookie = request.headers.cookie;
 
     let loggedIn = false;
@@ -18,16 +23,19 @@ async function newMessage(request, response) {
         loggedIn = await verifyUserLoggedIn(cookie);
     }
 
-    if (loggedIn && body) {
+    if (loggedIn && message) {
         let tokenDocument = await getUserIDFromToken(cookie);
 
-        let sender = tokenDocument.userID;
-        let message = body.message;
-        let receiver = body.receiver;
-        let timestamp = body.timestamp;    
+        let sender = tokenDocument.userID;    
 
-        await addMessage(sender, receiver, message, timestamp);
-        response.status(201).end();
+        if(sender == receiver){
+            response.status(400).send("User cannot send messages to themselves"); //bad request
+        }
+        else{
+            await addMessage(sender, receiver, message, timestamp);
+            response.status(201).end();
+        }
+
     } else {
         if(!loggedIn){
             response.status(401).send("User not logged in");

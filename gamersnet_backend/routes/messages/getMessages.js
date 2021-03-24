@@ -23,7 +23,7 @@ async function listChatMessages(request, response) {
         
         if(chat.length > 0) {
             response.json(chat);
-            response.status(200).end();
+            response.status(201).end();
         } else {
             response.status(401).send("No messages found");
         }
