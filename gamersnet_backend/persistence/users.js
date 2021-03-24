@@ -58,4 +58,10 @@ async function updateDetails(id, details) {
     );
 }
 
-module.exports = {addUser, getUserByUsername, updateUserPassword, getUserByID, updateDetails};
+async function getAllUsers() {
+    await connect();
+
+    return await users.find({});
+}
+
+module.exports = {addUser, getUserByUsername, updateUserPassword, getUserByID, updateDetails, getAllUsers};
