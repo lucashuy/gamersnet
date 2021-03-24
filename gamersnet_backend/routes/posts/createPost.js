@@ -10,6 +10,8 @@ let {getUserIDFromToken} = require('../../persistence/tokens.js')
 async function createPost(request, response) {
     let body = request.body;
     let cookie = request.headers.cookie;
+    let verifyBody = body.description && body.gameTimeUTC && body.gameName 
+                        && body.description.length>0 &&  body.gameTimeUTC.length>0 && body.gameName.length>0
 
     let loggedIn = false;
 
@@ -18,7 +20,7 @@ async function createPost(request, response) {
         loggedIn = await verifyUserLoggedIn(cookie);
     }
 
-    if (loggedIn && body.description && body.gameTimeUTC && body.gameName) {
+    if (loggedIn && verifyBody) {
         let tokenDocument = await getUserIDFromToken(cookie);
 
         //input type are verified here
@@ -27,9 +29,14 @@ async function createPost(request, response) {
         let gameTimeUTC = new Date(body.gameTimeUTC);
 
         await addPost(userID, body.description, body.gameName, numPlayers, gameTimeUTC, body.duration, body.location);
-        response.status(204).end();
+        response.status(201).end();
     } else {
-        response.status(400).end();
+        if(!loggedIn){
+            response.status(401).end();//unauthorized
+        }   
+        else{
+            response.status(400).end(); //bad request
+        }           
     }
 }
 
