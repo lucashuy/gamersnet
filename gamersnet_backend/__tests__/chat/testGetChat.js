@@ -85,7 +85,7 @@ describe('Test Getting Chats', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
         .query({ userID1 : user1ID.toHexString() , userID2 : user2ID.toHexString()})
-        .expect(201).end(done);
+        .expect(200).end(done);
     });
     
 });

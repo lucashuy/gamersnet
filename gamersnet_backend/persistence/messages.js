@@ -16,19 +16,19 @@ async function getChatBetweenUsers(userID1, userID2){
     let db = await MongoDB.open();
   
 
-    let messages = db.collection('sender');
+    let messages = db.collection('messages');
     console.log(userID1,userID2)
 
     // wait for the server to find all messages and return as an array
-    let messages1 = await messages.find({});
-    let messages2 = await messages.find({"sender" : userID2});
+    //let messages1 = await messages.find({});
+    let messages2 = await messages.find({"sender" : ObjectID(userID1)});
 
-    console.log(await messages1.toArray())
-    console.log(await messages2.toArray())
+    //console.log( messages1.toArray())
+    //console.log( messages2.toArray())
     // console.log(await messages1.toArray());
 
-    let chat = messages1.concat(messages2);
-    return chat;
+    //let chat = messages1.concat(messages2);
+    return messages2.toArray();
 }
 
 /**

@@ -20,12 +20,13 @@ async function listChatMessages(request, response) {
     if (loggedIn) {
 
         let chat = await getChatBetweenUsers(userID1, userID2);
+        console.log(chat);
         
         if(chat.length > 0) {
             response.json(chat);
             response.status(201).end();
         } else {
-            response.status(401).send("No messages found");
+            response.status(404).send("No messages found");
         }
 
     } else {
