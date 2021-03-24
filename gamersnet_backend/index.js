@@ -24,3 +24,11 @@ server.listen(port, async () => {
 
     await MongoDB.open();
 });
+
+var webSocketServer = require('ws').Server;
+var socket = new webSocketServer({"server": server});
+let {webSocketOnConnect} = require('./websockets/websocket');
+
+socket.on('connection', function(ws){
+    webSocketOnConnect(ws)
+});
