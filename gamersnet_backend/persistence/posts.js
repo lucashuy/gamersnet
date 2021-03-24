@@ -57,7 +57,9 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 
   let posts = db.collection('posts');
 
-  return await posts.insertOne({
+  posts.createIndex( { gameName: "text", description: "text" , location: "text"} )
+
+  let result = await posts.insertOne({
     userID: userID,// intended to link to existing users in db
     description: description,
     gameName: gameName,
@@ -66,6 +68,9 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
     duration: duration,
     location: location
   })
+
+
+  return result;
 }
 
 async function deletePost(_id, userID){
@@ -111,4 +116,39 @@ async function deletePost(_id, userID){
   return updated;
 }
 
-module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost};
+async function getPostsBetweenDatesDB(startDateUTC, endDateUTC) {
+  let db = await MongoDB.open();
+  let posts = db.collection('posts');
+  let result = [];
+
+  if(startDateUTC && endDateUTC) {
+    result = await posts.find({ gameTimeUTC: {$gte: startDateUTC, $lte: endDateUTC}});
+    return result.toArray()
+  }
+  else if(startDateUTC && !endDateUTC) {
+    result = await posts.find({ gameTimeUTC: {$gte: startDateUTC}});
+    return result.toArray()
+  }
+  else if(!startDateUTC && endDateUTC) {
+    result = await posts.find({ gameTimeUTC: {$lte: endDateUTC}});
+    return result.toArray()
+  }
+  else {//else return the list of valid posts
+    result = await posts.find({ gameTimeUTC: {$gte: new Date()}});
+    return result.toArray()
+  }
+}
+
+// async function getPostsWithKeyword(startDateUTC, endDateUTC) {
+//   //search keywords in the description, location, gamename, tags
+// }
+
+// async function getPostsWithTag(startDateUTC, endDateUTC) {
+  
+// }
+
+// async function getPostsByNumPlayers(min, max) {
+  
+// }
+
+module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB};
