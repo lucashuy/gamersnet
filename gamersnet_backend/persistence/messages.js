@@ -17,7 +17,7 @@ async function getChatBetweenUsers(userID1, userID2){
   
 
     let messages = db.collection('messages');
-    console.log(userID1,userID2)
+    //console.log(userID1,userID2)
 
     // wait for the server to find all messages and return as an array
     //let messages1 = await messages.find({});

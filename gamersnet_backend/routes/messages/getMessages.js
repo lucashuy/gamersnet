@@ -20,7 +20,7 @@ async function listChatMessages(request, response) {
     if (loggedIn) {
 
         let chat = await getChatBetweenUsers(userID1, userID2);
-        console.log(chat);
+        //console.log(chat);
         
         if(chat.length > 0) {
             response.json(chat);

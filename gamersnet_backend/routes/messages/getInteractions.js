@@ -5,6 +5,7 @@ let {getInteractions} = require('../../persistence/messages');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
 async function listInteractedIDs(request, response) {
+    console.log("listInteractedIDs")
 
     let cookie = request.headers.cookie;
     let userID = request.query.userID;
@@ -18,6 +19,7 @@ async function listInteractedIDs(request, response) {
     if (loggedIn) {
 
         let listInteractions = await getInteractions(userID);
+        console.log(listInteractions)
 
         if(listInteractions.length > 0) {
             let listInteractedUsers = extractInteractedUsers(listInteractions, userID);
