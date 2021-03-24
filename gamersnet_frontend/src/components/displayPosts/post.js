@@ -30,24 +30,20 @@ class Post extends React.Component{
     render(){
         let post = this.props.post;
         return (
-            <div>
-                <div className = "post">
-                    <h4>Description: {post.description}</h4><br/>
-                    <h4>Game: {post.gameName}</h4><br/>
-                    <h4>Players Needed: {post.numPlayers}</h4><br/>
-                    <h4>Location: {post.location}</h4><br/>
-                    <h4>Time: {post.gameTimeUTC}</h4><br/>
-                    <h4>Duration: {post.duration}</h4><br/>
+            <div className = "post">
+                <p><b>Description:</b> {post.description}</p>
+                <p><b>Game:</b> {post.gameName}</p>
+                <p><b>Players Needed:</b> {post.numPlayers}</p>
+                <p><b>Location:</b> {post.location}</p>
+                <p><b>Time:</b> {post.gameTimeUTC}</p>
+                <p><b>Duration:</b> {post.duration}</p>
 
-                    <button className = "button delete" onClick = {this.delete_post.bind(this,post)}>Delete</button>
-                    <button className = "button edit">Edit</button> <br></br>
-                </div><br></br>
+                <button className = "button delete" onClick = {this.delete_post.bind(this,post)}>Delete</button>
+                <button className = "button edit">Edit</button>
             </div>
             
             
         );
     }
-
-
 }
 export default withRouter(Post);

@@ -9,6 +9,7 @@ import './styles.css';
 import ProfileChangePassword from '../profileChangePassword';
 import ProfileChangeAvatar from '../profileChangeAvatar';
 import ProfileChangeDetails from '../profileChangeDetails.js';
+import DisplayPosts from '../displayPosts';
 
 const EDIT_BUTTON_TEXT = {
     EDIT: 'edit profile',
@@ -28,6 +29,7 @@ export default class Profile extends React.Component {
 
         this.editProfile = this.editProfile.bind(this);
         this.sendDataToParent = this.sendDataToParent.bind(this);
+        this.renderPosts = this.renderPosts.bind(this);
     }
     
     editProfile(event) {
@@ -74,6 +76,16 @@ export default class Profile extends React.Component {
         }
     }
 
+    renderPosts() {
+        if (!this.state.edit) {
+            return (
+                <RoundedBox className = 'row'>
+                    <DisplayPosts />
+                </RoundedBox>
+            );
+        }
+    }
+
     sendDataToParent(data) {
         this.setState({data: data});
     }
@@ -93,6 +105,8 @@ export default class Profile extends React.Component {
                     </div>
                     <ProfileInfo userID = {this.props.match.params.id} sendToParent = {this.sendDataToParent} />
                 </RoundedBox>
+
+                {this.renderPosts()}
 
                 {this.renderPasswordChange()}
                 {this.renderDetailsChange()}

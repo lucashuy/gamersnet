@@ -1,12 +1,11 @@
 .post {
-    width: 25%;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 40%;
     position: relative;
-    padding: 3rem 4rem 3rem 4rem;
+    padding: 2rem 2rem 2rem 2rem;
     border-radius: 15px;
     background-color: rgb(205, 205, 224);
     border: 1px solid var(--accent);
+    margin-bottom: 1rem;
 }
 
 .post > button {
@@ -29,4 +28,10 @@
     background-color: rgb(255, 0, 0);
 }
 
-
+.posts-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
