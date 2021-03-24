@@ -68,6 +68,16 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
   })
 }
 
+async function deletePost(_id, userID){
+  let db = await MongoDB.open();
+
+  let posts = db.collection('posts');
+
+  // just making sure the post is only deleted by the user that created it , just a note; for some reason (unknown)
+  // passing in userID was not working 
+  return await posts.deleteOne({"_id" : ObjectID(_id), userID}); 
+}
+
 /**
  * updates the specified post(by post id) and returns the updated document.
  * All parameters should be string type to be consistent and avoid confusion
@@ -100,5 +110,5 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 
   return updated;
 }
-// make these two functions "public" to the rest of the project
-module.exports = { getPost, getAllPosts, addPost, getValidPosts, updatePostDB};
+
+module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost};
