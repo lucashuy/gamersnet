@@ -26,4 +26,11 @@ async function getPostsBetweenDates(request, response) {
     }
 }
 
+async function filterPostsbyKeyWord(request, response){
+    let keywords = request.query.searchKeyWords
+
+    let result = await getPostsWithKeyWords(keywords);
+    
+}
+
 module.exports = {getPostsBetweenDates};
