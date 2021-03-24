@@ -1,6 +1,6 @@
 'use strict';
 
-const { ObjectId } = require('bson');
+const { ObjectID } = require('bson');
 let MongoDB = require('./mongodb');
 
 /**
@@ -8,15 +8,30 @@ let MongoDB = require('./mongodb');
  * @param {*} userId string parameter 
  */
 async function getUserPosts(userID) {
-  // connect wait for server to connect to db
+
+  // wait for server to connect to db
   let db = await MongoDB.open();
 
   // once it connected, get the "posts" collection (aka a table in SQL)
   let posts = db.collection('posts');
 
+
   // wait for the server to find all posts and return as an array
   let result = await posts.find({"userID" : userID});
   return result.toArray();
+}
+
+async function getPost(_id) {
+  // connect wait for server to connect to db
+  let db = await MongoDB.open();
+
+  // once it connected, get the "posts" collection (aka a table in SQL)
+  let posts = db.collection('posts');
+  
+  // wait for the server to find the specified post
+  let result = await posts.findOne({ _id : ObjectID(_id)});
+
+  return result;  
 }
 
 
@@ -79,9 +94,41 @@ async function deletePost(_id, userID){
 
   // just making sure the post is only deleted by the user that created it , just a note; for some reason (unknown)
   // passing in userID was not working 
-  return await posts.deleteOne({"_id" : ObjectId(_id), userID}); 
+  return await posts.deleteOne({"_id" : ObjectID(_id), userID}); 
+}
 
+/**
+ * updates the specified post(by post id) and returns the updated document.
+ * All parameters should be string type to be consistent and avoid confusion
+ * @param {*} userID userId of the owner of this post
+ * @param {*} description 
+ * @param {*} gameName 
+ * @param {*} numPlayers 
+ * @param {*} gameTimeUTC when it will be played
+ * @param {*} duration how long will it be played
+ * @param {*} location location of game
+ */
+ async function updatePostDB(_id, description, gameName, numPlayers, gameTimeUTC, duration, location) {
+  // wait for db connection and get users collection
+  let db = await MongoDB.open();
+
+  let posts = db.collection('posts');
+ 
+  var updateValues = {
+    $set: {
+      description: description,
+      gameName: gameName,
+      numPlayers: numPlayers, //null in case of incorrect format
+      gameTimeUTC: gameTimeUTC, 
+      duration: duration,
+      location: location
+    }
+  };
+
+  let updated = await posts.findOneAndUpdate({ _id: ObjectID(_id)}, updateValues, {returnOriginal: false});
+
+  return updated;
 }
 
 // make these two functions "public" to the rest of the project
-module.exports = { getAllPosts, addPost, getValidPosts, deletePost, getUserPosts};
+module.exports = {getPost, getAllPosts, getUserPosts, addPost, getValidPosts, updatePostDB, deletePost};

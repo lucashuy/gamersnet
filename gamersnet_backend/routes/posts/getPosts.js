@@ -2,7 +2,7 @@
 
 
 // include our function from the database to fetch posts
-let {getUserPosts, getAllPosts, getValidPosts} = require('../../persistence/posts');
+let {getUserPosts, getPost, getAllPosts, getValidPosts} = require('../../persistence/posts');
 
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
@@ -57,9 +57,21 @@ async function listAllPosts(request, response) {
     } 
 }
 
-// this function handles the /posts/listValidPosts/ endpoint
+//list of posts that hasn't expired yet(the scheduled game time > current time)
 async function listValidPosts(request, response) {
     let results = await getValidPosts();
+    if(results.length > 0) {
+        response.json(results);
+        response.status(200).end();
+    } else {
+        response.status(404).end();
+    }
+}
+
+//search for post with the given id
+async function getPostbyID(request, response) {
+    let _id = request.query._id
+    let results = await getPost(_id);
     if(results != null) {
         response.json(results);
         response.status(200).end();
@@ -68,4 +80,4 @@ async function listValidPosts(request, response) {
     }
 }
 
-module.exports = {listAllPosts, listValidPosts, listUserPosts};
+module.exports = {listUserPosts, listAllPosts, listValidPosts, getPostbyID};
