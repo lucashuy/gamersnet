@@ -13,6 +13,7 @@ import Register from './components/register';
 import Password from './components/password';
 import Logout from './components/logout';
 import AddPost from './components/createPost';
+import DisplayPosts from './components/displayPosts'
 
 // import header
 import Header from './components/header';
@@ -43,7 +44,8 @@ export default class App extends React.Component {
 		return (
 			<div>
 				<Route exact path = '/' component = {Home} />
-				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
+				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} /> 
+				<Route path = '/displayPosts' render = {(props) => <DisplayPosts updateHeader = {this.updateHeader} {...props} />} /> 
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
