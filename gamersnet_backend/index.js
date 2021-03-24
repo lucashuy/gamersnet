@@ -1,10 +1,6 @@
 'use strict';
 
 require('dotenv').config();
-let registerTimer = require('./registerTimer');
-let updateAgeAchievement = require('./repeatingEvents/accountAgeAchievement');
-let postsAchievements = require('./repeatingEvents/postsAchievements');
-
 
 if ((process.env.PORT === undefined || process.env.MONGODB_HOST === undefined) && process.env.NODE_ENV !== 'memory') {
     console.log('Misconfigured .env file, stopping.');
@@ -28,6 +24,3 @@ server.listen(port, async () => {
 
     await MongoDB.open();
 });
-
-registerTimer(updateAgeAchievement, 60);
-registerTimer(postsAchievements, 5);
