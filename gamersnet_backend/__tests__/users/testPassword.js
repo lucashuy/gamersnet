@@ -40,19 +40,20 @@ describe('Test password change (single user)', () => {
     let hashedPassword = '$2b$10$intP40iXYmNia/XUWjq4Pu/aamccICNOwhOXVsPXmFacpH1/acofG';
 
     beforeEach(async () => {
-        let result = db.collection('users').insertOne({username: 'bob', password: hashedPassword});
+        let result = await db.collection('users').insertOne({username: 'bob', password: hashedPassword});
+        let id = await result.insertedId;
 
         await db.collection('tokens').insertOne({
-            userID: new ObjectID(await result.insertedId),
+            userID: ObjectID(await id),
             token: 'abc',
-            expires: 99999999999
+            expires: 99999999999999
         });
     });
 
     test('Missing body, but valid token', (done) => {
         return request(app).patch('/users/updatePassword')
         .set('Cookie', 'token=abc')
-        .expect(401).end(done);
+        .expect(400).end(done);
     });
 
     test('Invalid old password', (done) => {
@@ -72,16 +73,12 @@ describe('Test password change (single user)', () => {
             oldPassword: '9999',
             newPassword: '9999'
         })
-        .expect(204).end(done);
-    });
+        .expect(204).end(async () => {
+            let result = await db.collection('users').find({username: 'bob'});
+            
+            expect(await result.password).not.toBe(hashedPassword);
     
-    // test('Test bad password change (bad old pass)', (done) => {
-    //     return request(app).patch('/users/updatePassword')
-    //     .set('Cookie', 'token=abc')
-    //     .send({
-    //         oldPassword: '8888',
-    //         newPassword: '9999'
-    //     })
-    //     .expect(204).end(done);
-    // });
+            done();
+        });
+    });
 });

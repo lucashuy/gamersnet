@@ -9,7 +9,7 @@ let makeHash = require('../utilities/makeHash');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
 function verifyPasswordRequirements(password) {
-    if (password == false) return false;
+    if (password == false || password === undefined) return false;
 
     return true;
 }
