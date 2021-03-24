@@ -48,7 +48,10 @@ export default class ProfileChangeAvatar extends React.Component {
                     });
 
                     // oh no
-                    document.getElementById('profile-avatar').src = image.src;
+                    let avatarElement = document.getElementById('profile-avatar');
+                    if (avatarElement) {
+                        avatarElement.src = image.src;
+                    }
                 } else {
                     this.setState({
                         message: 'Invalid file selected',
