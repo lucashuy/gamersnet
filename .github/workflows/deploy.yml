@@ -6,11 +6,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: appleboy/ssh-action@master
-        name: deploy project
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: ./gamersnet_deploy.sh
+      - uses: actions/checkout@v2
+      - name: deploy production
+        run: |
+          echo "${{ secrets.KEY }}" > ./key
+          chmod 600 ./key
+          ssh -tt -o StrictHostKeyChecking=no -i ./key -p ${{ secrets.PORT }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} ./gamersnet_deploy.sh
