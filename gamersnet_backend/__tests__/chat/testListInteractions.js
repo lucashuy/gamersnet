@@ -134,7 +134,7 @@ describe('Test Getting interacted users', () => {
         return request(app).get('/messages/listInteractedIDs')
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
-        .query({ userID1 : user1ID.toHexString() })
+        .query({ userID : user1ID.toHexString() })
         .expect("HELLO")
         .expect(200).end(done);
     });

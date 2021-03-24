@@ -6,7 +6,7 @@ let {listInteractedIDs} = require('./getInteractions');
 
 router.post('/addMessage', newMessage);
 router.get('/listChatMessages', listChatMessages);
-router.get('./listInteractedIDs', listInteractedIDs);
+router.get('/listInteractedIDs', listInteractedIDs);
 
 
 // return the above routes
