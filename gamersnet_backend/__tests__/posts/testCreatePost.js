@@ -13,8 +13,10 @@ let user1ID, user2ID;
 let user1 = {username: "user1", password: "123"}
 let user2 = {username: "user2", password: "456"}
 
-let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}//logged in
-let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}//not logged in
+//logged in
+let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}
+//not logged in
+let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}
 
 beforeAll(async () => {
     if (!db) db = await MongoDB.open();

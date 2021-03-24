@@ -20,8 +20,10 @@ pastDate.setDate(currDate.getDate() - 1);
 let user1 = {username: "user1", password: "123"}
 let user2 = {username: "user2", password: "456"}
 
-let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}//logged in
-let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}//not logged in
+//logged in
+let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}
+//not logged in
+let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}
 
 //the scheduled time of this game is still due
 let post1 = {
@@ -104,7 +106,7 @@ describe('Test get posts from db', () => {
     test('Get list of all valid posts in db, response only contains future dated posts.', (done) => {
         return request(app).get('/posts/listValidPosts')
         .expect(200)
-        .expect('[{"_id":"' +post1ID.toHexString()+'","userID":"'+user1ID.toHexString()+'","description":"post by user1","gameName":"xyz","numPlayers":5,"gameTimeUTC":"'+futureDate.toISOString()+'","duration":"1hr","location":"Earth"}]')
+        .expect('[{"_id":"' + post1ID.toHexString() + '","userID":"' + user1ID.toHexString() + '","description":"post by user1","gameName":"xyz","numPlayers":5,"gameTimeUTC":"' + futureDate.toISOString() + '","duration":"1hr","location":"Earth"}]')
         .end(done); 
     });
 

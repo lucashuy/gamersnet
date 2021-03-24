@@ -58,17 +58,19 @@ async function updatePost(request, response) {
 
         let oldPost = await getPost(postID);
            
-        if(oldPost !== null)
+        if (oldPost !== null)
             postUserID = oldPost.userID
 
-        if(loggedUserID.equals(postUserID)) {//only the user who created the post can update it.
+        if (loggedUserID.equals(postUserID)) {
+            //only the user who created the post can update it.
             updatePostUnauthorized(request, response)
-        }  
-        else{
-            response.status(401).send('You are not authorized to change this post. Only owner of this post can change it.'); //status code: unauthorized
+        } else{
+            //status code: unauthorized
+            response.status(401).send('You are not authorized to change this post. Only owner of this post can change it.');
         }
     } else {
-        response.status(401).send('User not logged in.'); //status code: unauthorized
+        //status code: unauthorized
+        response.status(401).send('User not logged in.');
     }
 }
 
