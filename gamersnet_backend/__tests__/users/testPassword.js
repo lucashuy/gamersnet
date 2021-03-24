@@ -1,8 +1,9 @@
 'use strict';
 
-let app = require('../../app');
+let ObjectID = require('mongodb').ObjectId;
 let request = require('supertest');
 
+let app = require('../../app');
 let MongoDB = require('../../persistence/mongodb');
 let db;
 
@@ -19,18 +20,68 @@ afterEach(async () => {
 
 describe('Test password change (empty database)', () => {
     test('Invalid method', (done) => {
-        return request(app).get('/users/updatePassword').send({
-            password: '123'
-        }).expect(404).end(done);
+        return request(app).get('/users/updatePassword').expect(404).end(done);
     });
     
     test('Missing token cookie', (done) => {
         return request(app).patch('/users/updatePassword').send({
-            password: '123'
+            oldPassword: '123',
+            newPassword: '123'
         }).expect(400).end(done);
     });
 
     test('Missing token cookie and body', (done) => {
         return request(app).patch('/users/updatePassword').expect(400).end(done);
     });
+});
+
+describe('Test password change (single user)', () => {
+    // password 9999
+    let hashedPassword = '$2b$10$intP40iXYmNia/XUWjq4Pu/aamccICNOwhOXVsPXmFacpH1/acofG';
+
+    beforeEach(async () => {
+        let result = db.collection('users').insertOne({username: 'bob', password: hashedPassword});
+
+        await db.collection('tokens').insertOne({
+            userID: new ObjectID(await result.insertedId),
+            token: 'abc',
+            expires: 99999999999
+        });
+    });
+
+    test('Missing body, but valid token', (done) => {
+        return request(app).patch('/users/updatePassword')
+        .set('Cookie', 'token=abc')
+        .expect(401).end(done);
+    });
+
+    test('Invalid old password', (done) => {
+        return request(app).patch('/users/updatePassword')
+        .set('Cookie', 'token=abc')
+        .send({
+            oldPassword: '8888',
+            newPassword: '9999'
+        })
+        .expect(401).end(done);
+    });
+    
+    test('Test valid password change', (done) => {
+        return request(app).patch('/users/updatePassword')
+        .set('Cookie', 'token=abc')
+        .send({
+            oldPassword: '9999',
+            newPassword: '9999'
+        })
+        .expect(204).end(done);
+    });
+    
+    // test('Test bad password change (bad old pass)', (done) => {
+    //     return request(app).patch('/users/updatePassword')
+    //     .set('Cookie', 'token=abc')
+    //     .send({
+    //         oldPassword: '8888',
+    //         newPassword: '9999'
+    //     })
+    //     .expect(204).end(done);
+    // });
 });
