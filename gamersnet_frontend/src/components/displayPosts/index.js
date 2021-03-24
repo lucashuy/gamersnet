@@ -12,14 +12,13 @@ export default class DisplayPosts extends React.Component{
 			status : "loading"
 		};
 
-		this.delete_post = this.delete_post.bind(this);
+		this.deletePost = this.deletePost.bind(this);
 	}
 
-	delete_post(id){
+	deletePost(id) {
 		this.setState(prevState => ({
 			items: prevState.items.filter(post => post["_id"] !== id)
-		}));  
-		alert("Post Deleted Successfully");
+		}));
 	}
 
 	componentDidMount() {
@@ -44,7 +43,7 @@ export default class DisplayPosts extends React.Component{
 		return (
 			<div className = 'posts-wrapper'>
 				{items.map(item => (
-					<Post delete_post = {this.delete_post} key = {item._id} post = {item}/>
+					<Post deletePost = {this.deletePost} key = {item._id} post = {item}/>
 				))}
 			</div>
 		); 

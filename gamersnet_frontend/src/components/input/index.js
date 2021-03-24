@@ -23,3 +23,11 @@ export default class Input extends React.Component {
         }
     }
 }
+
+/*
+
+                        <input
+                            type='date'
+                            name='date'
+                            onChange = {this.inputDate}
+                        />*/

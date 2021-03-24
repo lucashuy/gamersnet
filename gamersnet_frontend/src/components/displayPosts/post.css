@@ -1,31 +1,16 @@
 .post {
     width: 40%;
     position: relative;
-    padding: 2rem 2rem 2rem 2rem;
+    padding: 1.5rem 2rem 1.5rem 2rem;
     border-radius: 15px;
     background-color: rgb(205, 205, 224);
     border: 1px solid var(--accent);
     margin-bottom: 1rem;
 }
 
-.post > button {
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+.post button {
+    margin-left: 0.5rem;
     float: right;
-}
-
-.edit{
-    background-color: rgb(0, 95, 255);
-}
-
-.delete{
-    background-color: rgb(255, 0, 0);
 }
 
 .posts-wrapper {
@@ -34,4 +19,16 @@
     justify-content: space-between;
     flex-wrap: wrap;
     width: 100%;
+}
+
+.edit-post-wrapper > div > * {
+    display: inline;
+}
+
+.post > div > div, .post > form > div {
+    margin-bottom: 0.5rem;
+}
+
+.post > form > div input {
+    margin-left: 0.5rem;
 }
