@@ -1,5 +1,6 @@
 'use strict';
 
+const { ObjectID } = require('bson');
 let MongoDB = require('./mongodb');
 
 /**
@@ -48,4 +49,21 @@ async function getChatBetweenUsers(userID1, userID2){
     });
   }
 
-  module.exports = { addMessage, getChatBetweenUsers };
+  async function getInteractions(userID){
+
+    // wait for db connection and get then get messages collection
+    let db = await MongoDB.open();
+  
+    let messages = db.collection('messages');
+
+    // wait for the server to find all messages and return as an array
+    //let interactions = await messages.find({"sender" : ObjectID(userID1), "receiver" : ObjectID(userID2)});
+
+    //find messages with the user as either sender or receiver
+    let interactions = await messages.find({ $or: [{ sender: ObjectID(userID) }, { receiver: ObjectID(userID) }] });
+
+    return interactions.toArray();
+}
+  
+
+  module.exports = { addMessage, getChatBetweenUsers, getInteractions };
