@@ -6,6 +6,8 @@ let app = express();
 
 let users = require('./routes/users');
 let posts = require('./routes/posts');
+let messages = require('./routes/messages');
+
 
 app.use(express.json());
 
@@ -52,5 +54,8 @@ app.get('/page2', (request, response) => {
 });
 
 app.use('/posts', posts);
+
+app.use('/messages', messages);
+
 
 module.exports = app;
