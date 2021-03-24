@@ -8,13 +8,13 @@ let alphaNumericize = require('../utilities/alphaNumericize');
 let makeHash = require('../utilities/makeHash');
 
 function verifyUsernameRequirements(username) {
-    if (username == false) return false;
+    if (username == false || username == undefined) return false;
 
     return true;
 }
 
 function verifyPasswordRequirements(password) {
-    if (password == false) return false;
+    if (password == false || password == undefined) return false;
 
     return true;
 }
@@ -48,7 +48,7 @@ async function authenticate(request, response) {
             response.status(401).end();
         }
     } else {
-        response.status(401).end();
+        response.status(400).end();
     }
 }
 
