@@ -22,9 +22,8 @@ async function listChatMessages(request, response) {
         let chat1 = await getMessagesBetweenUsers(userID1, userID2);
         let chat2 = await getMessagesBetweenUsers(userID2, userID1);
 
-
         let chat = chat1.concat(chat2);
-        
+
         if(chat.length > 0) {
             response.json(chat);
             response.status(201).end();
