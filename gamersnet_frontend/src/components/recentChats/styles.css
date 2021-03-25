@@ -1,0 +1,10 @@
+.chat {
+    width: 40%;
+    position: relative;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    border-radius: 15px;
+    background-color: rgb(205, 205, 224);
+    border: 1px solid var(--accent);
+    margin-bottom: 1rem;
+}
+
