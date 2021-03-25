@@ -11,6 +11,7 @@ import ProfileChangeAvatar from '../profileChangeAvatar';
 import ProfileChangeDetails from '../profileChangeDetails.js';
 import DisplayPosts from '../displayPosts';
 import ProfileAchievements from '../profileAchievements';
+import ProfileRankChange from '../profileRankChange';
 
 const EDIT_BUTTON_TEXT = {
     EDIT: 'edit profile',
@@ -31,6 +32,10 @@ export default class Profile extends React.Component {
         this.editProfile = this.editProfile.bind(this);
         this.sendDataToParent = this.sendDataToParent.bind(this);
         this.renderPosts = this.renderPosts.bind(this);
+        this.renderAvatarChange = this.renderAvatarChange.bind(this);
+        this.renderDetailsChange = this.renderDetailsChange.bind(this);
+        this.renderPasswordChange = this.renderPasswordChange.bind(this);
+        this.renderRankChange = this.renderRankChange.bind(this);
     }
     
     editProfile(event) {
@@ -71,7 +76,17 @@ export default class Profile extends React.Component {
         if (this.state.us && this.state.edit) {
             return (
                 <RoundedBox className = 'row'>
-                    <ProfileChangeDetails data = {this.state.data} />
+                    <ProfileChangeDetails data = {this.state.data.details} />
+                </RoundedBox>
+            );
+        }
+    }
+
+    renderRankChange() {
+        if (this.state.us && this.state.edit) {
+            return (
+                <RoundedBox className = 'row'>
+                    <ProfileRankChange data = {this.state.data.rankDetail} />
                 </RoundedBox>
             );
         }
@@ -114,6 +129,7 @@ export default class Profile extends React.Component {
 
                 {this.renderPasswordChange()}
                 {this.renderDetailsChange()}
+                {this.renderRankChange()}
             </div>
         );
     }

@@ -14,6 +14,7 @@ export default class ProfileInfo extends React.Component {
         };
 
         this.renderDetails = this.renderDetails.bind(this);
+        this.renderRank = this.renderRank.bind(this);
     }
 
     componentDidMount() {
@@ -23,7 +24,7 @@ export default class ProfileInfo extends React.Component {
             if (await data.ok) {
                 let json = await data.json();
                 
-                this.props.sendToParent(json.details);
+                this.props.sendToParent(json);
 
                 this.setState({status: 1, data: json});
             } else if (await data.status === 404) {
@@ -36,11 +37,9 @@ export default class ProfileInfo extends React.Component {
     
     renderDetails() {
         let components = [];
-
-        // TODO: finish me
         if (this.state.status) {
             let details = this.state.data.details;
-            
+
             components.push(<div>
                 {details.age && <p><b>Age</b>: {details.age}</p>}
             </div>);
@@ -58,11 +57,31 @@ export default class ProfileInfo extends React.Component {
         return components;
     }
 
+    renderRank() {
+        if (this.state.status) {
+            let rank = this.state.data.rankDetail;
+
+            return (
+                <div>
+                    <p><b>{rank.game}</b></p>
+                    <p>{rank.rank}</p>
+                </div>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
                 <div className = 'username'>{this.state.data.username || ''}</div>
-                {this.renderDetails()}
+                <div className = 'info-details-wrapper'>
+                    <div className = 'info-details'>
+                        {this.renderDetails()}
+                    </div>
+                    <div className = 'info-rank'>
+                        {this.renderRank()}
+                    </div>
+                </div>
             </div>
         );
     }

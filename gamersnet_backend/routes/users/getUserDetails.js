@@ -11,13 +11,20 @@ function buildResponse(userDocument) {
             timezone: '',
             platform: '',
             games: ''
+        },
+        rankDetail: {
+            game: '',
+            rank: ''
         }
     };
-
     if (userDocument.details) {
         Object.keys(userDocument.details).forEach((key) => {
             jsonResponse.details[key] = userDocument.details[key];
         });
+    }
+
+    if (userDocument.rankDetail) {
+        jsonResponse.rankDetail = userDocument.rankDetail;
     }
 
     return jsonResponse;

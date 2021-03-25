@@ -76,11 +76,28 @@ async function addAchievementByUserID(userID, achieveID) {
     )
 }
 
+async function updateRankByUserID(id, rankInfo) {
+    await connect();
+    
+    return await users.findOneAndUpdate(
+        {_id: id},
+        {
+            $set: {
+                rankDetail: {
+                    game: rankInfo.game,
+                    rank: rankInfo.rank
+                }
+            }
+        }
+    );
+}
+
 module.exports = {
     addUser,
     getUserByUsername,
     updateUserPassword,
     getUserByID,
     updateDetails,
-    addAchievementByUserID
+    addAchievementByUserID,
+    updateRankByUserID
 };
