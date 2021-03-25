@@ -3,18 +3,37 @@
 const { ObjectID } = require('bson');
 let MongoDB = require('./mongodb');
 
+/**
+ * find all the posts of userId's owner from the database
+ * @param {*} userId string parameter 
+ */
+async function getUserPosts(userID) {
+
+  // wait for server to connect to db
+  let db = await MongoDB.open();
+
+  // once it connected, get the "posts" collection (aka a table in SQL)
+  let posts = db.collection('posts');
+
+
+  // wait for the server to find all posts and return as an array
+  let result = await posts.find({"userID" : userID});
+  return result.toArray();
+}
+
 async function getPost(_id) {
   // connect wait for server to connect to db
   let db = await MongoDB.open();
 
   // once it connected, get the "posts" collection (aka a table in SQL)
   let posts = db.collection('posts');
-
+  
   // wait for the server to find the specified post
   let result = await posts.findOne({ _id : ObjectID(_id)});
 
-  return result;
+  return result;  
 }
+
 
 async function getAllPosts() {
   // connect wait for server to connect to db
@@ -164,4 +183,6 @@ async function getPostsWithText(text) {
   
 // }
 
+// make these functions "public" to the rest of the project
 module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB, getPostsWithText};
+
