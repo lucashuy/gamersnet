@@ -62,13 +62,8 @@ async function getInteractions(userID){
   
     let messages = db.collection('messages');
 
-    // wait for the server to find all messages and return as an array
-    //let interactions = await messages.find({"sender" : ObjectID(userID1), "receiver" : ObjectID(userID2)});
-
     //find messages with the user as either sender or receiver
     let interactions = await messages.find({ $or: [{ sender: ObjectID(userID) }, { receiver: ObjectID(userID) }] });
-
-    
 
     return interactions.toArray();
 }

@@ -8,12 +8,14 @@ let db;
 const { ObjectID, ObjectId } = require('bson');
 
 let users, tokens, messages;
-let user1ID, user2ID, user3ID, user4ID;
+let user1ID, user2ID, user3ID, user4ID, user5ID, user6ID;
 
 let user1 = {username: "user1", password: "123"}
 let user2 = {username: "user2", password: "456"}
 let user3 = {username: "user3", password: "123"}
 let user4 = {username: "user4", password: "456"}
+let user5 = {username: "user5", password: "123"}
+let user6 = {username: "user6", password: "456"}
 
 
 let message1 = {
@@ -54,11 +56,15 @@ let message5 = {
 //logged in
 let token1 = {token: "user1_token", userID: ObjectID(), expires: 9999999999999}
 //not logged in
-let token2 = {token: "user2_token", userID: ObjectID(), expires: 0}
+let token2 = {token: "user2_token", userID: ObjectID(), expires: 9999999999999}
 //logged in
 let token3 = {token: "user3_token", userID: ObjectID(), expires: 9999999999999}
 //not logged in
-let token4 = {token: "user4_token", userID: ObjectID(), expires: 0}
+let token4 = {token: "user4_token", userID: ObjectID(), expires: 9999999999999}
+//logged in
+let token5 = {token: "user5_token", userID: ObjectID(), expires: 0} //session expired
+//not logged in
+let token6 = {token: "user6_token", userID: ObjectID(), expires: 9999999999999}
 
 beforeAll(async () => {
     if (!db) db = await MongoDB.open();
@@ -103,6 +109,22 @@ async function seedDB() {
     token4.userID = user4ID;
     await tokens.insertOne(token4);
 
+    //user5,token 5(no messages sent/received by this user, so no interactions)
+    let user5Inserted = await users.insertOne(user5);
+    user5ID = ObjectId(user5Inserted.insertedId);
+
+    token5.userID = user5ID;
+    await tokens.insertOne(token5);
+
+    //user6,token 6(no messages sent/received by this user, so no interactions)
+    let user6Inserted = await users.insertOne(user6);
+    user6ID = ObjectId(user6Inserted.insertedId);
+
+    token6.userID = user6ID;
+    await tokens.insertOne(token6);
+
+
+    //all messages
     message1.sender = user1ID;
     message1.receiver = user2ID;
     await messages.insertOne(message1);
@@ -138,5 +160,48 @@ describe('Test Getting interacted users', () => {
         .expect('{"interactedIDs":["'+user2ID.toHexString()+'","'+user4ID.toHexString()+'"]}')
         .expect(200).end(done);
     });
+
+    test('User2 interactions-> user1, user4', (done) => {
+        return request(app).get('/messages/listInteractedIDs')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user2_token')
+        .query({ userID : user2ID.toHexString() })
+        .expect('{"interactedIDs":["'+user1ID.toHexString()+'","'+user4ID.toHexString()+'"]}')
+        .expect(200).end(done);
+    });
+
+    test('User3 interactions-> no interactions', (done) => {
+        return request(app).get('/messages/listInteractedIDs')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user3_token')
+        .query({ userID : user3ID.toHexString() })
+        .expect(404).end(done);
+    });
+
+    test('User4 interactions-> user1, user4', (done) => {
+        return request(app).get('/messages/listInteractedIDs')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user4_token')
+        .query({ userID : user4ID.toHexString() })
+        .expect('{"interactedIDs":["'+user1ID.toHexString()+'","'+user2ID.toHexString()+'"]}')
+        .expect(200).end(done);
+    });
+
+    test('User5 not logged in', (done) => {
+        return request(app).get('/messages/listInteractedIDs')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user5_token')
+        .query({ userID : user3ID.toHexString() })
+        .expect(401).end(done);
+    });
+
+    test('User6 cannot view user1\'s interactions', (done) => {
+        return request(app).get('/messages/listInteractedIDs')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user6_token')
+        .query({ userID : user1ID.toHexString() })
+        .expect(401).end(done);
+    });
+
     
 });

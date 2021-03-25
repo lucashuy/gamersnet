@@ -4,9 +4,9 @@ let {getInteractions} = require('../../persistence/messages');
 
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
-async function listInteractedIDs(request, response) {
-    console.log("listInteractedIDs")
+let {getUserIDFromToken} = require('../../persistence/tokens.js')
 
+async function listInteractedIDs(request, response) {
     let cookie = request.headers.cookie;
     let userID = request.query.userID;
     let loggedIn = false;
@@ -15,24 +15,30 @@ async function listInteractedIDs(request, response) {
         cookie = cookie.split('=')[1];
         loggedIn = await verifyUserLoggedIn(cookie);
     }
+    let tokenDocument = await getUserIDFromToken(cookie);
 
-    if (loggedIn) {
+    //get logged in user id from token
+    let loggedUserID = tokenDocument.userID;
+    let canView = loggedUserID.equals(userID)
 
+    if (loggedIn && canView) {
         let listInteractions = await getInteractions(userID);
-        console.log(listInteractions)
 
         if(listInteractions.length > 0) {
             let listInteractedUsers = extractInteractedUsers(listInteractions, userID);
             response.json({interactedIDs: listInteractedUsers});
             response.status(200).end();
         } else {
-            response.status(401).send("No messages found");
+            response.status(404).send("No messages found");
         }
 
     } else {
         if(!loggedIn){
             response.status(401).send("User not logged in");
-        }   
+        } 
+        else if(!canView){
+            response.status(401).send("User unauthorized: Can't access other user's interactions.");
+        }  
         else{
             response.status(400).end("Please try again later"); //bad request
         }           
@@ -44,12 +50,8 @@ function extractInteractedUsers(interactions, userID) {
     let users = [];
     let i =0;
 
-    console.log(userID)
-    console.log(interactions)
     for(i = 0; i < interactions.length; i++) {
-        console.log(interactions[i].receiver)
         if(!interactions[i].sender.equals(userID)  && !listIncludesObjectID(users, interactions[i].sender)) {
-            console.log(users.includes(interactions[i].sender))
             users.push(interactions[i].sender);
         }
         else if(!interactions[i].receiver.equals(userID)  && !listIncludesObjectID(users, interactions[i].receiver)) {// dont' add duplicates
