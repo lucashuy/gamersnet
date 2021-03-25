@@ -18,6 +18,7 @@ export default class Header extends React.Component {
         return (
             <div className = 'links'>
                 <Link to = '/logout' className = 'header-link'>logout</Link>
+                <Link to = '/chat' className = 'header-link'>Chat</Link>
                 <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>profile</Link>
                 <Link to = '/post' className = 'header-link'>post</Link>
             </div>

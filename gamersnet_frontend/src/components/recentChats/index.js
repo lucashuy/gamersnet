@@ -1,10 +1,11 @@
 import React from 'react';
 
 import APIFetch from '../../utilities/api';
-
+import {withRouter} from 'react-router-dom';
 import './styles.css';
 
-export default class RecentChats extends React.Component{
+class RecentChats extends React.Component{
+
 	constructor(props) {
 		super(props);
 
@@ -15,32 +16,38 @@ export default class RecentChats extends React.Component{
 	}
 
 	componentDidMount() {
-			let userID = localStorage.getItem('id');
-				
-			let fetchPosts = APIFetch('/messages/listInteractedIDs?userID=' + userID, null, 'GET');
 
-			fetchPosts.then(async (data) => {
+			let fetchChats = APIFetch('/messages/listInteractedIDs', null, 'GET');
+
+			// Not tested yet
+			fetchChats.then(async (data) => {
 				if (await data.ok) {
-					let posts = await data.json();
-					this.setState({items: posts, status : ""});
+					console.log("recentChats")
+					let recentChats = await data.json();
+					this.setState({items: recentChats, status : ""});
 				} else if (await data.status === 404){
-					this.setState({status : "No posts found"});
+					this.setState({status : "No chats found"});
 				} else {
 					this.setState({status : "Network Problem"});
 				}
 			});
 	}
+	
 		
 	render() {
-		let chats = this.state.items;
+		let recentChats = this.state.items;
 		return (
 			<div>
+				<div>{this.state.status}</div>
 				<ul>
-					{chats.map(item => (
-						<div classname = "chat" key = {item._id}> {item} </div>
-					))}
+						{recentChats.map(item => (
+							<li key={item._id}>
+								<div className = "chat"> {item} </div><br/>
+							</li>
+						))}
 				</ul>
 			</div>
 		); 
 	}
 }
+export default withRouter(RecentChats);
