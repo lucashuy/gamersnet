@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../utilities/api';
 import cookieCheck from '../../utilities/cookieCheck';
+import RoundedBox from '../roundedBox';
 
 import './styles.css';
 
@@ -31,12 +32,17 @@ class SignIn extends React.Component {
 
     handle(event) {
         if (this.state.username !== '' && this.state.password !== '') {
+            this.setState({message: 'loading...'});
+
             let body = {username: this.state.username, password: this.state.password};
 
             let fetchData = APIFetch('/users/authenticate', JSON.stringify(body), 'POST');
 
             fetchData.then(async (data) => {
                 if (await data.ok) {
+                    let result = await data.json();
+                    localStorage.setItem('id', result.user_id);
+                    
                     this.props.history.push('/');
                     this.props.updateHeader();
                 } else {
@@ -50,7 +56,7 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <div className = 'login-form'>
+            <RoundedBox className = 'login-form'>
                 <p>Login to GamersNet</p>
                 <form onSubmit = {this.handle} autoComplete = 'off' className = 'vertical-center'>
                     <input type = 'text' onChange = {this.inputUsername} placeholder = 'username' />
@@ -58,7 +64,7 @@ class SignIn extends React.Component {
                     <button onClick = {this.handle}>press me</button>
                 </form>
                 <p>{this.state.message}</p>
-            </div>
+            </RoundedBox>
         );
     }
 }

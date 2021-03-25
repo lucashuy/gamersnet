@@ -1,0 +1,27 @@
+.profile-details-change-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.profile-details-change-wrapper > div {
+    width: 40%;
+}
+
+.profile-details-change-wrapper > div > input {
+    width: 100%;
+}
+
+.details-submit {
+    margin-top: 1rem;
+    width: 100% !important;
+}
+
+.details-submit > * {
+    float: right;
+}
+
+.details-submit > button {
+    margin-left: 1rem;
+}

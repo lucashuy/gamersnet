@@ -32,6 +32,7 @@ class MongoDB {
     static async close() {
         if (this.__testingServer) await this.__testingServer.stop();
         if (this.__client) await this.__client.close();
+        if (this.db) this.db = null;
     }
 }
 

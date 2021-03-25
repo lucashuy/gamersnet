@@ -7,10 +7,9 @@ export default class Header extends React.Component {
     authLinks() {
         return (
             <div>
-                <Link to = '/post' className = 'header-link'>Post</Link>
-                <Link to = '/displayPosts' className = 'header-link'>Profile</Link>
-                <Link to = '/logout' className = 'header-link'>Logout</Link>
-                <Link to = '/password' className = 'header-link'>password</Link>
+                <Link to = '/logout' className = 'header-link'>logout</Link>
+                <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>profile</Link>
+                <Link to = '/post' className = 'header-link'>post</Link>
             </div>
         );
     }
