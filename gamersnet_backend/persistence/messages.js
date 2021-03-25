@@ -10,25 +10,16 @@ let MongoDB = require('./mongodb');
  * @param {*} userID2 userId of the receiver of this message
  * 
  */
-async function getChatBetweenUsers(userID1, userID2){
+async function getMessagesBetweenUsers(userID1, userID2){
 
     // wait for db connection and get then get messages collection
     let db = await MongoDB.open();
   
-
     let messages = db.collection('messages');
-    //console.log(userID1,userID2)
 
-    // wait for the server to find all messages and return as an array
-    //let messages1 = await messages.find({});
-    let messages2 = await messages.find({"sender" : ObjectID(userID1)});
+    let chat = await messages.find({"sender" : ObjectID(userID1), "receiver" : ObjectID(userID2)});
 
-    //console.log( messages1.toArray())
-    //console.log( messages2.toArray())
-    // console.log(await messages1.toArray());
-
-    //let chat = messages1.concat(messages2);
-    return messages2.toArray();
+    return chat.toArray();
 }
 
 /**
@@ -69,4 +60,4 @@ async function getInteractions(userID){
 }
   
 
-  module.exports = { addMessage, getChatBetweenUsers, getInteractions };
+  module.exports = { addMessage, getMessagesBetweenUsers, getInteractions };

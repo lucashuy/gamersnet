@@ -1,6 +1,6 @@
 'use strict';
 
-let {getChatBetweenUsers} = require('../../persistence/messages');
+let {getMessagesBetweenUsers} = require('../../persistence/messages');
 
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
@@ -19,8 +19,11 @@ async function listChatMessages(request, response) {
 
     if (loggedIn) {
 
-        let chat = await getChatBetweenUsers(userID1, userID2);
-        //console.log(chat);
+        let chat1 = await getMessagesBetweenUsers(userID1, userID2);
+        let chat2 = await getMessagesBetweenUsers(userID2, userID1);
+
+
+        let chat = chat1.concat(chat2);
         
         if(chat.length > 0) {
             response.json(chat);
