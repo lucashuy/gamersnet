@@ -60,7 +60,7 @@ export default class ProfileInfo extends React.Component {
 
     render() {
         return (
-            <div className = 'profile-info'>
+            <div>
                 <div className = 'username'>{this.state.data.username || ''}</div>
                 {this.renderDetails()}
             </div>

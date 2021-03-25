@@ -17,7 +17,7 @@ async function getUserPosts(userID) {
 
 
   // wait for the server to find all posts and return as an array
-  let result = await posts.find({"userID" : userID});
+  let result = await posts.find({"userID" : ObjectID(userID)});
   return result.toArray();
 }
 

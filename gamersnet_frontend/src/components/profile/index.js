@@ -10,6 +10,7 @@ import ProfileChangePassword from '../profileChangePassword';
 import ProfileChangeAvatar from '../profileChangeAvatar';
 import ProfileChangeDetails from '../profileChangeDetails.js';
 import DisplayPosts from '../displayPosts';
+import ProfileAchievements from '../profileAchievements';
 
 const EDIT_BUTTON_TEXT = {
     EDIT: 'edit profile',
@@ -103,7 +104,10 @@ export default class Profile extends React.Component {
                         <ProfileAvatar userID = {this.props.match.params.id} />
                         {this.renderAvatarChange()}
                     </div>
-                    <ProfileInfo userID = {this.props.match.params.id} sendToParent = {this.sendDataToParent} />
+                    <div className = 'profile-info'>
+                        <ProfileInfo userID = {this.props.match.params.id} sendToParent = {this.sendDataToParent} />
+                        <ProfileAchievements userID = {this.props.match.params.id} />
+                    </div>
                 </RoundedBox>
 
                 {this.renderPosts()}

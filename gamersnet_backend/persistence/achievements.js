@@ -10,17 +10,17 @@ async function connect() {
     achievements = db.collection('achievements');
 }
 
-async function getAchievments() {
+async function getAchievementsDB() {
     await connect();
 
     let returnObj = {};
     let result = achievements.find({});
 
     for (let obj of await result.toArray()) {
-        returnObj[obj.nameInternal] = obj._id;
+        returnObj[obj.nameInternal] = obj;
     }
 
     return returnObj;
 }
 
-module.exports = {getAchievments};
+module.exports = {getAchievementsDB};

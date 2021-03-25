@@ -29,7 +29,12 @@ async function getUserByUsername(username) {
 async function addUser(username, hashedPassword) {
     await connect();
 
-    return await users.insertOne({username: username, password: hashedPassword});
+    return await users.insertOne({
+        username: username,
+        password: hashedPassword,
+        achievements: [],
+        creationDate: Date.now()
+    });
 }
 
 async function updateUserPassword(id, hashedPassword) {
@@ -58,4 +63,24 @@ async function updateDetails(id, details) {
     );
 }
 
-module.exports = {addUser, getUserByUsername, updateUserPassword, getUserByID, updateDetails};
+async function addAchievementByUserID(userID, achieveID) {
+    await connect();
+
+    return await users.findOneAndUpdate(
+        {_id: new ObjectID(userID)},
+        {
+            $addToSet: {
+                achievements: new ObjectID(achieveID)
+            }
+        }
+    )
+}
+
+module.exports = {
+    addUser,
+    getUserByUsername,
+    updateUserPassword,
+    getUserByID,
+    updateDetails,
+    addAchievementByUserID
+};
