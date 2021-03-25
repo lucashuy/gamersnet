@@ -1,19 +1,5 @@
 let clients = []
 
-
-
-function messageReceived(message){
-    // console.log("Received: " + message);
-
-    var myMessage = JSON.parse(message);
-    console.log(myMessage)
-
-    if(myMessage.type == "name"){
-        clients.push(myMessage.data)
-        console.log(clients)
-    }
-}
-
 function webSocketOnConnect(websocket){
     console.log("client connected")
     
@@ -40,17 +26,19 @@ function webSocketOnConnect(websocket){
             // client socket that sent the message
             var sender = clients.find(function (sender) { return sender.client === websocket; });
 
-            console.log(receiver.userID)
-            console.log(sender.userID)
-            
-
             // also if the client is not online or even not connected to the socket, don't need to send anything
             // we can have chat notification systen for users when they are not online
             // send the message to the receiver and pass in the userID of the sender
-            receiver.client.send(JSON.stringify({
-                userID: sender.userID,
-                message: myMessage.message
-            }));
+
+            if(receiver == null){
+                console.log("client is not online")
+            }
+            else{
+                receiver.client.send(JSON.stringify({
+                    userID: sender.userID,
+                    message: myMessage.message
+                }));
+            }
         }
 
     });
@@ -58,7 +46,8 @@ function webSocketOnConnect(websocket){
     websocket.on("close", function(){
         console.log("client has disconnected");
         var clientToBeDeleted = clients.find(function (sender) { return sender.client === websocket; });
-        delete clientToBeDeleted;
+        var index = clients.indexOf(clientToBeDeleted);
+        delete clients[index];
     })
 }
 
