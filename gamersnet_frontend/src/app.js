@@ -14,6 +14,8 @@ import AddPost from './components/createPost';
 import Profile from './components/profile';
 import GameSearch from './components/gameSearch'
 
+import Chat from './components/chat';
+import RecentChats from './components/recentChats';
 // import header
 import Header from './components/header';
 
@@ -43,7 +45,9 @@ export default class App extends React.Component {
 		return (
 			<div>
 				<Route exact path = '/' component = {Home} />
+				
 				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} /> 
+				<Route path = '/chat' render = {(props) => <RecentChats updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
