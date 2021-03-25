@@ -76,7 +76,7 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 
   let posts = db.collection('posts');
 
-  return await posts.insertOne({
+  let result = await posts.insertOne({
     userID: userID,// intended to link to existing users in db
     description: description,
     gameName: gameName,
@@ -85,6 +85,9 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
     duration: duration,
     location: location
   })
+
+
+  return result;
 }
 
 async function deletePost(_id, userID){
@@ -130,5 +133,56 @@ async function deletePost(_id, userID){
   return updated;
 }
 
-// make these two functions "public" to the rest of the project
-module.exports = {getPost, getAllPosts, getUserPosts, addPost, getValidPosts, updatePostDB, deletePost};
+async function getPostsBetweenDatesDB(startDateUTC, endDateUTC) {
+  let db = await MongoDB.open();
+  let posts = db.collection('posts');
+  let result = [];
+
+  if(startDateUTC && endDateUTC) {
+    result = await posts.find({ gameTimeUTC: {$gte: startDateUTC, $lte: endDateUTC}});
+    return result.toArray()
+  }
+  else if(startDateUTC && !endDateUTC) {
+    result = await posts.find({ gameTimeUTC: {$gte: startDateUTC}});
+    return result.toArray()
+  }
+  else if(!startDateUTC && endDateUTC) {
+    result = await posts.find({ gameTimeUTC: {$lte: endDateUTC}});
+    return result.toArray()
+  }
+  else {//else return the list of valid posts
+    result = await posts.find({ gameTimeUTC: {$gte: new Date()}});
+    return result.toArray()
+  }
+}
+
+async function getPostsWithText(text) {
+  //search each word of the text in db.posts text fields (description, gameName, location)
+  let db = await MongoDB.open();
+  let posts = db.collection('posts');
+  posts.createIndex( { gameName: "text", description: "text" , location: "text"} )
+
+  // if text == "java coffee shop" -> All posts with "java" or "coffee" or "shop" or all 
+  // if text == "\"coffee shop\"" -> Exact Phrase
+  // if text == "java shop -coffee" -> Term Exclusion(excluding coffee)
+  // see: https://docs.mongodb.com/manual/text-search/ for details
+    
+  let result = await posts.find( { $text: { $search: text } } )
+
+  return result.toArray();
+}
+
+
+// may do it in sprint 4
+// TODO: may add a tags field in post to search by keywords
+// async function getPostsWithTag(startDateUTC, endDateUTC) {
+  
+// }
+
+// async function getPostsByNumPlayers(min, max) {
+  
+// }
+
+// make these functions "public" to the rest of the project
+module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB, getPostsWithText};
+
