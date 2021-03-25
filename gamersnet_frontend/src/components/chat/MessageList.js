@@ -1,26 +1,29 @@
 import React from 'react';
-import APIFetch from '../../utilities/api';
-import {withRouter} from 'react-router-dom';
 
 import './styles.css'
-class MessageList extends React.Component{
+export default class MessageList extends React.Component{
+	render() {
+		console.log(this.props.messages);
+		return (
+			<div>
+				{this.props.messages.map(message => {
+					let loggedInUserID = localStorage.getItem('id');
 
-    render() {
-        return (
-          <div>
-              {this.props.messages.map(message => {
-                    let loggedInUserID = localStorage.getItem('id');
-                    // if loggedInUserID == message.sender> right align
-                    // else left align
-                    return (
-                      <div className ='chat2'>
-                        {message.text}
-                      </div>)
-                    })
-              }
-          </div>               
-            
-        )
-    }
+					if (loggedInUserID === message.sender) {
+							return (
+								<div className = 'message self'>
+									{message.message}
+								</div>
+							)
+					} else {
+						return (
+							<div className = 'message'>
+								{message.message}
+							</div>
+						)
+					}
+				})}
+			</div>
+		)
+	}
 }
-export default withRouter(MessageList);

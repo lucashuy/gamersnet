@@ -68,7 +68,7 @@ export default class App extends React.Component {
 		return (
 			<React.StrictMode>
 				<BrowserRouter>
-					{this.state.chatOpen && <RecentChats return = {this.toggleChatSessions} />}
+					<RecentChats visible = {this.state.chatOpen} return = {this.toggleChatSessions} />
 					<Header auth = {this.state.auth} toggleChatSessions = {this.toggleChatSessions} />
 					{this.generateRoutes()}
 				</BrowserRouter>

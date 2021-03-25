@@ -1,19 +1,21 @@
-.chat {
-    width: 25%;
+.chat-inner {
+    /* width: 25%;
     left: 50%;
     transform: translateX(-50%);
     position: relative;
     padding: 1rem 1rem 1rem 1rem;
     border-radius: 10px;
     border: 1px solid var(--accent);
-    text-align: right;
+    text-align: right; */
     background-color: rgb(173, 173, 231);
 }
 
-.chat1{
-    text-align: right;
-}
-.chat2{
-    text-align: left;
+.message {
+    width: 100%;
+    background-color: rgb(154, 154, 209);
+    margin-bottom: 0.5rem;
 }
 
+.message.self {
+    text-align: right;
+}
