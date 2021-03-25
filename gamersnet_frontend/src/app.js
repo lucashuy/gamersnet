@@ -13,9 +13,8 @@ import Logout from './components/logout';
 import AddPost from './components/createPost';
 import Profile from './components/profile';
 import GameSearch from './components/gameSearch'
-
-import Chat from './components/chat';
 import RecentChats from './components/recentChats';
+
 // import header
 import Header from './components/header';
 
@@ -23,11 +22,21 @@ export default class App extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {auth: cookieCheck()};
+		this.state = {
+			auth: cookieCheck(),
+			chatOpen: false
+		};
 
 		this.updateHeader = this.updateHeader.bind(this);
 		this.logout = this.logout.bind(this);
 		this.generateRoutes = this.generateRoutes.bind(this);
+        this.toggleChatSessions = this.toggleChatSessions.bind(this);
+	}
+
+	toggleChatSessions() {
+		let chatOpen = this.state.chatOpen;
+
+		this.setState({chatOpen: !chatOpen});
 	}
 
 	updateHeader() {
@@ -45,9 +54,7 @@ export default class App extends React.Component {
 		return (
 			<div>
 				<Route exact path = '/' component = {Home} />
-				
 				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} /> 
-				<Route path = '/chat' render = {(props) => <RecentChats updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
@@ -61,7 +68,8 @@ export default class App extends React.Component {
 		return (
 			<React.StrictMode>
 				<BrowserRouter>
-					<Header auth = {this.state.auth} />
+					{this.state.chatOpen && <RecentChats return = {this.toggleChatSessions} />}
+					<Header auth = {this.state.auth} toggleChatSessions = {this.toggleChatSessions} />
 					{this.generateRoutes()}
 				</BrowserRouter>
 			</React.StrictMode>
