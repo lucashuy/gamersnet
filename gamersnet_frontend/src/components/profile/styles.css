@@ -1,0 +1,25 @@
+.profile {
+    width: 60%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.edit-button {
+    float: right;
+    margin-bottom: 0.5rem;
+}
+
+.row {
+    margin-bottom: 2rem;
+    padding: 1rem;
+}
+
+.profile-header {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-image-wrapper {
+    width: 17%;
+}

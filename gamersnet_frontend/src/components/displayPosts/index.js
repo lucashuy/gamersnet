@@ -1,62 +1,51 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
 
 import APIFetch from '../../utilities/api';
 import Post from './post'
 
-class DisplayPosts extends React.Component{
+export default class DisplayPosts extends React.Component{
+	constructor(props) {
+		super(props);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [],
-            status : "loading"
-        };
-        this.delete_post = this.delete_post.bind(this);
-    }
+		this.state = {
+			items: [],
+			status : "loading"
+		};
 
-    delete_post(id){
-        this.setState(prevState => ({
-            items: prevState.items.filter(post => post["_id"] != id  )
-        }));  
-        alert("Post Deleted Successfully");
-    }
+		this.deletePost = this.deletePost.bind(this);
+	}
 
-    componentDidMount() {
-        let userID = "";
-        
-        let fetchPosts = APIFetch('/posts/listUserPosts?userID=' + userID, null,'GET');
-        // for peer reviewers, How can we do error checking here?
+	deletePost(id) {
+		this.setState(prevState => ({
+			items: prevState.items.filter(post => post["_id"] !== id)
+		}));
+	}
 
-        fetchPosts.then(async (data) => {
-            if(await data.ok){
-                  let posts = await data.json();
-                  this.setState({items: posts, status : ""});
-            }
-            else if (await data.status === 404){
-                  this.setState({status : "No posts found"});
-            }
-            else{
-                  this.setState({status : "Network Problem"});
-            }
+	componentDidMount() {
+			let userID = "";
+				
+			let fetchPosts = APIFetch('/posts/listUserPosts?userID=' + userID, null, 'GET');
 
-        });
-    }
-    
-    render() {
-          let items = this.state.items;
-          return (
-            <div>
-              <div>{this.state.status}</div>
-              <ul>
-                {items.map(item => (
-                  <li key={item._id}>
-                    <Post delete_post = {this.delete_post} post = {item}/>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ); 
-    }
+			fetchPosts.then(async (data) => {
+				if (await data.ok) {
+					let posts = await data.json();
+					this.setState({items: posts, status : ""});
+				} else if (await data.status === 404){
+					this.setState({status : "No posts found"});
+				} else {
+					this.setState({status : "Network Problem"});
+				}
+			});
+	}
+		
+	render() {
+		let items = this.state.items;
+		return (
+			<div className = 'posts-wrapper'>
+				{items.map(item => (
+					<Post deletePost = {this.deletePost} key = {item._id} post = {item}/>
+				))}
+			</div>
+		); 
+	}
 }
-export default withRouter(DisplayPosts);

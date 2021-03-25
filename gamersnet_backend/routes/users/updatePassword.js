@@ -1,22 +1,25 @@
 'use strict';
 
+const bcrypt = require('bcrypt');
+
 let {getUserIDFromToken, updateUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
-let {updateUserPassword} = require('../../persistence/users');
+let {updateUserPassword, getUserByID} = require('../../persistence/users');
 const alphaNumericize = require('../utilities/alphaNumericize');
 let makeHash = require('../utilities/makeHash');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
 function verifyPasswordRequirements(password) {
-    if (password == false) return false;
+    if (password == false || password === undefined) return false;
 
     return true;
 }
 
-async function changePassword(request, response) {
+async function updatePassword(request, response) {
     let body = request.body;
     let cookies = request.get('Cookie');
 
-    if (!cookies || !verifyPasswordRequirements(body.password)) {
+    // check if cookie is present we have old password and new password parameters
+    if (!cookies || (!verifyPasswordRequirements(body.oldPassword) && !verifyPasswordRequirements(body.newPassword))) {
         response.status(400).end();
 
         return;
@@ -26,10 +29,22 @@ async function changePassword(request, response) {
     let isValid = await verifyUserLoggedIn(token);
 
     if (isValid) {
-        let hashPassword = await makeHash(body.password);
-
+        // get the token document of this user
         let tokenDocument = await getUserIDFromToken(token);
         let userID = tokenDocument.userID;
+
+        // get the user document to validate old password
+        let userDocument = await getUserByID(userID);
+        let correctPassword = await bcrypt.compare(body.oldPassword, userDocument.password).then((correct) => {return correct});
+
+        if (!correctPassword) {
+            response.status(401).end();
+
+            return;
+        }
+
+        // make new password hash
+        let hashPassword = await makeHash(body.newPassword);
 
         await updateUserPassword(userID, hashPassword);
 
@@ -40,11 +55,11 @@ async function changePassword(request, response) {
 
         response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
         response.status(204).end();
-    } else {
-        response.status(401).end();
-    }
-        
 
+        return;
+    }
+
+    response.status(401).end();
 }
 
-module.exports = changePassword;
+module.exports = updatePassword;

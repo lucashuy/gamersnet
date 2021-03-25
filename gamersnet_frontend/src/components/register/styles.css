@@ -28,4 +28,11 @@
     border: 1px solid rgb(47, 47, 255);
     background-color: rgb(95, 95, 255);
     border-radius: 15px;
+    cursor: pointer;
+}
+
+.register-form > .vertical-center > button.button-disabled {
+    border: 1px solid rgb(47, 47, 255);
+    background-color: rgb(95, 95, 255);
+    cursor: not-allowed;
 }

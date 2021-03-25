@@ -8,13 +8,13 @@ let alphaNumericize = require('../utilities/alphaNumericize');
 let makeHash = require('../utilities/makeHash');
 
 function verifyUsernameRequirements(username) {
-    if (username == false) return false;
+    if (username == false || username == undefined) return false;
 
     return true;
 }
 
 function verifyPasswordRequirements(password) {
-    if (password == false) return false;
+    if (password == false || password == undefined) return false;
 
     return true;
 }
@@ -41,15 +41,14 @@ async function authenticate(request, response) {
 
             await updateUserToken(result._id, alphaNumericToken);
 
-
             // give client token
             response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
-            response.status(204).end();
+            response.status(200).end(JSON.stringify({user_id: result._id}));
         } else {
             response.status(401).end();
         }
     } else {
-        response.status(401).end();
+        response.status(400).end();
     }
 }
 
