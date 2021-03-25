@@ -12,6 +12,7 @@ import Register from './components/register';
 import Logout from './components/logout';
 import AddPost from './components/createPost';
 import Profile from './components/profile';
+import GameSearch from './components/gameSearch'
 
 // import header
 import Header from './components/header';
@@ -47,6 +48,7 @@ export default class App extends React.Component {
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<Route path = '/profile/:id' component = {Profile} />
+				<Route path = '/gameSearch' component = {GameSearch} />
 			</div>
 		);
 	}

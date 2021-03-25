@@ -18,28 +18,26 @@ export default class Home extends React.Component {
 
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
-
         let fetchPosts = APIFetch('/posts/listAllPosts', null, 'GET');
 
-			fetchPosts.then(async (data) => {
-				if (await data.ok) {
-					let posts = await data.json();
-                    this.parseResponse(posts);
-                    this.setState({jsonPost: posts})
-
-				} else if (await data.status === 404){
-					this.setState({status : "No posts found"});
-				} else {
-					this.setState({status : "Network Problem"});
-				}
-			});
+        fetchPosts.then(async (data) => {
+            if (await data.ok) {
+                let posts = await data.json();
+                this.parseResponse(posts);
+            } else if (await data.status === 404){
+                this.setState({status : "No posts found"});
+            } else {
+                this.setState({status : "Network Problem"});
+            }
+        });
     }
 
     parseResponse(data) {
         var postInfo
-        var count = 0;
+        var count = (JSON.parse(JSON.stringify(data)).length) - 1;
+        var numPosts = 10;
         this.setState({ posts:[] });
-        while(data[count] !== undefined && count < 8){
+        while(data[count] !== undefined && numPosts > 0){
             postInfo = {game: data[count].gameName,
                         description: data[count].description,
                         numPlayers: data[count].numPlayers,
@@ -49,7 +47,8 @@ export default class Home extends React.Component {
             this.setState({
                 listOfPosts: this.state.listOfPosts.concat(postInfo)
             })
-            count++;
+            count--;
+            numPosts--;
         }
     }
 
@@ -60,12 +59,12 @@ export default class Home extends React.Component {
                 <div className = 'all-posts'>
                     {this.state.listOfPosts.map(singlePost => (
                         <div className = 'single-post' key = {singlePost.game}>
-                            <p>Description: {singlePost.description}</p>
-                            <p>Game: {singlePost.game}</p>
-                            <p>Players needed: {singlePost.numPlayers}</p>
-                            <p>Location: {singlePost.location}</p>
-                            <p>Time: {singlePost.time}</p>
-                            <p>Duration: {singlePost.duration}</p>
+                            <p><b>Description: </b>{singlePost.description}</p>
+                            <p><b>Game: </b>{singlePost.game}</p>
+                            <p><b>Looking for: </b>{singlePost.numPlayers} player(s)</p>
+                            <p><b>Location: </b>{singlePost.location}</p>
+                            <p><b>Time: </b>{singlePost.getTimeUTC}</p>
+                            <p><b>Duration: </b>{singlePost.duration}</p>
                         </div>
                     ))}
                 </div>

@@ -4,9 +4,19 @@ import {Link} from 'react-router-dom';
 import './styles.css';
 
 export default class Header extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { userSearch:'' };
+
+        this.inputSearch = this.inputSearch.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+    }
+
+
     authLinks() {
         return (
-            <div>
+            <div className = 'links'>
                 <Link to = '/logout' className = 'header-link'>logout</Link>
                 <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>profile</Link>
                 <Link to = '/post' className = 'header-link'>post</Link>
@@ -16,7 +26,7 @@ export default class Header extends React.Component {
 
     nonAuthLinks() {
         return (
-            <div>
+            <div className = 'links'>
                 <Link to = '/signin' className = 'header-link'>sign in</Link>
                 <p className = 'header-link-text'>or</p>
                 <Link to = '/register' className = 'header-link'>register</Link>
@@ -26,6 +36,15 @@ export default class Header extends React.Component {
 
     homeLink() {
         return <Link to = '/' className = 'header-home'>home</Link>;
+    }
+
+    inputSearch(event) {
+        this.setState({ userSearch: event.target.value });
+    }
+
+    handleSearch(event) {
+        alert("Searching for " + this.state.userSearch + "\nSorry we do not have this feature ready yet");
+        event.preventDefault();
     }
 
     searchBar() {
