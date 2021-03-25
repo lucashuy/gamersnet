@@ -184,5 +184,5 @@ async function getPostsWithText(text) {
 // }
 
 // make these functions "public" to the rest of the project
-module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB, getPostsWithText};
+module.exports = {getPost, getAllPosts, getUserPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB, getPostsWithText};
 

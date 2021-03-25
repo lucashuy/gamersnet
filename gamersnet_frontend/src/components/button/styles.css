@@ -4,6 +4,7 @@ button {
     border-radius: 15px;
     cursor: pointer;
     font-size: 1rem;
+    outline: none;
 }
 
 button.normal {
