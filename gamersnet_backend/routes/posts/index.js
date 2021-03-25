@@ -5,7 +5,7 @@ let { removePost } = require('./deletePost');
 let {createPost} = require('./createPost');
 let {listAllPosts, listValidPosts, getPostbyID} = require('./getPosts');
 let {updatePost} = require('./updatePost')
-let {getPostsBetweenDates} = require('./filterPosts')
+let {getPostsBetweenDates, filterPostsbyText} = require('./filterPosts')
 
 
 router.post('/createPost', createPost);
@@ -15,6 +15,8 @@ router.delete('/deletePost', removePost);
 router.get('/getPostbyID', getPostbyID);
 router.post('/updatePost', updatePost);
 router.get('/getPostsBetweenDates', getPostsBetweenDates);
+router.get('/filterPostsbyText', filterPostsbyText);
+
 
 
 //test routes

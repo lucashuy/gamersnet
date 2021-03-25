@@ -57,8 +57,6 @@ async function addPost(userID, description, gameName, numPlayers, gameTimeUTC, d
 
   let posts = db.collection('posts');
 
-  posts.createIndex( { gameName: "text", description: "text" , location: "text"} )
-
   let result = await posts.insertOne({
     userID: userID,// intended to link to existing users in db
     description: description,
@@ -139,10 +137,24 @@ async function getPostsBetweenDatesDB(startDateUTC, endDateUTC) {
   }
 }
 
-// async function getPostsWithKeyword(startDateUTC, endDateUTC) {
-//   //search keywords in the description, location, gamename, tags
-// }
+async function getPostsWithText(text) {
+  //search each word of the text in db.posts text fields (description, gameName, location)
+  let db = await MongoDB.open();
+  let posts = db.collection('posts');
+  posts.createIndex( { gameName: "text", description: "text" , location: "text"} )
 
+  // if text == "java coffee shop" -> All posts with "java" or "coffee" or "shop" or all 
+  // if text == "\"coffee shop\"" -> Exact Phrase
+  // if text == "java shop -coffee" -> Term Exclusion(excluding coffee)
+  // see: https://docs.mongodb.com/manual/text-search/ for details
+    
+  posts.find( { $text: { $search: text } } )
+
+  return result.toArray();
+}
+
+
+// may do it in sprint 4
 // async function getPostsWithTag(startDateUTC, endDateUTC) {
   
 // }
@@ -151,4 +163,4 @@ async function getPostsBetweenDatesDB(startDateUTC, endDateUTC) {
   
 // }
 
-module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB};
+module.exports = {getPost, getAllPosts, addPost, getValidPosts, updatePostDB, deletePost, getPostsBetweenDatesDB, getPostsWithText};

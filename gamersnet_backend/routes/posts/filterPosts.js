@@ -2,7 +2,7 @@
 
 
 // include our function from the database to add post
-let {getPostsBetweenDatesDB} = require('../../persistence/posts');
+let {getPostsBetweenDatesDB, getPostsWithText} = require('../../persistence/posts');
 
 //search for post with the given id
 async function getPostsBetweenDates(request, response) {
@@ -17,7 +17,7 @@ async function getPostsBetweenDates(request, response) {
     }
 
     let results = await getPostsBetweenDatesDB(start, end);
-    console.log(results);
+    //console.log(results);
     if(results.length > 0) {
         response.json(results);
         response.status(200).end();
@@ -26,11 +26,17 @@ async function getPostsBetweenDates(request, response) {
     }
 }
 
-async function filterPostsbyKeyWord(request, response){
-    let keywords = request.query.searchKeyWords
+async function filterPostsbyText(request, response){
+    let text = request.query.searchText
 
-    let result = await getPostsWithKeyWords(keywords);
-    
+    let results = await getPostsWithText(text);
+    //console.log(results);
+    if(results.length > 0) {
+        response.json(results);
+        response.status(200).end();
+    } else {
+        response.status(404).end("No posts found with the searched words.");
+    }
 }
 
-module.exports = {getPostsBetweenDates};
+module.exports = {getPostsBetweenDates, filterPostsbyText};
