@@ -114,11 +114,44 @@ afterAll(async () => {
 })
 
 describe('Test search/filter posts', () => {
-    test('Get posts between date1 and date2', (done) => {
-        return request(app).get('/posts/getPostsBetweenDates')
-        .query({startDateUTC: date1, endDateUTC: date2})
-        .expect('['+post1Str+','+post2Str+']')
+    test('Search for posts with \'Apex\' in them.', (done) => {
+        return request(app).get('/posts/filterPostsbyText')
+        .query({searchText: "Apex"})
+        .expect('['+post1Str+']')
         .expect(200).end(done); 
+    });
+
+    test('Search for posts with \'Players\' OR \'Canada\' in them -> return all', (done) => {
+        return request(app).get('/posts/filterPostsbyText')
+        .query({searchText: "Players Canada"})
+        .expect('['+post2Str+','+post1Str+','+post3Str+']')
+        .expect(200).end(done); 
+    });
+
+    test('Search for posts with EXACT PHRASE \"Looking to play\" in them -> return post 2', (done) => {
+        return request(app).get('/posts/filterPostsbyText')
+        .query({searchText: "\"Looking to play\""})
+        .expect('['+post2Str+']')
+        .expect(200).end(done); 
+    });
+
+    test('Search for posts with  \'Looking\' and EXCLUDING \'Canada\' from them -> return post 3', (done) => {
+        return request(app).get('/posts/filterPostsbyText')
+        .query({searchText: "Looking -Canada"})
+        .expect('['+post3Str+']')
+        .expect(200).end(done); 
+    });
+
+    test('Search for posts with  non-existent text -> return 404', (done) => {
+        return request(app).get('/posts/filterPostsbyText')
+        .query({searchText: "Something amazing"})
+        .expect(404).end(done); 
+    });
+
+    test('Search for posts with  no text', (done) => {
+        return request(app).get('/posts/filterPostsbyText')
+        .query({searchText: ""})
+        .expect(404).end(done); 
     });
 
 });

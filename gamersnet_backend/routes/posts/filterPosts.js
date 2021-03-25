@@ -26,11 +26,19 @@ async function getPostsBetweenDates(request, response) {
     }
 }
 
+/**
+ * Search for posts by given text/word
+ * if text == "java coffee shop" -> All posts with "java" or "coffee" or "shop" or all 
+ * if text == "\"coffee shop\"" -> Exact Phrase
+ * if text == "java shop -coffee" -> Term Exclusion(excluding coffee)
+ * see: https://docs.mongodb.com/manual/text-search/ for details
+ * @param {*} request 
+ * @param {*} response 
+ */
 async function filterPostsbyText(request, response){
     let text = request.query.searchText
 
     let results = await getPostsWithText(text);
-    //console.log(results);
     if(results.length > 0) {
         response.json(results);
         response.status(200).end();

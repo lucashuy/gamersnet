@@ -148,13 +148,14 @@ async function getPostsWithText(text) {
   // if text == "java shop -coffee" -> Term Exclusion(excluding coffee)
   // see: https://docs.mongodb.com/manual/text-search/ for details
     
-  posts.find( { $text: { $search: text } } )
+  let result = await posts.find( { $text: { $search: text } } )
 
   return result.toArray();
 }
 
 
 // may do it in sprint 4
+// TODO: may add a tags field in post to search by keywords
 // async function getPostsWithTag(startDateUTC, endDateUTC) {
   
 // }
