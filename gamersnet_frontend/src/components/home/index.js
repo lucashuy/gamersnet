@@ -42,7 +42,7 @@ export default class Home extends React.Component {
                         description: data[count].description,
                         numPlayers: data[count].numPlayers,
                         location: data[count].location,
-                        time: data[count].gameTimeUTC,
+                        time: data[count].gameTimeUTC.substring(0,10),
                         duration: data[count].duration,
                         id: data[count]._id }
             this.setState({
