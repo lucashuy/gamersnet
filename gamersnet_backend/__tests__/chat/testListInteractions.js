@@ -82,10 +82,6 @@ async function seedDB() {
     token1.userID = user1ID;
     await tokens.insertOne(token1)
 
-    message1.sender = user1ID;
-    message1.receiver = user2ID;
-    await messages.insertOne(message1);
-
     //user2,token 2, message 2(received one message from user1, one from user4, sent no one. interactions-> user1, user4)
     let user2Inserted = await users.insertOne(user2);
     user2ID = ObjectId(user2Inserted.insertedId);
@@ -106,6 +102,10 @@ async function seedDB() {
 
     token4.userID = user4ID;
     await tokens.insertOne(token4);
+
+    message1.sender = user1ID;
+    message1.receiver = user2ID;
+    await messages.insertOne(message1);
     
     message3.sender = user4ID;
     message3.receiver = user1ID;
@@ -135,7 +135,7 @@ describe('Test Getting interacted users', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
         .query({ userID : user1ID.toHexString() })
-        .expect("HELLO")
+        .expect('{"interactedIDs":["'+user2ID.toHexString()+'","'+user4ID.toHexString()+'"]}')
         .expect(200).end(done);
     });
     

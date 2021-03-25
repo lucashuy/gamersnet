@@ -68,6 +68,8 @@ async function getInteractions(userID){
     //find messages with the user as either sender or receiver
     let interactions = await messages.find({ $or: [{ sender: ObjectID(userID) }, { receiver: ObjectID(userID) }] });
 
+    
+
     return interactions.toArray();
 }
   

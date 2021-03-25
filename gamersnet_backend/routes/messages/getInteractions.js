@@ -43,15 +43,32 @@ async function listInteractedIDs(request, response) {
 function extractInteractedUsers(interactions, userID) {
     let users = [];
     let i =0;
+
+    console.log(userID)
+    console.log(interactions)
     for(i = 0; i < interactions.length; i++) {
-        if(!interactions[i]['sender'].equals(userID)  && !users.includes(interactions[i]['sender'])) {
-            users.push(interactions[i]['sender']);
+        console.log(interactions[i].receiver)
+        if(!interactions[i].sender.equals(userID)  && !listIncludesObjectID(users, interactions[i].sender)) {
+            console.log(users.includes(interactions[i].sender))
+            users.push(interactions[i].sender);
         }
-        else if(!interactions[i]['receiver'].equals(userID)  && !users.includes(interactions[i]['receiver'])) {// dont' add duplicates
-            users.push(interactions[i]['receiver']);
+        else if(!interactions[i].receiver.equals(userID)  && !listIncludesObjectID(users, interactions[i].receiver)) {// dont' add duplicates
+            users.push(interactions[i].receiver);
         }
     }
     return users;
+}
+
+
+//this is a bad way to remove duplicates, feel free to improve it
+function listIncludesObjectID(list, id) {
+    let i;
+    for(i = 0; i < list.length; i++) {
+        if(list[i].equals(id)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 module.exports = {listInteractedIDs};
