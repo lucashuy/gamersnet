@@ -42,8 +42,9 @@ export default class Home extends React.Component {
                         description: data[count].description,
                         numPlayers: data[count].numPlayers,
                         location: data[count].location,
-                        time: data[count].getTimeUTC,
-                        duration: data[count].duration, }
+                        time: data[count].gameTimeUTC,
+                        duration: data[count].duration,
+                        id: data[count]._id }
             this.setState({
                 listOfPosts: this.state.listOfPosts.concat(postInfo)
             })
@@ -63,8 +64,9 @@ export default class Home extends React.Component {
                             <p><b>Game: </b>{singlePost.game}</p>
                             <p><b>Looking for: </b>{singlePost.numPlayers} player(s)</p>
                             <p><b>Location: </b>{singlePost.location}</p>
-                            <p><b>Time: </b>{singlePost.getTimeUTC}</p>
+                            <p><b>Time: </b>{singlePost.time}</p>
                             <p><b>Duration: </b>{singlePost.duration}</p>
+                            <p style = {{fontSize: "14px", alignItems: "right"}}>ID: {singlePost.id}</p>
                         </div>
                     ))}
                 </div>
