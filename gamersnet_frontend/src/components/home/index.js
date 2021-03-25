@@ -3,43 +3,72 @@ import React from 'react';
 // include our API helper
 import APIFetch from '../../utilities/api';
 
-// include our reusable "BlueBox" component
-import BlueBox from './BlueBox';
+import './styles.css'
 
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
 
         // define an initial state for our data we will fetch
-        this.state = {data: []};
+        this.state = {
+			listOfPosts: [],
+			status : "loading"
+		};
     }
 
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
-        // create a temporary variable to hold our "promise"
-        let fetchData = APIFetch('/');
 
-        // when our promise gets fulfilled, we "then" act on it and save it
-        fetchData.then(async (response) => {
-            let data = await response.json();
-            this.setState({data: data.numbers});
-        });
+        let fetchPosts = APIFetch('/posts/listAllPosts', null, 'GET');
+
+			fetchPosts.then(async (data) => {
+				if (await data.ok) {
+					let posts = await data.json();
+                    this.parseResponse(posts);
+                    this.setState({jsonPost: posts})
+
+				} else if (await data.status === 404){
+					this.setState({status : "No posts found"});
+				} else {
+					this.setState({status : "Network Problem"});
+				}
+			});
+    }
+
+    parseResponse(data) {
+        var postInfo
+        var count = 0;
+        this.setState({ posts:[] });
+        while(data[count] !== undefined && count < 8){
+            postInfo = {game: data[count].gameName,
+                        description: data[count].description,
+                        numPlayers: data[count].numPlayers,
+                        location: data[count].location,
+                        time: data[count].getTimeUTC,
+                        duration: data[count].duration, }
+            this.setState({
+                listOfPosts: this.state.listOfPosts.concat(postInfo)
+            })
+            count++;
+        }
     }
 
     render() {
-        // here we return some more JSX
-        // we have a loop that goes through the numbers that the server gave us and make some blue boxes with it
-        // we access the data by using "this.state.data", this data was set above
-        // "this.state.data" is an array of numbers, thus we can use map() on it
-        // youll notice that in <BlueBox number = .... />, "number" is a "property" that gets passed to BlueBox
         return (
             <div>
-                <p>this is the main page, the server gives us these numbers:</p>
-                {
-                    this.state.data.map((num) => {
-                        return <BlueBox number = {num} />
-                    })
-                }
+                <p className = 'post-text'>Most recent posts!</p>
+                <div className = 'all-posts'>
+                    {this.state.listOfPosts.map(singlePost => (
+                        <div className = 'single-post' key = {singlePost.game}>
+                            <p>Description: {singlePost.description}</p>
+                            <p>Game: {singlePost.game}</p>
+                            <p>Players needed: {singlePost.numPlayers}</p>
+                            <p>Location: {singlePost.location}</p>
+                            <p>Time: {singlePost.time}</p>
+                            <p>Duration: {singlePost.duration}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

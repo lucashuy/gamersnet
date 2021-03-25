@@ -28,11 +28,22 @@ export default class Header extends React.Component {
         return <Link to = '/' className = 'header-home'>home</Link>;
     }
 
+    searchBar() {
+        return (
+            <div className = 'header-search'>
+                <form onSubmit = {this.handleSearch}>
+                    <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search here...' style = {{marginLeft: '1rem'}}></input>
+                    <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
+                </form>
+            </div>
+    )};
+
     render() {
         if (this.props.auth) {
             return (
                 <div className = 'header'>
                     {this.homeLink()}
+                    {this.searchBar()}
                     {this.authLinks()}
                 </div>
             );
@@ -40,6 +51,7 @@ export default class Header extends React.Component {
             return (
                 <div className = 'header'>
                     {this.homeLink()}
+                    {this.searchBar()}
                     {this.nonAuthLinks()}
                 </div>
             );

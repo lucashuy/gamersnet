@@ -1,4 +1,7 @@
 .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     font-size: 1.25rem;
     padding: 1rem 2rem 1rem 2rem;
     border-bottom: 1px solid var(--accent);
@@ -16,16 +19,30 @@
 
 .header .header-link {
     float: right;
-    margin-left: 0.5rem;
+    margin: 0rem 0.5rem 0rem 0.5rem;
     color: rgb(95, 95, 255)
 }
 
 .header-link:hover {
-    text-decoration: underline;
     color: rgb(47, 47, 255);
 }
 
 .header .header-link-text {
     float: right;
     margin-left: 0.5rem;
+}
+
+.header-search {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    flex-grow: 3;
+}
+
+.header-search .header-search-bar {
+    width: 60%;
+}
+
+.header-search .header-search-button {
+
 }
