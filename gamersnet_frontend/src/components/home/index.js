@@ -66,7 +66,7 @@ export default class Home extends React.Component {
                             <p><b>Location: </b>{singlePost.location}</p>
                             <p><b>Time: </b>{singlePost.time}</p>
                             <p><b>Duration: </b>{singlePost.duration}</p>
-                            <p style = {{fontSize: "14px", alignItems: "right"}}>ID: {singlePost.id}</p>
+                            <p style = {{fontSize: "14px", float: "right"}}>ID: {singlePost.id}</p>
                         </div>
                     ))}
                 </div>
