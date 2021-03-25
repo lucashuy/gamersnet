@@ -6,7 +6,7 @@ let alphaNumericize = require('../utilities/alphaNumericize');
 let makeHash = require('../utilities/makeHash');
 
 function verifyUsernameRequirements(username) {
-    if (username == false) return false;
+    if (username == false || username === undefined) return false;
 
     return true;
 }
@@ -18,7 +18,7 @@ async function verifyUsernameUnused(username) {
 }
 
 function verifyPasswordRequirements(password) {
-    if (password == false) return false;
+    if (password == false || password === undefined) return false;
 
     return true;
 }
@@ -30,7 +30,7 @@ async function createAccount(request, response) {
     let validUsername = verifyUsernameRequirements(body.username);
     let usernameNotUsed = await verifyUsernameUnused(body.username);
     let validPassword = verifyPasswordRequirements(body.password);
-
+    
     if (validUsername && usernameNotUsed && validPassword) {
         // hash password
         let hashedPassword = await makeHash(body.password);
@@ -44,10 +44,9 @@ async function createAccount(request, response) {
 
         await addUserToken(id, alphaNumericToken);
 
-
         // send the client said token
         response.cookie('token', alphaNumericToken, {maxAge: TOKEN_LIFE_SPAN, httpOnly: false});
-        response.status(204).end();
+        response.status(200).end(JSON.stringify({user_id: id}));
     } else {
         response.status(400).end();
     }

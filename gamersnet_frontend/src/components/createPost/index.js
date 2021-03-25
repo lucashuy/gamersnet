@@ -49,7 +49,7 @@ class AddPost extends React.Component{
     }
 
     inputDate(event){
-        this.setState({gameTimeUTC: event.target.valueAsNumber});
+        this.setState({gameTimeUTC: event.target.valueAsDate});
     }
 
 
@@ -62,7 +62,7 @@ class AddPost extends React.Component{
             duration: this.state.duration,
             location: this.state.location
         };
-console.log(body);
+        
         let fetchData = APIFetch('/posts/createPost', JSON.stringify(body), 'POST');
 
         fetchData.then(async (data) => {

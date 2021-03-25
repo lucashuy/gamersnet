@@ -1,0 +1,17 @@
+.profile-info {
+    margin-left: 1rem;
+}
+
+.username {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.info-details-wrapper > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.info-details-wrapper > div:first-child {
+    margin-right: 5rem;
+}
