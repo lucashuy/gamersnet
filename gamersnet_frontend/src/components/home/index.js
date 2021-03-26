@@ -19,7 +19,7 @@ export default class Home extends React.Component {
 
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
-        let fetchPosts = APIFetch('/posts/listAllPosts', null, 'GET');
+        let fetchPosts = APIFetch('/posts/listValidPosts', null, 'GET');
 
         fetchPosts.then(async (data) => {
             if (await data.ok) {
