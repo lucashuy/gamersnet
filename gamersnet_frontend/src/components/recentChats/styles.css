@@ -24,6 +24,8 @@
     position: relative;
     width: 30%;
     z-index: 30;
+    overflow: auto;
+    height: 60%;
 }
 
 .chat-background {
