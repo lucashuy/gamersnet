@@ -59,7 +59,7 @@ export default class App extends React.Component {
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<Route path = '/profile/:id' component = {Profile} />
-				<Route path = '/gameSearch' component = {GameSearch} />
+				<Route path = '/gameSearch/:id' component = {GameSearch} />
 			</div>
 		);
 	}

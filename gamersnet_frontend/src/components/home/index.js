@@ -59,7 +59,7 @@ export default class Home extends React.Component {
                 <p className = 'post-text'>Most recent posts!</p>
                 <div className = 'all-posts'>
                     {this.state.listOfPosts.map(singlePost => (
-                        <div className = 'single-post' key = {singlePost.game}>
+                        <div className = 'single-post' key = {singlePost.id}>
                             <p><b>Description: </b>{singlePost.description}</p>
                             <p><b>Game: </b>{singlePost.game}</p>
                             <p><b>Looking for: </b>{singlePost.numPlayers} player(s)</p>

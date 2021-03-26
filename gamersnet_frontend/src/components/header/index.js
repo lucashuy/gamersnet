@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import GameSearch from '../gameSearch';
 
 import './styles.css';
 
@@ -43,8 +44,7 @@ export default class Header extends React.Component {
     }
 
     handleSearch(event) {
-        alert("Searching for " + this.state.userSearch + "\nSorry we do not have this feature ready yet");
-        event.preventDefault();
+        // nothing for now i guess...
     }
 
     searchBar() {
@@ -52,7 +52,9 @@ export default class Header extends React.Component {
             <div className = 'header-search'>
                 <form onSubmit = {this.handleSearch}>
                     <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search here...' style = {{marginLeft: '1rem'}}></input>
-                    <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
+                    <Link to = {`/gameSearch/${this.state.userSearch}`} className = 'header-link'>
+                        <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
+                    </Link>
                 </form>
             </div>
     )};
