@@ -13,13 +13,13 @@ export default class Header extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
     }
 
-
     authLinks() {
         return (
             <div className = 'links'>
                 <Link to = '/logout' className = 'header-link'>logout</Link>
                 <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>profile</Link>
                 <Link to = '/post' className = 'header-link'>post</Link>
+                <p onClick = {this.props.toggleChatSessions} className = 'header-link'>chat</p>
             </div>
         );
     }

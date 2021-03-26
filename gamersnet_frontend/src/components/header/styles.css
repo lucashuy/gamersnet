@@ -21,7 +21,8 @@
 .header .header-link {
     float: right;
     margin: 0rem 0.5rem 0rem 0.5rem;
-    color: rgb(95, 95, 255)
+    color: rgb(95, 95, 255);
+    cursor: pointer;
 }
 
 .header-link:hover {
