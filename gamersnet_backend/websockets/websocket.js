@@ -45,10 +45,14 @@ function webSocketOnConnect(websocket){
 
     websocket.on("close", function(){
         console.log("client has disconnected");
-        console.log(clients);
         var clientToBeDeleted = clients.find(function (sender) { return sender.client === websocket; });
         var index = clients.indexOf(clientToBeDeleted);
-        delete clients[index];
+        if(index > -1){
+            clients.splice(index, 1);
+        }
+        else{
+            console.log("bad socket")
+        }
     })
 }
 

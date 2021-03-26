@@ -97,13 +97,13 @@ export default class Chat extends React.Component {
 			} else if (await data.status === 404) {
 				this.setState({status : "No messages"});
 			} else {
-				this.setState({status : "Network Problem"});
+				this.setState({status : "No chats found"});
 			}
 		});
 	}
 
 	componentWillUnmount(){
-		console.log(",s,,s")
+		this.ws.close();
 		this.ws.onclose = function(event) {
             console.log('disconnected')
         };
