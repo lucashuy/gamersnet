@@ -14,8 +14,6 @@ import AddPost from './components/createPost';
 import Profile from './components/profile';
 import GameSearch from './components/gameSearch'
 import RecentChats from './components/recentChats';
-import Chat from './components/chat';
-
 
 // import header
 import Header from './components/header';
@@ -33,6 +31,7 @@ export default class App extends React.Component {
 		this.logout = this.logout.bind(this);
 		this.generateRoutes = this.generateRoutes.bind(this);
         this.toggleChatSessions = this.toggleChatSessions.bind(this);
+        this.renderChat = this.renderChat.bind(this);
 	}
 
 	toggleChatSessions() {
@@ -67,11 +66,15 @@ export default class App extends React.Component {
 		);
 	}
 
+	renderChat() {
+		if (this.state.auth) return <RecentChats visible = {this.state.chatOpen} return = {this.toggleChatSessions} />
+	}
+
 	render() {
 		return (
 			<React.StrictMode>
 				<BrowserRouter>
-					<RecentChats visible = {this.state.chatOpen} return = {this.toggleChatSessions} />
+					{this.renderChat()}
 					<Header auth = {this.state.auth} toggleChatSessions = {this.toggleChatSessions} />
 					{this.generateRoutes()}
 				</BrowserRouter>

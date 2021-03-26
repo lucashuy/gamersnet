@@ -11,12 +11,15 @@
 
 .message {
     width: 100%;
-    background-color: rgb(224, 199, 197);
     margin-bottom: 1.5rem;
 }
 
 .message.self {
     text-align: right;
+}
+
+.message > p {
+    background-color: rgb(224, 199, 197);
 }
 
 .button{
@@ -29,4 +32,11 @@
     float:none; 
     padding: 4px;
     padding-left: 4px;
+}
+
+.chat-scrollable {
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 50vh;
 }
