@@ -62,7 +62,7 @@ describe('Test adding Messages', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
         .send({
-            receiver : user2ID,
+            receiver : user2ID.toHexString(),
             timestamp : Date.now(),
             message : "HELLO! " 
         })
@@ -75,7 +75,7 @@ describe('Test adding Messages', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user2_token')//logged in as user 2 but expired session
         .send({
-            receiver : user1ID,
+            receiver : user1ID.toHexString(),
             timestamp : Date.now(),
             message : "HELLO! "
         })
@@ -88,7 +88,7 @@ describe('Test adding Messages', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token') //was logged as user1
         .send({
-            receiver : user2ID,
+            receiver : user2ID.toHexString(),
             timestamp : Date.now(),
             message : null
         })
@@ -100,7 +100,7 @@ describe('Test adding Messages', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token') //was logged as user1
         .send({
-            receiver : user1ID,
+            receiver : user1ID.toHexString(),
             timestamp : Date.now(),
             message : "HELLO! "
         })

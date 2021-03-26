@@ -40,7 +40,7 @@ async function getMessagesBetweenUsers(userID1, userID2){
   
     return await messages.insertOne({
         sender : sender,
-        receiver : receiver,
+        receiver : ObjectID(receiver),
         message : message,
         timestamp : timestamp
     });

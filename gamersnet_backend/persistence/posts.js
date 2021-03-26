@@ -160,7 +160,7 @@ async function getPostsWithText(text) {
   //search each word of the text in db.posts text fields (description, gameName, location)
   let db = await MongoDB.open();
   let posts = db.collection('posts');
-  posts.createIndex( { gameName: "text", description: "text" , location: "text"} )
+  await posts.createIndex( { gameName: "text", description: "text" , location: "text"} )
 
   // if text == "java coffee shop" -> All posts with "java" or "coffee" or "shop" or all 
   // if text == "\"coffee shop\"" -> Exact Phrase

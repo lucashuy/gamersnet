@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import GameSearch from '../gameSearch';
 
 import './styles.css';
 
@@ -13,13 +14,13 @@ export default class Header extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
     }
 
-
     authLinks() {
         return (
             <div className = 'links'>
-                <Link to = '/logout' className = 'header-link'>logout</Link>
-                <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>profile</Link>
-                <Link to = '/post' className = 'header-link'>post</Link>
+                <Link to = '/logout' className = 'header-link'>Logout</Link>
+                <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>Profile</Link>
+                <Link to = '/post' className = 'header-link'>Post</Link>
+                <p onClick = {this.props.toggleChatSessions} className = 'header-link'>Chat</p>
             </div>
         );
     }
@@ -27,15 +28,15 @@ export default class Header extends React.Component {
     nonAuthLinks() {
         return (
             <div className = 'links'>
-                <Link to = '/signin' className = 'header-link'>sign in</Link>
+                <Link to = '/signin' className = 'header-link'>Sign in</Link>
                 <p className = 'header-link-text'>or</p>
-                <Link to = '/register' className = 'header-link'>register</Link>
+                <Link to = '/register' className = 'header-link'>Register</Link>
             </div>
         );
     }
 
     homeLink() {
-        return <Link to = '/' className = 'header-home'>home</Link>;
+        return <Link to = '/' className = 'header-home'>Home</Link>;
     }
 
     inputSearch(event) {
@@ -43,8 +44,7 @@ export default class Header extends React.Component {
     }
 
     handleSearch(event) {
-        alert("Searching for " + this.state.userSearch + "\nSorry we do not have this feature ready yet");
-        event.preventDefault();
+        // nothing for now i guess...
     }
 
     searchBar() {
@@ -52,7 +52,9 @@ export default class Header extends React.Component {
             <div className = 'header-search'>
                 <form onSubmit = {this.handleSearch}>
                     <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search here...' style = {{marginLeft: '1rem'}}></input>
-                    <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
+                    <Link to = {`/gameSearch/${this.state.userSearch}`} className = 'header-link'>
+                        <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
+                    </Link>
                 </form>
             </div>
     )};
