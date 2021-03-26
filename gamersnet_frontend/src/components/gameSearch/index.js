@@ -37,7 +37,7 @@ export default class GameSearch extends React.Component {
     parseResponse(data) {
         var postInfo
         var count = (JSON.parse(JSON.stringify(data)).length) - 1;
-        this.setState({numPosts: count})
+        this.setState({numPosts: count+1})
         var numPosts = 10;
         this.setState({ posts:[] });
         while(data[count] !== undefined && numPosts > 0){
