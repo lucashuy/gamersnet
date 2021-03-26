@@ -20,7 +20,6 @@ export default class Chat extends React.Component {
 	}
 
     addMessage(message){
-        // this.setState(state => ({ messages: [message, ...state.messages]}))
 		let messages =  this.state.messages;
 		messages.push(message);
 		this.setState({messages: messages, status : ""});
@@ -42,15 +41,16 @@ export default class Chat extends React.Component {
 		console.log(body)
         fetchData.then(async (data) => {
             if (await data.ok) {
-
+				
 				body.sender = localStorage.getItem('id');
 				this.ws.send(JSON.stringify({type: "message", receiver: this.props.userID, message : body.message, timestamp : Date.now()}));
 				this.addMessage(body)
 
-				console.log(this.state.messages)
-            } else {
-                this.setState({message: 'something went wrong'});
-            }
+            }else if (await data.status === 404){
+				this.setState({status : "No messages found"});
+			} else {
+				this.setState({status : "Cannot send message to yourself"});
+			}
         });
     
         event.preventDefault();
@@ -67,12 +67,8 @@ export default class Chat extends React.Component {
         this.ws.onmessage = evt => {
             // on receiving a message, add it to the list of messages
             const message = JSON.parse(evt.data)
-            this.addMessage(message)
+            this.addMessage(message);
 			console.log(message);
-        }
-      
-        this.ws.onclose = () => {
-            console.log('disconnected')
         }
 
 
@@ -84,12 +80,19 @@ export default class Chat extends React.Component {
         fetchPosts.then(async (data) => {
 			if (await data.ok) {
 				let json = await data.json();
-
 				json.sort((first, second) => {
-					console.log(first.message,first.timestamp)
-					return Date.parse(first.timestamp) - Date.parse(second.timestamp);
+					
+					let timestamp1 = Date.parse(first.timestamp);
+					let timestamp2 = Date.parse(second.timestamp);
+					
+					if(isNaN(timestamp1)){
+						timestamp1 = first.timestamp;
+					}
+					if(isNaN(timestamp2)){
+						timestamp2 = second.timestamp
+					}
+					return timestamp1 - timestamp2;
 				})
-
 				this.setState({messages: json, status : ""});
 			} else if (await data.status === 404) {
 				this.setState({status : "No messages"});
@@ -98,10 +101,19 @@ export default class Chat extends React.Component {
 			}
 		});
 	}
+
+	componentWillUnmount(){
+		console.log(",s,,s")
+		this.ws.onclose = function(event) {
+            console.log('disconnected')
+        };
+	}
+
     render() {
 		let messages = this.state.messages;
 		return (
 			<div className = 'chat-inner'>
+				<p>{this.state.status}</p>
 				<MessageList messages = {messages}/>
 				<form onSubmit = {this.handle}>
 					<input

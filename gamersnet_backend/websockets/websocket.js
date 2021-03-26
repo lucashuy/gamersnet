@@ -1,22 +1,20 @@
 let clients = []
 
 function webSocketOnConnect(websocket){
-    console.log("client connected")
     
-
     websocket.on("message", function(message){
         // console.log("Received: " + message);
+        
 
         var myMessage = JSON.parse(message);
         console.log(myMessage)
 
         // user sends a receiver userID everytime a web socket is connected
         if(myMessage.type == "userID"){
-
             // store the client and it's corresponding userID in order to send the message
             // inefficient but works for now
             clients.push({client : websocket, userID : myMessage.userID})
-            console.log(myMessage.userID)
+            // console.log(myMessage.userID)
         }
         else if(myMessage.type == "message"){
 
@@ -47,6 +45,7 @@ function webSocketOnConnect(websocket){
 
     websocket.on("close", function(){
         console.log("client has disconnected");
+        console.log(clients);
         var clientToBeDeleted = clients.find(function (sender) { return sender.client === websocket; });
         var index = clients.indexOf(clientToBeDeleted);
         delete clients[index];
