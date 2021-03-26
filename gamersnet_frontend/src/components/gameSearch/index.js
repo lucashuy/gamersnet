@@ -57,7 +57,7 @@ export default class GameSearch extends React.Component {
     }
 
     render() {
-        if(this.state.numPosts <= 0){
+        if(this.state.numPosts == 0){
             return (
                 <div style = {{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "26px"}}>No posts found</div>
             );
