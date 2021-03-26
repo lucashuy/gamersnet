@@ -13,9 +13,7 @@ async function listInteractedIDs(request, response) {
 
     if (cookie) {
         cookie = cookie.split('=')[1];
-        console.log(cookie);
         loggedIn = await verifyUserLoggedIn(cookie);
-        console.log(loggedIn);
     }
     let tokenDocument = await getUserIDFromToken(cookie);
     console.log("[listInteractedIDs.tokenDocument] ",tokenDocument);
