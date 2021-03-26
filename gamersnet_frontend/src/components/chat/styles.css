@@ -1,21 +1,33 @@
 .chat-inner {
-    /* width: 25%;
+    width: 150%;
     left: 50%;
     transform: translateX(-50%);
     position: relative;
     padding: 1rem 1rem 1rem 1rem;
     border-radius: 10px;
     border: 1px solid var(--accent);
-    text-align: right; */
-    background-color: rgb(173, 173, 231);
+    background-color: rgb(164, 164, 245);
+    overflow-y: scroll;
 }
 
 .message {
     width: 100%;
-    background-color: rgb(154, 154, 209);
-    margin-bottom: 0.5rem;
+    background-color: rgb(224, 199, 197);
+    margin-bottom: 1.5rem;
 }
 
 .message.self {
     text-align: right;
+}
+
+.button{
+    background-color: rgb(44, 36, 54);  
+    float: right; 
+}
+
+.input{
+    width: 80%;
+    float:none; 
+    padding: 4px;
+    padding-left: 4px;
 }

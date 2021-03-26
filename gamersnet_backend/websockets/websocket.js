@@ -16,6 +16,7 @@ function webSocketOnConnect(websocket){
             // store the client and it's corresponding userID in order to send the message
             // inefficient but works for now
             clients.push({client : websocket, userID : myMessage.userID})
+            console.log(myMessage.userID)
         }
         else if(myMessage.type == "message"){
 
@@ -35,8 +36,9 @@ function webSocketOnConnect(websocket){
             }
             else{
                 receiver.client.send(JSON.stringify({
-                    userID: sender.userID,
-                    message: myMessage.message
+                    sender: sender.userID,
+                    message: myMessage.message,
+                    timestamp : myMessage.timestamp
                 }));
             }
         }

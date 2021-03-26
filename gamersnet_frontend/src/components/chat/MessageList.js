@@ -11,8 +11,10 @@ export default class MessageList extends React.Component{
 
 					if (loggedInUserID === message.sender) {
 							return (
-								<div className = 'message self'>
-									{message.message}
+								<div>
+									<div className = 'message self'>
+										{message.message}
+									</div>
 								</div>
 							)
 					} else {
