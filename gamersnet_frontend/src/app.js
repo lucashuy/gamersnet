@@ -5,6 +5,8 @@ import './styles.css';
 
 import cookieCheck from './utilities/cookieCheck';
 
+import APIFetch from './utilities/api';
+
 // import all the pages from their component folders
 import Home from './components/home';
 import SignIn from './components/signin';
@@ -34,7 +36,7 @@ export default class App extends React.Component {
         this.renderChat = this.renderChat.bind(this);
 	}
 
-	toggleChatSessions() {
+	toggleChatSessions(directID = undefined) {
 		let chatOpen = this.state.chatOpen;
 
 		this.setState({chatOpen: !chatOpen});
@@ -54,20 +56,24 @@ export default class App extends React.Component {
 	generateRoutes() {
 		return (
 			<div>
-				<Route exact path = '/' component = {Home} />
+				<Route exact path = '/' render = {(props) => <Home toggleChat = {this.toggleChatSessions} {...props} />} />
 				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} /> 
 				<Route path = '/chat' render = {(props) => <RecentChats updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<Route path = '/profile/:id' component = {Profile} />
-				<Route path = '/gameSearch' component = {GameSearch} />
+				<Route path = '/gameSearch/:id' render = {(props) => <GameSearch toggleChat = {this.toggleChatSessions} {...props} />} />
 			</div>
 		);
 	}
 
 	renderChat() {
-		if (this.state.auth) return <RecentChats visible = {this.state.chatOpen} return = {this.toggleChatSessions} />
+		if (this.state.auth) {
+			return <RecentChats 
+				visible = {this.state.chatOpen}
+				return = {this.toggleChatSessions} />
+		}
 	}
 
 	render() {

@@ -2,6 +2,7 @@ import React from 'react';
 
 // include our API helper
 import APIFetch from '../../utilities/api';
+import GeneralPost from '../generalPost';
 
 import './styles.css'
 
@@ -18,12 +19,13 @@ export default class Home extends React.Component {
 
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
-        let fetchPosts = APIFetch('/posts/listAllPosts', null, 'GET');
+        let fetchPosts = APIFetch('/posts/listValidPosts', null, 'GET');
 
         fetchPosts.then(async (data) => {
             if (await data.ok) {
                 let posts = await data.json();
                 this.parseResponse(posts);
+                console.log(posts);
             } else if (await data.status === 404){
                 this.setState({status : "No posts found"});
             } else {
@@ -38,13 +40,16 @@ export default class Home extends React.Component {
         var numPosts = 10;
         this.setState({ posts:[] });
         while(data[count] !== undefined && numPosts > 0){
-            postInfo = {game: data[count].gameName,
-                        description: data[count].description,
-                        numPlayers: data[count].numPlayers,
-                        location: data[count].location,
-                        time: data[count].gameTimeUTC.substring(0,10),
-                        duration: data[count].duration,
-                        id: data[count]._id }
+            postInfo = {
+                game: data[count].gameName,
+                description: data[count].description,
+                numPlayers: data[count].numPlayers,
+                location: data[count].location,
+                time: data[count].gameTimeUTC.substring(0,10),
+                duration: data[count].duration,
+                id: data[count]._id,
+                userID: data[count].userID
+            }
             this.setState({
                 listOfPosts: this.state.listOfPosts.concat(postInfo)
             })
@@ -59,15 +64,7 @@ export default class Home extends React.Component {
                 <p className = 'post-text'>Most recent posts!</p>
                 <div className = 'all-posts'>
                     {this.state.listOfPosts.map(singlePost => (
-                        <div className = 'single-post' key = {singlePost.game}>
-                            <p><b>Description: </b>{singlePost.description}</p>
-                            <p><b>Game: </b>{singlePost.game}</p>
-                            <p><b>Looking for: </b>{singlePost.numPlayers} player(s)</p>
-                            <p><b>Location: </b>{singlePost.location}</p>
-                            <p><b>Time: </b>{singlePost.time}</p>
-                            <p><b>Duration: </b>{singlePost.duration}</p>
-                            <p style = {{fontSize: "14px", float: "right"}}>ID: {singlePost.id}</p>
-                        </div>
+                        <GeneralPost toggleChat = {this.props.toggleChat} post = {singlePost} />
                     ))}
                 </div>
             </div>
