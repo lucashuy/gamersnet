@@ -157,7 +157,7 @@ describe('Test Getting interacted users', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
         .query({ userID : user1ID.toHexString() })
-        .expect('{"interactedIDs":["'+user2ID.toHexString()+'","'+user4ID.toHexString()+'"]}')
+        .expect('{"users":[{"id":"'+user2ID.toHexString()+'","username":"user2"},{"id":"'+user4ID.toHexString()+'","username":"user4"}]}')
         .expect(200).end(done);
     });
 
@@ -166,7 +166,7 @@ describe('Test Getting interacted users', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user2_token')
         .query({ userID : user2ID.toHexString() })
-        .expect('{"interactedIDs":["'+user1ID.toHexString()+'","'+user4ID.toHexString()+'"]}')
+        .expect('{"users":[{"id":"'+user1ID.toHexString()+'","username":"user1"},{"id":"'+user4ID.toHexString()+'","username":"user4"}]}')
         .expect(200).end(done);
     });
 
@@ -183,7 +183,7 @@ describe('Test Getting interacted users', () => {
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user4_token')
         .query({ userID : user4ID.toHexString() })
-        .expect('{"interactedIDs":["'+user1ID.toHexString()+'","'+user2ID.toHexString()+'"]}')
+        .expect('{"users":[{"id":"'+user1ID.toHexString()+'","username":"user1"},{"id":"'+user2ID.toHexString()+'","username":"user2"}]}')
         .expect(200).end(done);
     });
 
@@ -194,14 +194,5 @@ describe('Test Getting interacted users', () => {
         .query({ userID : user3ID.toHexString() })
         .expect(401).end(done);
     });
-
-    test('User6 cannot view user1\'s interactions', (done) => {
-        return request(app).get('/messages/listInteractedIDs')
-        .set('Cookie', '')//clear cookie and reset
-        .set('Cookie', 'token=user6_token')
-        .query({ userID : user1ID.toHexString() })
-        .expect(401).end(done);
-    });
-
     
 });

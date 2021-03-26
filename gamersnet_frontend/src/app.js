@@ -31,6 +31,7 @@ export default class App extends React.Component {
 		this.logout = this.logout.bind(this);
 		this.generateRoutes = this.generateRoutes.bind(this);
         this.toggleChatSessions = this.toggleChatSessions.bind(this);
+        this.renderChat = this.renderChat.bind(this);
 	}
 
 	toggleChatSessions() {
@@ -55,6 +56,7 @@ export default class App extends React.Component {
 			<div>
 				<Route exact path = '/' component = {Home} />
 				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} /> 
+				<Route path = '/chat' render = {(props) => <RecentChats updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
@@ -64,11 +66,15 @@ export default class App extends React.Component {
 		);
 	}
 
+	renderChat() {
+		if (this.state.auth) return <RecentChats visible = {this.state.chatOpen} return = {this.toggleChatSessions} />
+	}
+
 	render() {
 		return (
 			<React.StrictMode>
 				<BrowserRouter>
-					<RecentChats visible = {this.state.chatOpen} return = {this.toggleChatSessions} />
+					{this.renderChat()}
 					<Header auth = {this.state.auth} toggleChatSessions = {this.toggleChatSessions} />
 					{this.generateRoutes()}
 				</BrowserRouter>

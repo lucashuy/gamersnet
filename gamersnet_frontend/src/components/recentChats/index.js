@@ -4,6 +4,8 @@ import APIFetch from '../../utilities/api';
 import {withRouter} from 'react-router-dom';
 import './styles.css';
 import Button from '../button';
+import Input from '../input';
+
 import Chat from '../chat';
 
 class RecentChats extends React.Component{
@@ -38,6 +40,7 @@ class RecentChats extends React.Component{
 		fetchChats.then(async (data) => {
 			if (await data.ok) {
 				let recentChats = await data.json();
+				console.log(recentChats);
 				this.setState({items: recentChats.users, status : ""});
 			} else if (await data.status === 404){
 				this.setState({status : "No chats found"});

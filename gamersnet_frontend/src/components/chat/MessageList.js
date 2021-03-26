@@ -5,24 +5,27 @@ export default class MessageList extends React.Component{
 	render() {
 		console.log(this.props.messages);
 		return (
-			<div>
-				{this.props.messages.map(message => {
-					let loggedInUserID = localStorage.getItem('id');
+			<div className = 'chat-scrollable'>
+				<div>
+					{this.props.messages.map(message => {
+						console.log(message);
+						let loggedInUserID = localStorage.getItem('id');
 
-					if (loggedInUserID === message.sender) {
+						if (loggedInUserID === message.sender) {
 							return (
 								<div className = 'message self'>
-									{message.message}
+									<p>{message.message}</p>
 								</div>
 							)
-					} else {
-						return (
-							<div className = 'message'>
-								{message.message}
-							</div>
-						)
-					}
-				})}
+						} else {
+							return (
+								<div className = 'message'>
+									<p>{message.message}</p>
+								</div>
+							)
+						}
+					})}
+				</div>
 			</div>
 		)
 	}
