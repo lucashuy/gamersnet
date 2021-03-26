@@ -1,0 +1,7 @@
+.general-post-info {
+    float: right;
+}
+
+.general-post-info > * {
+    display: block;
+}

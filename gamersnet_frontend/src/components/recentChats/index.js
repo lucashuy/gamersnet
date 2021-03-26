@@ -40,7 +40,7 @@ class RecentChats extends React.Component{
 		fetchChats.then(async (data) => {
 			if (await data.ok) {
 				let recentChats = await data.json();
-				console.log(recentChats);
+				
 				this.setState({items: recentChats.users, status : ""});
 			} else if (await data.status === 404){
 				this.setState({status : "No chats found"});
@@ -50,8 +50,12 @@ class RecentChats extends React.Component{
 		});
 	}
 
-	componentDidMount() {
-		this.localFetch();
+	// componentDidMount() {
+	// 	this.localFetch();
+	// }
+
+	componentDidUpdate(prevProps) {
+		if (this.props.visible !== prevProps.visible) this.localFetch();
 	}
 	
 	openChat(event) {
