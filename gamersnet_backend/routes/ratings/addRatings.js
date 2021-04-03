@@ -7,7 +7,7 @@ let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 let {getUserIDFromToken} = require('../../persistence/tokens.js')
 const { ObjectID } = require('bson');
 
-// this function handles the /post/createPost/ endpoint
+// this function handles the /ratings/addRatings/ endpoint
 async function addRatings(request, response) {
     let body = request.body;
     let cookie = request.headers.cookie;
