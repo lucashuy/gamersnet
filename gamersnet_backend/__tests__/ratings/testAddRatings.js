@@ -62,8 +62,8 @@ describe('Test Add Ratings', () => {
         return request(app).post('/ratings/addRatings')
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user2_token')
+        .query({userID: user1ID.toHexString()})
         .send({
-            userID: user1ID.toHexString(),
             strength: 5, 
             punctuality: 5, 
             friendliness: 4,
@@ -74,12 +74,12 @@ describe('Test Add Ratings', () => {
         .expect(201).end(done);
     });
 
-    test('User1 can rate user1 profile', (done) => {
+    test('User1 cannot rate user1 profile', (done) => {
         return request(app).post('/ratings/addRatings')
         .set('Cookie', '')//clear cookie and reset
         .set('Cookie', 'token=user1_token')
+        .query({userID: user1ID.toHexString()})
         .send({
-            userID: user1ID.toHexString(),
             strength: 5, 
             punctuality: 5, 
             friendliness: 4,
@@ -93,8 +93,8 @@ describe('Test Add Ratings', () => {
     test('Can\'t rate profile without logging in', (done) => {
         return request(app).post('/ratings/addRatings')
         .set('Cookie', '')//clear cookie and reset
+        .query({userID: user1ID.toHexString()})
         .send({
-            userID: user1ID.toHexString(),
             strength: 5, 
             punctuality: 5, 
             friendliness: 4,

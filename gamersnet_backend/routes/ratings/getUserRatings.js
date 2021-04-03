@@ -21,7 +21,7 @@ async function getUserRatings(request, response) {
 
 /**
  * 
- * @param {*} request 
+ * @param {*} request //pass in the userID of the profile in the query
  * @param {*} response 
  * 
  * responds with:
