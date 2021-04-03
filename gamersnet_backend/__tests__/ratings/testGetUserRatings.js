@@ -10,6 +10,7 @@ const { ObjectID, ObjectId } = require('bson');
 let users, ratings;
 let user1ID, user2ID, user3ID;
 let rating1ID, rating2ID, rating1Str, rating2Str;
+let user1AvgRating;
 
 let currDate = new Date();
 
@@ -86,6 +87,8 @@ async function seedDB() {
                 +'","strength":' + rating2.strength + ',"punctuality":' + rating2.punctuality + ',"friendliness":' + rating2.friendliness
                 + ',"fun":' + rating2.fun + ',"playAgain":"' + rating2.playAgain + '","rateDate":"' + rating2.rateDate.toISOString() 
                 + '","comment":"' + rating2.comment + '"}'
+
+    user1AvgRating = '{"userID":"'+user1ID.toHexString()+'","strength":4.5,"punctuality":4,"friendliness":4,"fun":4.5,"playAgain":100,"comments":[{"raterID":"'+user2ID.toHexString()+'","rateDate":"'+ rating1.rateDate.toISOString() +'","comment":"One of the strongest players I played with!"},{"raterID":"'+user3ID.toHexString()+'","rateDate":"'+ rating2.rateDate.toISOString() +'","comment":"Fun to play with, would definitely wanna play again :)"}]}'
 }
 
 afterAll(async () => {
@@ -102,6 +105,14 @@ describe('Test get ratings from db', () => {
         .query({userID: user1ID.toHexString()})
         .expect(200)
         .expect('['+ rating1Str + ',' +rating2Str +']')
+        .end(done); 
+    });
+
+    test('Get Average ratings for the userID', (done) => {
+        return request(app).get('/ratings/getUserAvgRatings')
+        .query({userID: user1ID.toHexString()})
+        .expect(200)
+        .expect( user1AvgRating)
         .end(done); 
     });
 
