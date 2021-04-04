@@ -11,12 +11,12 @@ async function getUserRatingsDB(userID) {
   // wait for server to connect to db
   let db = await MongoDB.open();
 
-  // once it connected, get the "posts" collection (aka a table in SQL)
-  let posts = db.collection('ratings');
+  // once it connected, get the "ratings" collection (aka a table in SQL)
+  let ratings = db.collection('ratings');
 
 
-  // wait for the server to find all posts and return as an array
-  let result = await posts.find({"userID" : userID});
+  // wait for the server to find all ratings and return as an array
+  let result = await ratings.find({"userID" : userID});
   return result.toArray();
 }
 
@@ -36,9 +36,9 @@ async function addRatingsDB(userID, raterID, strength, punctuality, friendliness
   // wait for db connection and get ratings collection
   let db = await MongoDB.open();
 
-  let posts = db.collection('ratings');
+  let ratings = db.collection('ratings');
 
-  let result = await posts.insertOne({
+  let result = await ratings.insertOne({
     userID: userID,// intended to link to existing users in db
     raterID: raterID,
     strength: strength,
