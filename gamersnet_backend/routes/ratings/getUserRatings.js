@@ -67,7 +67,7 @@ async function getUserAvgRatings(request, response) {
             punctuality += results[i].punctuality; 
             friendliness += results[i].friendliness; 
             fun += results[i].fun;
-            if(results[i].playAgain === 'yes')
+            if(results[i].playAgain === true)
                 playAgain += 1;
             comments.push({
                 raterID: results[i].raterID,

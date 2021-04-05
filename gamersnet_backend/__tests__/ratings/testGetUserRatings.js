@@ -26,7 +26,7 @@ let rating1 = {
     punctuality: 4, 
     friendliness: 4, 
     fun: 4,
-    playAgain: "yes",
+    playAgain: true,
     rateDate: currDate, //date of rating/ creation date = current date
     comment: "One of the strongest players I played with!"
   }
@@ -39,7 +39,7 @@ let rating2 = {
     punctuality: 4, 
     friendliness: 4, 
     fun: 5,
-    playAgain: "yes",
+    playAgain: true,
     rateDate: currDate, //date of rating/ creation date = current date
     comment: "Fun to play with, would definitely wanna play again :)"
 }
@@ -76,7 +76,7 @@ async function seedDB() {
     rating1ID = ObjectId(rating1Inserted.insertedId);
     rating1Str = '{"_id":"' + rating1ID.toHexString() + '","userID":"' + rating1.userID.toHexString() + '","raterID":"' + rating1.raterID.toHexString() 
                 +'","strength":' + rating1.strength + ',"punctuality":' + rating1.punctuality + ',"friendliness":' + rating1.friendliness
-                + ',"fun":' + rating1.fun + ',"playAgain":"' + rating1.playAgain + '","rateDate":"' + rating1.rateDate.toISOString() 
+                + ',"fun":' + rating1.fun + ',"playAgain":' + rating1.playAgain + ',"rateDate":"' + rating1.rateDate.toISOString() 
                 + '","comment":"' + rating1.comment + '"}'
 
     rating2.userID = user1ID;
@@ -85,7 +85,7 @@ async function seedDB() {
     rating2ID = ObjectId(rating2Inserted.insertedId);
     rating2Str = '{"_id":"' + rating2ID.toHexString() + '","userID":"' + rating2.userID.toHexString() + '","raterID":"' + rating2.raterID.toHexString() 
                 +'","strength":' + rating2.strength + ',"punctuality":' + rating2.punctuality + ',"friendliness":' + rating2.friendliness
-                + ',"fun":' + rating2.fun + ',"playAgain":"' + rating2.playAgain + '","rateDate":"' + rating2.rateDate.toISOString() 
+                + ',"fun":' + rating2.fun + ',"playAgain":' + rating2.playAgain + ',"rateDate":"' + rating2.rateDate.toISOString() 
                 + '","comment":"' + rating2.comment + '"}'
 
     user1AvgRating = '{"userID":"'+user1ID.toHexString()+'","strength":4.5,"punctuality":4,"friendliness":4,"fun":4.5,"playAgain":100,"comments":[{"raterID":"'+user2ID.toHexString()+'","rateDate":"'+ rating1.rateDate.toISOString() +'","comment":"One of the strongest players I played with!"},{"raterID":"'+user3ID.toHexString()+'","rateDate":"'+ rating2.rateDate.toISOString() +'","comment":"Fun to play with, would definitely wanna play again :)"}]}'
