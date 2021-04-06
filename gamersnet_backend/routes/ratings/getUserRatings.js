@@ -2,7 +2,7 @@
 
 
 // include our function from the database to fetch ratings
-let {getUserRatingsDB, getRatingOfUserByRaterDB} = require('../../persistence/ratings');
+let {getUserRatingsDB, getUserRatingByRaterDB} = require('../../persistence/ratings');
 
 const { ObjectID } = require('bson');
 
@@ -24,11 +24,11 @@ async function getUserRatings(request, response) {
  * @param {*} request query with userID, and raterID
  * @param {*} response respond with the rating found for the user by the rater
  */
-async function getRatingOfUserByRater(request, response) {
+async function getUserRatingByRater(request, response) {
     //user doesn't need to be logged in to view user ratings
     let userID = request.query.userID;
     let raterID = request.query.raterID;
-    let results = await getRatingOfUserByRaterDB(ObjectID(userID), ObjectID(raterID));
+    let results = await getUserRatingByRaterDB(ObjectID(userID), ObjectID(raterID));
 
     if(results) {
         response.json(results);
@@ -110,4 +110,4 @@ async function getUserAvgRatings(request, response) {
 }
 
 
-module.exports = {getUserRatings, getUserAvgRatings, getRatingOfUserByRater};
+module.exports = {getUserRatings, getUserAvgRatings, getUserRatingByRater};
