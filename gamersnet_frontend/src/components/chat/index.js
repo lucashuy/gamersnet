@@ -3,7 +3,7 @@ import APIFetch from '../../utilities/api';
 import './styles.css'
 import MessageList from './MessageList'
 
-const URL = `ws://${process.env.REACT_APP_WS_SERVER || 'localhost'}:3000`;
+const URL = `ws://${process.env.REACT_APP_WS_SERVER || 'localhost:3000'}`;
 
 export default class Chat extends React.Component {
     ws = new WebSocket(URL);
