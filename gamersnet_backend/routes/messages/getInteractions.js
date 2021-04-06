@@ -16,7 +16,7 @@ async function listInteractedIDs(request, response) {
         loggedIn = await verifyUserLoggedIn(cookie);
     }
     let tokenDocument = await getUserIDFromToken(cookie);
-    console.log("[listInteractedIDs.tokenDocument] ",tokenDocument);
+    //console.log("[listInteractedIDs.tokenDocument] ",tokenDocument); //for debugging
 
     //get logged in user id from token
     let loggedUserID = tokenDocument!=null ? tokenDocument.userID : null;
