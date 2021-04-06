@@ -30,9 +30,15 @@ async function addRatings(request, response) {
 
         // users can't rate their own profiles.
         if(!raterID.equals(userID)) {
-            await addRatingsDB(userID, raterID, body.strength, body.punctuality, body.friendliness, body.fun, body.playAgain, body.comment);
+            let result = await addRatingsDB(userID, raterID, body.strength, body.punctuality, body.friendliness, body.fun, body.playAgain, body.comment);
+
+            // response.json(result); //leaving this here in case you want to return the updated document(or for old version change returnOriginal to true in ratings.js)
+                                        //also need to return status 200 for returning json
+            //console.log(result);
+
             response.status(201).end();
-        } else {
+        } 
+        else {
             response.status(401).end('You cannot rate your own profile.');
         }          
     } 

@@ -74,6 +74,22 @@ describe('Test Add Ratings', () => {
         .expect(201).end(done);
     });
 
+    test('User 2 re-rates user1 profile', (done) => {
+        return request(app).post('/ratings/addRatings')
+        .set('Cookie', '')//clear cookie and reset
+        .set('Cookie', 'token=user2_token')
+        .query({userID: user1ID.toHexString()})
+        .send({
+            strength: 5, 
+            punctuality: 5, 
+            friendliness: 4,
+            fun: 4,
+            playAgain: true,
+            comment: "second rating"
+        })
+        .expect(201).end(done);
+    });
+
     test('User1 cannot rate user1 profile', (done) => {
         return request(app).post('/ratings/addRatings')
         .set('Cookie', '')//clear cookie and reset
