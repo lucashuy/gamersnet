@@ -116,4 +116,12 @@ describe('Test get ratings from db', () => {
         .end(done); 
     });
 
+    test('Get rating for user1 by user2', (done) => {
+        return request(app).get('/ratings/getRatingOfUserByRater')
+        .query({userID: user1ID.toHexString(), raterID: user2ID.toHexString()})
+        .expect(200)
+        .expect( rating1Str)
+        .end(done); 
+    });
+
 });

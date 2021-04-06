@@ -27,7 +27,7 @@ async function getUserRatingsDB(userID) {
  * @param {*} userID 
  * @returns 
  */
-async function getRatingByRaterforUser(raterID, userID) {
+async function getRatingOfUserByRaterDB(userID, raterID) {
 
   // wait for server to connect to db
   let db = await MongoDB.open();
@@ -37,7 +37,7 @@ async function getRatingByRaterforUser(raterID, userID) {
 
 
   // wait for the server to find all ratings and return as an array
-  let result = await ratings.findOne({"userID" : userID, "raterID" : raterID});
+  let result = await ratings.findOne({"userID" : userID, "raterID" : raterID});//, "raterID" : raterID, "userID" : userID
   return result;
 }
 
@@ -84,5 +84,5 @@ async function addRatingsDB(userID, raterID, strength, punctuality, friendliness
 }
 
 // make these functions "public" to the rest of the project
-module.exports = {getUserRatingsDB, addRatingsDB, getRatingByRaterforUser};
+module.exports = {getUserRatingsDB, addRatingsDB, getRatingOfUserByRaterDB};
 
