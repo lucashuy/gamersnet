@@ -18,7 +18,7 @@ class AddPost extends React.Component{
             message: ''
         };
 
-        this.inputgameName = this.inputgameName.bind(this);
+        this.inputGameName = this.inputGameName.bind(this);
         this.inputDescription = this.inputDescription.bind(this);
         this.inputLocation = this.inputLocation.bind(this);
         this.inputDuration = this.inputDuration.bind(this);
@@ -32,7 +32,7 @@ class AddPost extends React.Component{
         this.setState({description: event.target.value});
     }
 
-    inputgameName(event){
+    inputGameName(event){
         this.setState({gameName: event.target.value});
     }
 
@@ -49,32 +49,49 @@ class AddPost extends React.Component{
     }
 
     inputDate(event){
-        this.setState({gameTimeUTC: event.target.valueAsDate});
+        let inputDate = Date.parse(event.target.valueAsDate);
+        if(this.validateDate(inputDate)){
+            this.setState({gameTimeUTC: event.target.valueAsDate, message: ''});
+        }
+        else{
+            this.setState({message: 'invalid date'});
+        }
+        
     }
 
+    validateDate(inputDate){
+        let today = Date.now();
+        if(inputDate + 86400000 >= today){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     handle(event) {
-        let body = {
-            gameName: this.state.gameName,
-            description: this.state.description,
-            numPlayers: this.state.numPlayers,
-            gameTimeUTC: this.state.gameTimeUTC,
-            duration: this.state.duration,
-            location: this.state.location
-        };
+        if(this.validateDate(this.state.gameTimeUTC)){
+            let body = {
+                gameName: this.state.gameName,
+                description: this.state.description,
+                numPlayers: this.state.numPlayers,
+                gameTimeUTC: this.state.gameTimeUTC,
+                duration: this.state.duration,
+                location: this.state.location
+            };
+            
+            let fetchData = APIFetch('/posts/createPost', JSON.stringify(body), 'POST');
+    
+            fetchData.then(async (data) => {
+                if (await data.ok) {
+                    this.props.history.push('/');
+                    this.props.updateHeader();
+                } else {
+                    this.setState({message: 'something went wrong'});
+                }
+            });
+        }
         
-        let fetchData = APIFetch('/posts/createPost', JSON.stringify(body), 'POST');
-
-        fetchData.then(async (data) => {
-            if (await data.ok) {
-                this.props.history.push('/');
-                this.props.updateHeader();
-            } else {
-                this.setState({message: 'something went wrong'});
-            }
-        });
-        
-
         event.preventDefault();
     }
 
@@ -86,7 +103,7 @@ class AddPost extends React.Component{
 
                     <br/>
                     <p>Add Game Name you want to play:</p>
-                        <select onChange = {this.inputgameName}>
+                        <select onChange = {this.inputGameName}>
                             <option value="ApexLegends"> Apex Legends </option>
                             <option value="Dota"> Dota </option>
                             <option value="CS:GO"> CS:GO </option>
