@@ -1,5 +1,6 @@
 'use strict';
 
+let ObjectID = require('mongodb').ObjectId;
 let MongoDB = require('./mongodb');
 let db, users;
 
@@ -9,6 +10,13 @@ async function connect() {
 
     // once it connected, get the "users" collection (aka a table in SQL)
     users = db.collection('users');
+}
+
+async function getUserByID(id) {
+    await connect();
+
+    let result = users.findOne({_id: new ObjectID(id)});
+    return result;
 }
 
 async function getUserByUsername(username) {
@@ -21,7 +29,12 @@ async function getUserByUsername(username) {
 async function addUser(username, hashedPassword) {
     await connect();
 
-    return await users.insertOne({username: username, password: hashedPassword});
+    return await users.insertOne({
+        username: username,
+        password: hashedPassword,
+        achievements: [],
+        creationDate: Date.now()
+    });
 }
 
 async function updateUserPassword(id, hashedPassword) {
@@ -37,4 +50,54 @@ async function updateUserPassword(id, hashedPassword) {
     );
 }
 
-module.exports = {addUser, getUserByUsername, updateUserPassword};
+async function updateDetails(id, details) {
+    await connect();
+    
+    return await users.findOneAndUpdate(
+        {_id: id},
+        {
+            $set: {
+                details: details
+            }
+        }
+    );
+}
+
+async function addAchievementByUserID(userID, achieveID) {
+    await connect();
+
+    return await users.findOneAndUpdate(
+        {_id: new ObjectID(userID)},
+        {
+            $addToSet: {
+                achievements: new ObjectID(achieveID)
+            }
+        }
+    )
+}
+
+async function updateRankByUserID(id, rankInfo) {
+    await connect();
+    
+    return await users.findOneAndUpdate(
+        {_id: id},
+        {
+            $set: {
+                rankDetail: {
+                    game: rankInfo.game,
+                    rank: rankInfo.rank
+                }
+            }
+        }
+    );
+}
+
+module.exports = {
+    addUser,
+    getUserByUsername,
+    updateUserPassword,
+    getUserByID,
+    updateDetails,
+    addAchievementByUserID,
+    updateRankByUserID
+};

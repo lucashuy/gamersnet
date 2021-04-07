@@ -1,0 +1,17 @@
+.file-select {
+    border: 1px solid var(--accent);
+    padding: 0.5rem;
+    cursor: pointer;
+    display: block;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.avatar-change-form > button {
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.avatar-change-message {
+    margin-top: 0.5rem;
+}

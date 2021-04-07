@@ -9,7 +9,7 @@ class MongoDB {
     static async open() {
         let url = '';
 
-        if (process.env.NODE_ENV === 'test') {
+        if (process.env.NODE_ENV === 'memory') {
             this.__testingServer = new MongoMemoryServer();
 
             url = await this.__testingServer.getUri();
@@ -32,6 +32,7 @@ class MongoDB {
     static async close() {
         if (this.__testingServer) await this.__testingServer.stop();
         if (this.__client) await this.__client.close();
+        if (this.db) this.db = null;
     }
 }
 

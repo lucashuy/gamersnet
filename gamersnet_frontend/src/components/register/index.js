@@ -1,8 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 
-import APIFetch from '../../api';
-import cookieCheck from '../../cookieCheck';
+import APIFetch from '../../utilities/api';
+import cookieCheck from '../../utilities/cookieCheck';
 
 import './styles.css';
 
@@ -37,6 +37,9 @@ class Register extends React.Component {
 
             fetchData.then(async (data) => {
                 if (await data.ok) {
+                    let result = await data.json();
+                    localStorage.setItem('id', result.user_id);
+                    
                     this.props.history.push('/');
                     this.props.updateHeader();
                 } else {

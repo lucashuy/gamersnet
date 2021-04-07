@@ -1,8 +1,12 @@
 .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     font-size: 1.25rem;
     padding: 1rem 2rem 1rem 2rem;
     border-bottom: 1px solid var(--accent);
     margin-bottom: 2rem;
+    font-size: 26px;
 }
 
 .header > * {
@@ -16,16 +20,45 @@
 
 .header .header-link {
     float: right;
-    margin-left: 0.5rem;
-    color: rgb(95, 95, 255)
+    margin: 0rem 0.5rem 0rem 0.5rem;
+    color: rgb(95, 95, 255);
+    cursor: pointer;
 }
 
 .header-link:hover {
-    text-decoration: underline;
     color: rgb(47, 47, 255);
 }
 
 .header .header-link-text {
     float: right;
     margin-left: 0.5rem;
+}
+
+.header-search {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    flex-grow: 3;
+}
+
+.header-search-bar {
+    margin-left: 10rem;
+    width: 25rem;
+    font-size: 18px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.header-search-bar:focus {
+    outline: 0;
+    border-color: lightblue;
+    box-shadow: 0 0 10px lightblue;
+}
+
+.header-search-button {
+    width: 5rem;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: 1px solid rgb(47, 47, 255);
+    background-color: rgb(95, 95, 255);
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 
-import APIFetch from '../../api';
+import APIFetch from '../../utilities/api';
 import './styles.css';
 class AddPost extends React.Component{
 
@@ -49,7 +49,7 @@ class AddPost extends React.Component{
     }
 
     inputDate(event){
-        this.setState({gameTimeUTC: event.target.valueAsNumber});
+        this.setState({gameTimeUTC: event.target.valueAsDate});
     }
 
 
@@ -62,7 +62,7 @@ class AddPost extends React.Component{
             duration: this.state.duration,
             location: this.state.location
         };
-console.log(body);
+        
         let fetchData = APIFetch('/posts/createPost', JSON.stringify(body), 'POST');
 
         fetchData.then(async (data) => {
@@ -89,7 +89,7 @@ console.log(body);
                         <select onChange = {this.inputgameName}>
                             <option value="ApexLegends"> Apex Legends </option>
                             <option value="Dota"> Dota </option>
-                            <option value="CS:Go"> CS:GO </option>
+                            <option value="CS:GO"> CS:GO </option>
                             <option value="Fortnite"> Fortnite </option>
                             <option value="Fifa 2021"> Fifa 2021 </option>
                             <option value="PUB-G"> PUB-G </option>
