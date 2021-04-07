@@ -13,7 +13,7 @@ export default class ProfileRatings extends React.Component {
         this.state = {
             status: 0,
             commentStart: 0,
-            commentEnd: 5,
+            commentEnd: 0,
             data: {
                 userID: '123',
                 strength: 0,
@@ -21,20 +21,7 @@ export default class ProfileRatings extends React.Component {
                 friendliness: 0,
                 fun: 0,
                 playAgain: 0,
-                comments: [
-                    {raterID: 123, rateDate: 'date', comment: 'comment0'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment1'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment2'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment3'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment4'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment5'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment6'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment7'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment8'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment9'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment10'},
-                    {raterID: 123, rateDate: 'date', comment: 'comment11'},
-                ]
+                comments: []
             }
         };
         
@@ -50,7 +37,7 @@ export default class ProfileRatings extends React.Component {
         fetchData.then(async (data) => {
             if (await data.ok) {
                 let json = await data.json();
-
+                
                 let maxComments;
                 if (json.comments.length < 5) {
                     maxComments = json.comments.length;
@@ -155,8 +142,8 @@ export default class ProfileRatings extends React.Component {
                         </div>
                     </div>
 
-                    {/* {cookieCheck() && localStorage.getItem('id') !== this.props.userID && <ProfileRatingAdd />} */}
-                    {cookieCheck() && <ProfileRatingAdd />}
+                    {cookieCheck() && localStorage.getItem('id') !== this.props.userID && <ProfileRatingAdd userID = {this.props.userID} />}
+                    {/* {cookieCheck() && <ProfileRatingAdd userID = {this.props.userID} />} */}
                 </div>
             </div>
         );

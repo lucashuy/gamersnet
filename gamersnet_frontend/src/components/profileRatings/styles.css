@@ -55,6 +55,7 @@
 }
 
 .rating-overview-comments-page-ctrl > div {
+    user-select: none;
     color: rgb(95, 95, 255);
     cursor: pointer;
 }

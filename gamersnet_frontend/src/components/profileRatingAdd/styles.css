@@ -12,6 +12,7 @@
     font-family: 'Segoe UI', 'sans';
 }
 
-.rating-submit-wrapper > .submit {
+.rating-submit-wrapper > .submit,
+.profile-header {
     margin-top: 1rem;
 }

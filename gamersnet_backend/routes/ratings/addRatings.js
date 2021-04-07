@@ -13,8 +13,7 @@ async function addRatings(request, response) {
     let body = request.body;
     let queryUserID = request.query.userID;
     let cookie = request.headers.cookie;
-    let verifyBody = queryUserID && body.strength && body.punctuality 
-                        && body.friendliness &&  body.fun && body.playAgain // commenting on profile is optional
+    let verifyBody = queryUserID && body.strength && body.punctuality && body.friendliness && body.fun && (body.playAgain !== undefined);
     let userID = ObjectID(queryUserID);
 
     let loggedIn = false;
