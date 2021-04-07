@@ -4,7 +4,6 @@ import APIFetch from '../../utilities/api';
 import {withRouter} from 'react-router-dom';
 import './styles.css';
 import Button from '../button';
-import Input from '../input';
 
 import Chat from '../chat';
 
@@ -61,7 +60,8 @@ class RecentChats extends React.Component{
 	openChat(event) {
 		this.setState({
 			select: false,
-			currentChat: event.target.getAttribute('data-id')
+			currentChat: event.target.getAttribute('data-id'),
+			currentChatUsername: event.target.getAttribute('data-username')
 		});
 	}
 
@@ -70,7 +70,7 @@ class RecentChats extends React.Component{
 
 		this.state.items.map(chatSession => (
 			chats.push(
-				<div className = "chat" data-id = {chatSession.id} onClick = {this.openChat}>{chatSession.username}</div>
+				<div className = "chat" data-id = {chatSession.id} data-username = {chatSession.username} onClick = {this.openChat}>{chatSession.username}</div>
 			)
 		));
 
@@ -79,7 +79,7 @@ class RecentChats extends React.Component{
 
 	renderChat() {
 		if (!this.state.select) {
-			return <Chat userID = {this.state.currentChat} />
+			return <Chat userID = {this.state.currentChat} username = {this.state.currentChatUsername} />
 		}
 	}
 		
@@ -89,6 +89,7 @@ class RecentChats extends React.Component{
 				<div className = 'chat-background'></div>
 				<div className = 'chat-wrapper'>
 					<Button onClick = {this.handleReturn}>return</Button>
+					<h2>Chats</h2>
 					<div className = 'chat-content'>
 						<div>{this.state.status}</div>
 						{this.state.select && this.renderInteractions()}

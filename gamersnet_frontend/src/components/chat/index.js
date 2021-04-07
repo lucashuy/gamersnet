@@ -111,11 +111,21 @@ export default class Chat extends React.Component {
 
     render() {
 		let messages = this.state.messages;
-		return (
-			<div className = 'chat-inner'>
+		return (	
+			<div>
 				<p>{this.state.status}</p>
-				<MessageList messages = {messages}/>
-				<form onSubmit = {this.handle}>
+
+				<section class="msger">
+  					<header class="msger-header">
+    					<div class="msger-header-title">
+      						<i class="fas fa-comment-alt"></i> {this.props.username}
+   						</div>
+					</header>
+
+				<main className="msger-chat">
+					<MessageList messages = {messages}/>
+				</main>
+				<form onSubmit = {this.handle} className="input-area">
 					<input
 						onChange = {this.inputMessage}
 						placeholder="Type your message"
@@ -123,10 +133,11 @@ export default class Chat extends React.Component {
 						value={this.state.sendMessage}
 						className="input"
 					/>
-					<button className="button">Send</button>
-        		</form>
-				<br/>
+					<button className="send">Send</button>
+				</form>
+				</section>
 			</div>
+			
 		);
 	}
 }
