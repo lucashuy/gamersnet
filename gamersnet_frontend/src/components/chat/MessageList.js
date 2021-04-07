@@ -3,9 +3,7 @@ import React from 'react';
 import './styles.css'
 export default class MessageList extends React.Component{
 	render() {
-		console.log(this.props.messages);
 		return (
-			<div className = 'chat-scrollable'>
 				<div>
 					{this.props.messages.map(message => {
 						console.log(message);
@@ -13,20 +11,25 @@ export default class MessageList extends React.Component{
 
 						if (loggedInUserID === message.sender) {
 							return (
-								<div className = 'message self'>
-									<p>{message.message}</p>
+								<div class="msg right-msg">										
+									<div class="msg-bubble">
+										
+										<div class="msg-text">{message.message}</div>
+									</div>
 								</div>
 							)
 						} else {
 							return (
-								<div className = 'message'>
-									<p>{message.message}</p>
+								<div class="msg left-msg">
+									
+									<div class="msg-bubble">
+										<div class="msg-text">{message.message}</div>
+									</div>
 								</div>
 							)
 						}
 					})}
 				</div>
-			</div>
 		)
 	}
 }
