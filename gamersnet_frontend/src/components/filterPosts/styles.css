@@ -1,0 +1,38 @@
+.filter-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 18px;
+    padding: 0rem 0rem 1rem 0rem;
+    border-bottom: 1px solid var(--accent);
+}
+
+.num-players-select {
+    margin-left: 1rem;
+    border-color: rgb(47, 47, 255);
+}
+
+.calendar-select {
+    margin-left: 1rem;
+    border-color: rgb(47, 47, 255);
+}
+
+.filter-min-players {
+    margin: 0rem 0rem 0.3rem 0rem;
+}
+
+.filter-start-date {
+    margin: 0rem 0rem 0.3rem 0rem;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.button-filter {
+    width: 5rem;
+    border: 1px solid rgb(47, 47, 255);
+    background-color: rgb(95, 95, 255);
+}

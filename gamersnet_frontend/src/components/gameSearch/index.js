@@ -3,6 +3,7 @@ import React from 'react';
 // include our API helper
 import APIFetch from '../../utilities/api';
 import GeneralPost from '../generalPost';
+import FilterPosts from '../filterPosts';
 
 import './styles.css'
 
@@ -36,6 +37,7 @@ export default class GameSearch extends React.Component {
     }
 
     parseResponse(data) {
+        
         var postInfo
         var count = (JSON.parse(JSON.stringify(data)).length) - 1;
         this.setState({numPosts: count+1})
@@ -61,13 +63,14 @@ export default class GameSearch extends React.Component {
     }
 
     render() {
-        if(this.state.numPosts == 0){
+        if(this.state.numPosts === 0){
             return (
                 <div style = {{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "26px"}}>No posts found</div>
             );
         } else {
             return (
                 <div>
+                    {< FilterPosts />}
                     <p className = 'post-text'>Results for: "{this.state.searchTerm}"</p>
                     <div className = 'all-posts'>
                         {

@@ -44,7 +44,7 @@ export default class Header extends React.Component {
     }
 
     handleSearch(event) {
-        // nothing for now i guess...
+        this.setState({ userSearch: event.target.value });
     }
 
     searchBar() {
