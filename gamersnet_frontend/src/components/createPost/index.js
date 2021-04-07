@@ -49,28 +49,27 @@ class AddPost extends React.Component{
     }
 
     inputDate(event){
-        let inputDate = Date.parse(event.target.valueAsDate);
-        if(this.validateDate(inputDate)){
-            this.setState({gameTimeUTC: event.target.valueAsDate, message: ''});
-        }
-        else{
+        let inputDate = event.target.valueAsDate;
+
+        if (this.validateDate(inputDate)) {
+            this.setState({gameTimeUTC: inputDate, message: ''});
+        } else{
             this.setState({message: 'invalid date'});
         }
-        
     }
 
     validateDate(inputDate){
         let today = Date.now();
-        if(inputDate + 86400000 >= today){
+
+        if (Date.parse(inputDate) + 86400000 >= today) {
             return true;
-        }
-        else{
+        } else{
             return false;
         }
     }
 
     handle(event) {
-        if(this.validateDate(this.state.gameTimeUTC)){
+        if (this.validateDate(this.state.gameTimeUTC)) {
             let body = {
                 gameName: this.state.gameName,
                 description: this.state.description,
