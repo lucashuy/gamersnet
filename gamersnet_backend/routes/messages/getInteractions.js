@@ -4,7 +4,7 @@ let {getInteractions} = require('../../persistence/messages');
 
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
-let {getUserIDFromToken} = require('../../persistence/tokens.js');
+let {getTokenDocument} = require('../../persistence/tokens.js');
 const { getUserByID } = require('../../persistence/users');
 
 async function listInteractedIDs(request, response) {
@@ -15,7 +15,7 @@ async function listInteractedIDs(request, response) {
         cookie = cookie.split('=')[1];
         loggedIn = await verifyUserLoggedIn(cookie);
     }
-    let tokenDocument = await getUserIDFromToken(cookie);
+    let tokenDocument = await getTokenDocument(cookie);
     //console.log("[listInteractedIDs.tokenDocument] ",tokenDocument); //for debugging
 
     //get logged in user id from token

@@ -3,7 +3,7 @@
 // include our function from the database to add post
 let {updatePostDB, getPost} = require('../../persistence/posts');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
-let {getUserIDFromToken} = require('../../persistence/tokens.js')
+let {getTokenDocument} = require('../../persistence/tokens.js')
 
 
 /**
@@ -50,7 +50,7 @@ async function updatePost(request, response) {
     }
 
     if (loggedIn) {
-        let tokenDocument = await getUserIDFromToken(cookie);
+        let tokenDocument = await getTokenDocument(cookie);
 
         //get logged in user id from token
         let loggedUserID = tokenDocument.userID;

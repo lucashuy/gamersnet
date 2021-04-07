@@ -1,8 +1,9 @@
 import React from 'react';
 
-import APIFetch from '../../utilities/api';
-import cookieCheck from '../../utilities/cookieCheck';
+import APIFetch from '../../../utilities/api';
+import cookieCheck from '../../../utilities/cookieCheck';
 import ProfileRatingAdd from '../profileRatingAdd';
+import ProfileRatingComment from '../profileRatingComment';
 
 import './styles.css';
 
@@ -45,6 +46,10 @@ export default class ProfileRatings extends React.Component {
                     maxComments = 5;
                 }
 
+                json.comments.sort((first, second) => {
+                    return Date.parse(second.rateDate) - Date.parse(first.rateDate);
+                });
+
                 this.setState({status: 200, data: json, commentEnd: maxComments});
             } else {
                 console.log('profile-ratings', 'network problem happened');
@@ -58,17 +63,8 @@ export default class ProfileRatings extends React.Component {
         for (let i = this.state.commentStart; i < this.state.commentEnd; i++) {
             let comment = this.state.data.comments[i];
             
-            comments.push(
-                <div className = 'rating-overview-comment'>
-                    <div className = 'rating-comment-info'>
-                        <div>{comment.raterID}</div>
-                        <div>{comment.rateDate}</div>
-                    </div>
-                    <div className = 'rating-comment-text'>
-                        <p>{comment.comment}</p>
-                    </div>
-                </div>
-            );
+            // only add comment if not empty
+            if (comment.comment !== '') comments.push(<ProfileRatingComment userID = {comment.raterID} rateDate = {comment.rateDate} comment = {comment.comment} />);
         }
 
         return comments;
@@ -135,7 +131,10 @@ export default class ProfileRatings extends React.Component {
                         </div>
                     </div>
                     <div className = 'rating-overview-comments-wrapper'>
-                        {this.renderPageControl()}
+                        <div className = 'rating-overview-header'>
+                            <div className = 'profile-header'>Comments</div>
+                            {this.renderPageControl()}
+                        </div>
                         
                         <div className = 'rating-overview-comments'>
                             {this.renderComments()}
@@ -143,7 +142,6 @@ export default class ProfileRatings extends React.Component {
                     </div>
 
                     {cookieCheck() && localStorage.getItem('id') !== this.props.userID && <ProfileRatingAdd userID = {this.props.userID} />}
-                    {/* {cookieCheck() && <ProfileRatingAdd userID = {this.props.userID} />} */}
                 </div>
             </div>
         );

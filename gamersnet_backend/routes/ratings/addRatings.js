@@ -4,7 +4,7 @@
 let {addRatingsDB} = require('../../persistence/ratings');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-let {getUserIDFromToken} = require('../../persistence/tokens.js')
+let {getTokenDocument} = require('../../persistence/tokens.js')
 const { ObjectID } = require('bson');
 
 // this function handles the /ratings/addRatings/ endpoint
@@ -24,7 +24,7 @@ async function addRatings(request, response) {
     }
 
     if (loggedIn && verifyBody) {
-        let tokenDocument = await getUserIDFromToken(cookie);
+        let tokenDocument = await getTokenDocument(cookie);
         let raterID = tokenDocument.userID;
 
         // users can't rate their own profiles.

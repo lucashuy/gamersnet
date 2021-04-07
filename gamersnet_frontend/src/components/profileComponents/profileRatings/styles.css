@@ -34,24 +34,23 @@
     margin-top: 1rem;
 }
 
-.rating-overview-comment,
 .rating-overview-comments-page-ctrl,
 .rating-submit-stars {
     margin-top: 1rem;
 }
 
-.rating-comment-info > div,
-.rating-overview-comments-page-ctrl > * {
+.rating-overview-comments-page-ctrl > *,
+.rating-overview-header > * {
     display: inline-block;
-}
-
-.rating-comment-info > div:last-child {
-    float: right;
 }
 
 .page-ctrl-disabled {
     color: grey !important;
     cursor: default !important;
+}
+
+.rating-overview-comments-page-ctrl {
+    float: right;
 }
 
 .rating-overview-comments-page-ctrl > div {

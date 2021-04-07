@@ -49,7 +49,7 @@ async function tokenValid(cookie) {
     return result.toArray();
 }
 
-async function getUserIDFromToken(token) {
+async function getTokenDocument(token) {
     await connect();
 
     let result = await tokens.findOne({token: token});
@@ -57,4 +57,4 @@ async function getUserIDFromToken(token) {
     return result;
 }
 
-module.exports = {addUserToken, TOKEN_LIFE_SPAN, updateUserToken, tokenValid, getUserIDFromToken};
+module.exports = {addUserToken, TOKEN_LIFE_SPAN, updateUserToken, tokenValid, getTokenDocument};

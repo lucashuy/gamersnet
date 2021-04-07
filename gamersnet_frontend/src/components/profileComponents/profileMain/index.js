@@ -2,14 +2,14 @@ import React from 'react';
 
 import ProfileAvatar from '../profileAvatar';
 import ProfileInfo from '../profileInfo';
-import RoundedBox from '../roundedBox';
-import Button from '../button';
+import RoundedBox from '../../roundedBox';
+import Button from '../../button';
 
 import './styles.css';
 import ProfileChangePassword from '../profileChangePassword';
 import ProfileChangeAvatar from '../profileChangeAvatar';
-import ProfileChangeDetails from '../profileChangeDetails.js';
-import DisplayPosts from '../displayPosts';
+import ProfileChangeDetails from '../profileChangeDetails';
+import DisplayPosts from '../../displayPosts';
 import ProfileAchievements from '../profileAchievements';
 import ProfileRankChange from '../profileRankChange';
 import ProfileRatings from '../profileRatings';
@@ -99,7 +99,7 @@ export default class Profile extends React.Component {
         if (!this.state.edit && this.state.data) {
             return (
                 <RoundedBox className = 'row'>
-                    <DisplayPosts />
+                    <DisplayPosts userID = {this.state.userID} />
                 </RoundedBox>
             );
         }

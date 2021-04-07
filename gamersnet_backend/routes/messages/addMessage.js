@@ -4,7 +4,7 @@
 let {addMessage} = require('../../persistence/messages');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-let {getUserIDFromToken} = require('../../persistence/tokens.js')
+let {getTokenDocument} = require('../../persistence/tokens.js')
 
 async function newMessage(request, response) {
 
@@ -24,7 +24,7 @@ async function newMessage(request, response) {
     }
 
     if (loggedIn && message) {
-        let tokenDocument = await getUserIDFromToken(cookie);
+        let tokenDocument = await getTokenDocument(cookie);
 
         let sender = tokenDocument.userID;    
 
