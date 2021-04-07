@@ -1,0 +1,17 @@
+.rating-submit-stars > div > div.star {
+    cursor: pointer;
+}
+
+.rating-submit-stars {
+    margin-bottom: 1rem;
+}
+
+.rating-submit-wrapper textarea {
+    width: calc(100% - 1rem);
+    padding: 0.5rem;
+    font-family: 'Segoe UI', 'sans';
+}
+
+.rating-submit-wrapper > .submit {
+    margin-top: 1rem;
+}
