@@ -3,6 +3,7 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
     cursor: pointer;
+    background-color: lightblue;
 }
 
 .chat:hover {
