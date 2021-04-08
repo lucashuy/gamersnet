@@ -32,6 +32,15 @@
   flex-direction: column-reverse
 }
 
+.msger-header-title > div {
+  display: inline-block;
+}
+
+.msger-header-title > .profile-image {
+  width: 2rem;
+  margin-right: 1rem;
+}
+
 .msg {
   display: flex;
   align-items: flex-end;

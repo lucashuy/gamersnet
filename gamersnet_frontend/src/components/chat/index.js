@@ -1,7 +1,9 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import APIFetch from '../../utilities/api';
 import './styles.css'
 import MessageList from './MessageList'
+import ProfileAvatar from '../profileComponents/profileAvatar';
 
 const URL = `ws://${process.env.REACT_APP_WS_SERVER || 'localhost:3000'}`;
 
@@ -118,7 +120,8 @@ export default class Chat extends React.Component {
 				<section class="msger">
   					<header class="msger-header">
     					<div class="msger-header-title">
-      						<i class="fas fa-comment-alt"></i> {this.props.username}
+							<ProfileAvatar userID = {this.props.userID} />
+                    		<Link class = "fas fa-comment-alt" to = {`/profile/${this.props.userID}`}>{this.props.username}</Link>
    						</div>
 					</header>
 
