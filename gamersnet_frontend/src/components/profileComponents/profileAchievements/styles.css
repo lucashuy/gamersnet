@@ -1,9 +1,9 @@
 .achievement-icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
+    font-size: 40px;
+    color: #7a7a7a;
 }
 
 .achievement-wrapper {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
