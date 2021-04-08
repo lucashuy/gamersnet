@@ -24,41 +24,46 @@ export default class GameSearch extends React.Component {
     }
 
     filterFunction = (filterData) => {
-        
         var minPlayers = filterData.minPlayers;
         var maxPlayers = filterData.maxPlayers
         var startDate = filterData.startDate;
         var endDate = filterData.endDate;
         var game = filterData.game;
 
-        var count = this.state.numPosts;
         var postArray = [...this.state.listOfPosts];
-        console.log(count)
+        var numSpliced = 0;
+        var len = postArray.length
         
-        for(var i = 0; i < count; i++) {
-            
-            if(postArray[i] !== undefined) {
-                if(postArray[i].numPlayers < minPlayers || postArray[i].numPlayers > maxPlayers) {
-                    postArray.splice(i, 1)
-                    console.log("MEEE 1")
+        // check all posts for filter violations
+        for(var i = 0; i < len; i++) {
+            // make sure post is defined before working on it
+            if(postArray[i-numSpliced] !== undefined) {
+                // number of players filter
+                if(postArray[i-numSpliced].numPlayers < minPlayers || postArray[i-numSpliced].numPlayers > maxPlayers) {
+                    postArray.splice(i-numSpliced, 1)
+                    numSpliced++;
                 }
-                else if(startDate !== "" && postArray[i].time < startDate){
-                    postArray.splice(i, 1)
-                    console.log("MEEE 2")
+                // start data filter
+                else if(startDate !== "" && postArray[i-numSpliced].time < startDate){
+                    postArray.splice(i-numSpliced, 1)
+                    numSpliced++;
                 }
-                else if(endDate !== "" && postArray[i].time > endDate){
-                    postArray.splice(i, 1)
-                    console.log("MEEE 3")
+                // end data filter
+                else if(endDate !== "" && postArray[i-numSpliced].time > endDate){
+                    postArray.splice(i-numSpliced, 1)
+                    numSpliced++;
                 }
-                // else if(game !== "None"){ // get rid of any posts that do not match the selected game
-                //     postArray.splice(i, 1)
-                //     console.log("MEEE 4")
-                // }
-                console.log(postArray.length)
-                this.setState({showListOfPosts: postArray})
+                // game filter
+                else if(game !== "" && game !== "None" && postArray[i-numSpliced].game !== game){
+                    console.log(postArray[i-numSpliced].game+"\t"+game)
+                    postArray.splice(i-numSpliced, 1)
+                    numSpliced++;
+                }
+                
             }
+            // update the list of valid posts
+            this.setState({showListOfPosts: postArray})
         }
-
     }
     
     componentDidMount() {

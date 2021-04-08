@@ -1,8 +1,5 @@
 import React from 'react';
 
-import APIFetch from '../../utilities/api';
-import cookieCheck from '../../utilities/cookieCheck';
-
 import './styles.css'
 
 export default class FilterPosts extends React.Component {
@@ -70,7 +67,7 @@ export default class FilterPosts extends React.Component {
                     <p className = 'game-text'>Game</p>
                         <select onChange = {this.game} className = 'game-filter-select' defaultValue="None">
                             <option value="None"> None </option>
-                            <option value="ApexLegends"> Apex Legends </option>
+                            <option value="Apex Legends"> Apex Legends </option>
                             <option value="Dota"> Dota </option>
                             <option value="CS:GO"> CS:GO </option>
                             <option value="Fortnite"> Fortnite </option>
