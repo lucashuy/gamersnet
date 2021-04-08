@@ -16,14 +16,15 @@ export default class Home extends React.Component {
         this.state = {
 			listOfPosts: [],
 			status : "loading",
-            forceChatUserID: undefined
+            forceChatUserID: undefined,
+            forceChatUsername: undefined
 		};
 
         this.forceChat = this.forceChat.bind(this);
     }
 
-    forceChat(userID) {console.log('home', userID);
-        this.setState({forceChatUserID: userID});
+    forceChat(userID, username) {
+        this.setState({forceChatUserID: userID, forceChatUsername: username});
     }
 
 	componentDidUpdate(_, prevState) {
@@ -82,7 +83,7 @@ export default class Home extends React.Component {
                         ))}
                     </div>
                 </div>
-                {cookieCheck() && <RecentChats forcedID = {this.state.forceChatUserID} />}
+                {cookieCheck() && <RecentChats forcedID = {this.state.forceChatUserID} forcedUsername = {this.state.forceChatUsername} />}
             </div>
         );
     }

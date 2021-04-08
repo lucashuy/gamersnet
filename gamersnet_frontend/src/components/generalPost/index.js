@@ -6,11 +6,13 @@ import './styles.css';
 
 import APIFetch from '../../utilities/api';
 import cookieCheck from '../../utilities/cookieCheck';
-import ProfileAvatar from '../profileAvatar';
+import ProfileAvatar from '../profileComponents/profileAvatar';
 
 export default class GeneralPost extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {username: ''}
 
         this.connect = this.connect.bind(this);
     }
@@ -30,7 +32,21 @@ export default class GeneralPost extends React.Component {
             }
         });
 
-        this.props.forceChat(this.props.post.userID);
+        this.props.forceChat(this.props.post.userID, this.state.username);
+    }
+
+    componentDidMount() {
+		let fetchChats = APIFetch('/users/getUsername/' + this.props.post.userID, null, 'GET');
+
+		fetchChats.then(async (data) => {
+			if (await data.ok) {
+				let json = await data.json();
+				
+				this.setState({username: json.username});
+			} else {
+                console.log('general post', 'network issue: ' + data.status);
+			}
+		});
     }
 
     render() {
@@ -38,7 +54,7 @@ export default class GeneralPost extends React.Component {
             <div className = 'single-post' key = {this.props.post.id}>
                 <div className = 'post-author'>
                     <ProfileAvatar userID = {this.props.post.userID} />
-                    <Link className = 'post-username' to = {`/profile/${this.props.post.userID}`}>username here</Link>
+                    <Link className = 'post-username' to = {`/profile/${this.props.post.userID}`}>{this.state.username}</Link>
                 </div>
                 <div className = 'spacer' />
                 <div className = 'post-details'>

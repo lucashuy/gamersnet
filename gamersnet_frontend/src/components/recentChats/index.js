@@ -6,7 +6,7 @@ import './styles.css';
 import Button from '../button';
 import Chat from '../chat';
 import RoundedBox from '../roundedBox';
-import ProfileAvatar from '../profileAvatar';
+import ProfileAvatar from '../profileComponents/profileAvatar';
 
 export default class RecentChats extends React.Component{
 	constructor(props) {
@@ -57,7 +57,7 @@ export default class RecentChats extends React.Component{
 				this.setState({
 					select: false,
 					currentChat: this.props.forcedID,
-					currentChatUsername: '[TODO: fixme]'
+					currentChatUsername: this.props.forcedUsername
 				});
 			}.bind(this), 100);
 		}
