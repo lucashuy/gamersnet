@@ -48,3 +48,9 @@
     overflow-x: hidden;
     font-size: 1rem;
 }
+
+.empty-chat {
+    padding: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+}

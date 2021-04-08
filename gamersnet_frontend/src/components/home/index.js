@@ -27,8 +27,8 @@ export default class Home extends React.Component {
     }
 
 	componentDidUpdate(_, prevState) {
-		console.log('prevhome', prevState);
-		console.log('thishome', this.state);
+		// console.log('prevhome', prevState);
+		// console.log('thishome', this.state);
 	}
 
     // this function will be automatically called when react creates this "Home" object in the browser

@@ -16,8 +16,35 @@
     margin: 1rem 0rem 1rem;
 }
 
-.empty-chat {
-    padding: 1rem;
-    font-size: 1.1rem;
-    text-align: center;
+.post-author > div {
+    display: inline-block;
+}
+
+.post-author > .profile-image {
+    width: 2rem;
+    margin-right: 1rem;
+}
+
+.inline-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inline-flex > * {
+    display: inline-block;
+}
+
+.post-details > * {
+    margin-bottom: 1rem;
+}
+
+.post-username {
+    display: inline;
+    font-size: 1.5rem;
+    vertical-align: top;
+}
+
+.spacer {
+    margin: 0.5rem 0 0.5rem 0;
+    border: 1px solid #e9e9e9;
 }
