@@ -50,8 +50,15 @@ export default class ProfileRatingAdd extends React.Component {
     }
 
     handleClick(event) {
+        console.log(event);
         // find x coord of click within the image of stars
-        let x = event.nativeEvent.layerX;
+        let x;
+        if (event.nativeEvent.layerX < 0) {
+            x = event.nativeEvent.offsetX;
+        } else {
+            x = event.nativeEvent.layerX;
+        }
+
         let id = event.target.id;
 
         let newState = {};
