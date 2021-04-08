@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 import './styles.css';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 
     constructor(props) {
         super(props);
@@ -36,7 +36,7 @@ export default class Header extends React.Component {
     homeLink() {
         return (<div>
             <b><i style={{color:'lavender'}}>Gamersnet</i></b>
-            <Link to = '/' className = 'header-link'>Home</Link></div>);
+            <Link to = '/' className = 'header-link' onClick = {() => this.props.sendQueryToHome('')}>Home</Link></div>);
     }
 
     inputSearch(event) {
@@ -45,6 +45,8 @@ export default class Header extends React.Component {
 
     handleSearch(event) {
         this.props.sendQueryToHome(this.state.userSearch);
+
+        this.props.history.push('/');
 
         event.preventDefault();
     }
@@ -79,3 +81,5 @@ export default class Header extends React.Component {
         }
     }
 }
+
+export default withRouter(Header);
