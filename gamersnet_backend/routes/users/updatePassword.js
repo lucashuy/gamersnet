@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcrypt');
 
-let {getUserIDFromToken, updateUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
+let {getTokenDocument, updateUserToken, TOKEN_LIFE_SPAN} = require('../../persistence/tokens');
 let {updateUserPassword, getUserByID} = require('../../persistence/users');
 const alphaNumericize = require('../utilities/alphaNumericize');
 let makeHash = require('../utilities/makeHash');
@@ -30,7 +30,7 @@ async function updatePassword(request, response) {
 
     if (isValid) {
         // get the token document of this user
-        let tokenDocument = await getUserIDFromToken(token);
+        let tokenDocument = await getTokenDocument(token);
         let userID = tokenDocument.userID;
 
         // get the user document to validate old password
