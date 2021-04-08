@@ -22,12 +22,14 @@ export default class App extends React.Component {
 		super(props);
 
 		this.state = {
-			auth: cookieCheck()
+			auth: cookieCheck(),
+			homeQuery: undefined
 		};
 
 		this.updateHeader = this.updateHeader.bind(this);
 		this.logout = this.logout.bind(this);
 		this.generateRoutes = this.generateRoutes.bind(this);
+		this.handleQuery = this.handleQuery.bind(this);
 	}
 
 	updateHeader() {
@@ -39,18 +41,22 @@ export default class App extends React.Component {
 		this.setState({auth: false});
 	}
 
+	handleQuery(queryParam) {
+		this.setState({homeQuery: queryParam});
+	}
+
 	// function that defines what to do when user goes to a specific page/
 	// this function binds the /path to the component it belongs to
 	generateRoutes() {
 		return (
 			<div>
-				<Route exact path = '/' component = {Home} />
+				{/* <Route exact path = '/' component = {Home} /> */}
+				<Route exact path = '/' render = {(props) => <Home query = {this.state.homeQuery} {...props} />} />
 				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
 				<Route path = '/profile/:id' component = {Profile} />
-				<Route path = '/gameSearch/:id' render = {(props) => <GameSearch toggleChat = {this.toggleChatSessions} {...props} />} />
 			</div>
 		);
 	}
@@ -59,7 +65,7 @@ export default class App extends React.Component {
 		return (
 			<React.StrictMode>
 				<BrowserRouter>
-					<Header auth = {this.state.auth} />
+					<Header auth = {this.state.auth} sendQueryToHome = {this.handleQuery} />
 					{this.generateRoutes()}
 				</BrowserRouter>
 			</React.StrictMode>

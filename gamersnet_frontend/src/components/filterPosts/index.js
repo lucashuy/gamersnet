@@ -36,11 +36,11 @@ export default class FilterPosts extends React.Component {
     }
 
     startDate(event) {
-        this.setState({startDate: event.target.value})
+        this.setState({startDate: event.target.valueAsDate})
     }
 
     endDate(event) {
-        this.setState({endDate: event.target.value})
+        this.setState({endDate: event.target.valueAsDate})
     }
 
     handleSearch(event) {

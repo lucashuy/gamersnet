@@ -35,7 +35,7 @@ export default class Header extends React.Component {
     }
 
     homeLink() {
-        return <Link to = '/' className = 'header-home'>Home</Link>;
+        return <Link to = '/' className = 'header-home' onClick = {() => this.props.sendQueryToHome('')}>Home</Link>;
     }
 
     inputSearch(event) {
@@ -43,7 +43,9 @@ export default class Header extends React.Component {
     }
 
     handleSearch(event) {
-        this.setState({ userSearch: event.target.value });
+        this.props.sendQueryToHome(this.state.userSearch);
+
+        event.preventDefault();
     }
 
     searchBar() {
@@ -51,9 +53,7 @@ export default class Header extends React.Component {
             <div className = 'header-search'>
                 <form onSubmit = {this.handleSearch}>
                     <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search here...' style = {{marginLeft: '1rem'}}></input>
-                    <Link to = {`/gameSearch/${this.state.userSearch}`} className = 'header-link'>
-                        <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
-                    </Link>
+                    <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
                 </form>
             </div>
     )};
