@@ -5,6 +5,8 @@ import APIFetch from '../../utilities/api';
 import './styles.css';
 import Button from '../button';
 import Chat from '../chat';
+import RoundedBox from '../roundedBox';
+import ProfileAvatar from '../profileAvatar';
 
 export default class RecentChats extends React.Component{
 	constructor(props) {
@@ -47,11 +49,25 @@ export default class RecentChats extends React.Component{
 		this.localFetch();
 	}
 
-	openChat(event) {
+	componentDidUpdate(prev) {
+		if (this.props.forcedID !== prev.forcedID) {
+			this.localFetch();
+
+			setTimeout(function() {
+				this.setState({
+					select: false,
+					currentChat: this.props.forcedID,
+					currentChatUsername: '[TODO: fixme]'
+				});
+			}.bind(this), 100);
+		}
+	}
+
+	openChat(id, username) {
 		this.setState({
 			select: false,
-			currentChat: event.target.getAttribute('data-id'),
-			currentChatUsername: event.target.getAttribute('data-username')
+			currentChat: id,
+			currentChatUsername: username
 		});
 	}
 
@@ -60,7 +76,10 @@ export default class RecentChats extends React.Component{
 
 		this.state.items.map(chatSession => (
 			chats.push(
-				<div className = "chat" data-id = {chatSession.id} data-username = {chatSession.username} onClick = {this.openChat}>{chatSession.username}</div>
+				<RoundedBox className = 'chat' onClick = {() => this.openChat(chatSession.id, chatSession.username)}>
+					<ProfileAvatar userID = {chatSession.id} />
+					<div className = 'chat-select-username'>{chatSession.username}</div>
+				</RoundedBox>
 			)
 		));
 
@@ -76,12 +95,13 @@ export default class RecentChats extends React.Component{
 	render() {
 		return (
 			<div className = 'chat-wrapper'>
-				{this.state.select === false && <Button onClick = {this.handleReturn}>return</Button>}
-				<h2>Chats</h2>
-				<div className = 'chat-content'>
-					{this.state.select && this.renderInteractions()}
-					{!this.state.select && this.renderChat()}
+				<div className = 'chat-header-wrapper'>
+					<div className = 'chat-header'>Chats</div>
+					{this.state.select === false && <Button onClick = {this.handleReturn}>return</Button>}
 				</div>
+
+				{this.state.select && this.renderInteractions()}
+				{!this.state.select && this.renderChat()}
 			</div>
 		); 
 	}

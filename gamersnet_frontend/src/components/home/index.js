@@ -14,9 +14,21 @@ export default class Home extends React.Component {
         // define an initial state for our data we will fetch
         this.state = {
 			listOfPosts: [],
-			status : "loading"
+			status : "loading",
+            forceChatUserID: undefined
 		};
+
+        this.forceChat = this.forceChat.bind(this);
     }
+
+    forceChat(userID) {console.log('home', userID);
+        this.setState({forceChatUserID: userID});
+    }
+
+	componentDidUpdate(_, prevState) {
+		console.log('prevhome', prevState);
+		console.log('thishome', this.state);
+	}
 
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
@@ -26,7 +38,6 @@ export default class Home extends React.Component {
             if (await data.ok) {
                 let posts = await data.json();
                 this.parseResponse(posts);
-                console.log(posts);
             } else if (await data.status === 404){
                 this.setState({status : "No posts found"});
             } else {
@@ -66,11 +77,11 @@ export default class Home extends React.Component {
                     <p className = 'post-text'>Most recent posts!</p>
                     <div className = 'all-posts'>
                         {this.state.listOfPosts.map(singlePost => (
-                            <GeneralPost post = {singlePost} />
+                            <GeneralPost post = {singlePost} forceChat = {this.forceChat} />
                         ))}
                     </div>
                 </div>
-                <RecentChats />
+                <RecentChats forcedID = {this.state.forceChatUserID} />
             </div>
         );
     }

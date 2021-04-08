@@ -6,7 +6,6 @@ export default class MessageList extends React.Component{
 		return (
 				<div>
 					{this.props.messages.map(message => {
-						console.log(message);
 						let loggedInUserID = localStorage.getItem('id');
 
 						if (loggedInUserID === message.sender) {

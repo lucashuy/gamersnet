@@ -27,6 +27,8 @@ export default class GeneralPost extends React.Component {
 				console.log('post', 'sent message');
             }
         });
+
+        this.props.forceChat(this.props.post.userID);
     }
 
     render() {
