@@ -5,8 +5,6 @@ import './styles.css';
 
 import cookieCheck from './utilities/cookieCheck';
 
-import APIFetch from './utilities/api';
-
 // import all the pages from their component folders
 import Home from './components/home';
 import SignIn from './components/signin';
@@ -15,7 +13,6 @@ import Logout from './components/logout';
 import AddPost from './components/createPost';
 import Profile from './components/profile';
 import GameSearch from './components/gameSearch'
-import RecentChats from './components/recentChats';
 
 // import header
 import Header from './components/header';
@@ -25,21 +22,12 @@ export default class App extends React.Component {
 		super(props);
 
 		this.state = {
-			auth: cookieCheck(),
-			chatOpen: false
+			auth: cookieCheck()
 		};
 
 		this.updateHeader = this.updateHeader.bind(this);
 		this.logout = this.logout.bind(this);
 		this.generateRoutes = this.generateRoutes.bind(this);
-        this.toggleChatSessions = this.toggleChatSessions.bind(this);
-        this.renderChat = this.renderChat.bind(this);
-	}
-
-	toggleChatSessions(directID = undefined) {
-		let chatOpen = this.state.chatOpen;
-
-		this.setState({chatOpen: !chatOpen});
 	}
 
 	updateHeader() {
@@ -56,9 +44,8 @@ export default class App extends React.Component {
 	generateRoutes() {
 		return (
 			<div>
-				<Route exact path = '/' render = {(props) => <Home toggleChat = {this.toggleChatSessions} {...props} />} />
-				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} /> 
-				<Route path = '/chat' render = {(props) => <RecentChats updateHeader = {this.updateHeader} {...props} />} />
+				<Route exact path = '/' component = {Home} />
+				<Route path = '/post' render = {(props) => <AddPost updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/signin' render = {(props) => <SignIn updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/register' render = {(props) => <Register updateHeader = {this.updateHeader} {...props} />} />
 				<Route path = '/logout' render = {(props) => <Logout logout = {this.logout} {...props} />} />
@@ -68,20 +55,11 @@ export default class App extends React.Component {
 		);
 	}
 
-	renderChat() {
-		if (this.state.auth) {
-			return <RecentChats 
-				visible = {this.state.chatOpen}
-				return = {this.toggleChatSessions} />
-		}
-	}
-
 	render() {
 		return (
 			<React.StrictMode>
 				<BrowserRouter>
-					{this.renderChat()}
-					<Header auth = {this.state.auth} toggleChatSessions = {this.toggleChatSessions} />
+					<Header auth = {this.state.auth} />
 					{this.generateRoutes()}
 				</BrowserRouter>
 			</React.StrictMode>

@@ -10,7 +10,6 @@ export default class GeneralPost extends React.Component {
     constructor(props) {
         super(props);
 
-        this.renderConnect = this.renderConnect.bind(this);
         this.connect = this.connect.bind(this);
     }
 
@@ -26,19 +25,8 @@ export default class GeneralPost extends React.Component {
         fetchData.then(async (data) => {
             if (await data.ok) {
 				console.log('post', 'sent message');
-				// body.sender = localStorage.getItem('id');
-				// this.ws.send(JSON.stringify({type: "message", receiver: this.props.userID, message : body.message, timestamp : Date.now()}));
-				// this.addMessage(body)
             }
         });
-
-        this.props.toggleChat(this.props);
-    }
-
-    renderConnect() {
-        if (cookieCheck()) {
-            return <Button onClick = {this.connect}>connect with user</Button>
-        }
     }
 
     render() {
@@ -51,7 +39,8 @@ export default class GeneralPost extends React.Component {
                 <p><b>Time: </b>{this.props.post.time}</p>
                 <p><b>Duration: </b>{this.props.post.duration}</p>
                 <div className = 'general-post-info'>
-                    {this.renderConnect()}
+                    {cookieCheck() && this.props.post.userID !== localStorage.getItem('id') &&
+                        <Button onClick = {this.connect}>connect with user</Button>}
                 </div>
             </div>
         )

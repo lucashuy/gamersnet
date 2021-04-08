@@ -1,19 +1,18 @@
 import React from 'react';
 
 import APIFetch from '../../utilities/api';
-import {withRouter} from 'react-router-dom';
+
 import './styles.css';
 import Button from '../button';
-
 import Chat from '../chat';
 
-class RecentChats extends React.Component{
+export default class RecentChats extends React.Component{
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			items: [],
-			status : "loading",
+			status : 0,
 			select: true,
 			currentChat: undefined
 		};
@@ -24,13 +23,8 @@ class RecentChats extends React.Component{
 		this.localFetch = this.localFetch.bind(this);
 	}
 
-	// this function returns from a chat AND the entire chat menu
 	handleReturn() {
-		if (this.state.select) {
-			this.props.return();
-		} else {
-			this.setState({select: true});
-		}
+		this.setState({select: true});
 	}
 
 	localFetch() {
@@ -40,23 +34,19 @@ class RecentChats extends React.Component{
 			if (await data.ok) {
 				let recentChats = await data.json();
 				
-				this.setState({items: recentChats.users, status : ""});
+				this.setState({items: recentChats.users, status : 200});
 			} else if (await data.status === 404){
-				this.setState({status : "No chats found"});
+				this.setState({status : 404});
 			} else {
-				this.setState({status : "Network Problem"});
+				this.setState({status : 500});
 			}
 		});
 	}
 
-	// componentDidMount() {
-	// 	this.localFetch();
-	// }
-
-	componentDidUpdate(prevProps) {
-		if (this.props.visible !== prevProps.visible) this.localFetch();
+	componentDidMount() {
+		this.localFetch();
 	}
-	
+
 	openChat(event) {
 		this.setState({
 			select: false,
@@ -85,19 +75,14 @@ class RecentChats extends React.Component{
 		
 	render() {
 		return (
-			<div style = {{display: this.props.visible ? 'initial' : 'none'}}>
-				<div className = 'chat-background'></div>
-				<div className = 'chat-wrapper'>
-					<Button onClick = {this.handleReturn}>return</Button>
-					<h2>Chats</h2>
-					<div className = 'chat-content'>
-						<div>{this.state.status}</div>
-						{this.state.select && this.renderInteractions()}
-						{!this.state.select && this.renderChat()}
-					</div>
+			<div className = 'chat-wrapper'>
+				{this.state.select === false && <Button onClick = {this.handleReturn}>return</Button>}
+				<h2>Chats</h2>
+				<div className = 'chat-content'>
+					{this.state.select && this.renderInteractions()}
+					{!this.state.select && this.renderChat()}
 				</div>
 			</div>
 		); 
 	}
 }
-export default withRouter(RecentChats);

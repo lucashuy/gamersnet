@@ -3,6 +3,7 @@ import React from 'react';
 // include our API helper
 import APIFetch from '../../utilities/api';
 import GeneralPost from '../generalPost';
+import RecentChats from '../recentChats';
 
 import './styles.css'
 
@@ -45,7 +46,7 @@ export default class Home extends React.Component {
                 description: data[count].description,
                 numPlayers: data[count].numPlayers,
                 location: data[count].location,
-                time: data[count].gameTimeUTC.substring(0,10),
+                time: data[count].gameTimeUTC,
                 duration: data[count].duration,
                 id: data[count]._id,
                 userID: data[count].userID
@@ -60,13 +61,16 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div>
-                <p className = 'post-text'>Most recent posts!</p>
-                <div className = 'all-posts'>
-                    {this.state.listOfPosts.map(singlePost => (
-                        <GeneralPost toggleChat = {this.props.toggleChat} post = {singlePost} />
-                    ))}
+            <div className = 'home'>
+                <div className = 'home-posts'>
+                    <p className = 'post-text'>Most recent posts!</p>
+                    <div className = 'all-posts'>
+                        {this.state.listOfPosts.map(singlePost => (
+                            <GeneralPost post = {singlePost} />
+                        ))}
+                    </div>
                 </div>
+                <RecentChats />
             </div>
         );
     }
