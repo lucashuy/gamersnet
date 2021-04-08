@@ -1,16 +1,19 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import Button from '../button';
 import './styles.css';
 
 import APIFetch from '../../utilities/api';
 import cookieCheck from '../../utilities/cookieCheck';
+import ProfileAvatar from '../profileComponents/profileAvatar';
 
 export default class GeneralPost extends React.Component {
     constructor(props) {
         super(props);
 
-        this.renderConnect = this.renderConnect.bind(this);
+        this.state = {username: ''}
+
         this.connect = this.connect.bind(this);
     }
 
@@ -26,32 +29,49 @@ export default class GeneralPost extends React.Component {
         fetchData.then(async (data) => {
             if (await data.ok) {
 				console.log('post', 'sent message');
-				// body.sender = localStorage.getItem('id');
-				// this.ws.send(JSON.stringify({type: "message", receiver: this.props.userID, message : body.message, timestamp : Date.now()}));
-				// this.addMessage(body)
             }
         });
 
-        this.props.toggleChat(this.props);
+        this.props.forceChat(this.props.post.userID, this.state.username);
     }
 
-    renderConnect() {
-        if (cookieCheck()) {
-            return <Button onClick = {this.connect}>connect with user</Button>
-        }
+    componentDidMount() {
+		let fetchChats = APIFetch('/users/getUsername/' + this.props.post.userID, null, 'GET');
+
+		fetchChats.then(async (data) => {
+			if (await data.ok) {
+				let json = await data.json();
+				
+				this.setState({username: json.username});
+			} else {
+                console.log('general post', 'network issue: ' + data.status);
+			}
+		});
     }
 
     render() {
         return (
             <div className = 'single-post' key = {this.props.post.id}>
-                <p><b>Description: </b>{this.props.post.description}</p>
-                <p><b>Game: </b>{this.props.post.game}</p>
-                <p><b>Looking for: </b>{this.props.post.numPlayers} player(s)</p>
-                <p><b>Location: </b>{this.props.post.location}</p>
-                <p><b>Time: </b>{this.props.post.time}</p>
-                <p><b>Duration: </b>{this.props.post.duration}</p>
+                <div className = 'post-author'>
+                    <ProfileAvatar userID = {this.props.post.userID} />
+                    <Link className = 'post-username' to = {`/profile/${this.props.post.userID}`}>{this.state.username}</Link>
+                </div>
+                <div className = 'spacer' />
+                <div className = 'post-details'>
+                    <div className = 'inline-flex'>
+                        <p><b>Game: </b>{this.props.post.game}</p>
+                        <p><b>Looking for: </b>{this.props.post.numPlayers} player(s)</p>
+                    </div>
+                    <div className = 'inline-flex'>
+                        <p><b>Date: </b>{new Date(this.props.post.time).toDateString()}</p>
+                        <p><b>Duration: </b>{this.props.post.duration}</p>
+                    </div>
+                    <p><b>Location: </b>{this.props.post.location}</p>
+                    <p><b>Description: </b>{this.props.post.description}</p>
+                </div>
                 <div className = 'general-post-info'>
-                    {this.renderConnect()}
+                    {cookieCheck() && this.props.post.userID !== localStorage.getItem('id') &&
+                        <Button onClick = {this.connect}>connect with user</Button>}
                 </div>
             </div>
         )

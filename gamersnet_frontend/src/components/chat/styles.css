@@ -1,42 +1,98 @@
-.chat-inner {
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    position: relative;
-    padding: 1rem 1rem 1rem 1rem;
-    border-radius: 10px;
-    border: 1px solid var(--accent);
-    background-color: rgb(164, 164, 245);
+:root {
+  --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --msger-bg: #fff;
+  --border: 2px solid #ddd;
+  --left-msg-bg: #ececec;
+  --right-msg-bg: #579ffb;
 }
 
-.message {
-    width: 100%;
-    margin-bottom: 1.5rem;
+.msger {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  border: var(--border);
+  border-radius: 5px;
+  background: var(--msger-bg);
+  box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+  height: 75vh;
 }
 
-.message.self {
-    text-align: right;
+.msger-header {
+  padding: 0.75rem;
+  border-bottom: var(--border);
+  background: #eee;
+  color: #666;
 }
 
-.message > p {
-    background-color: rgb(224, 199, 197);
+.msger-chat {
+  flex: 1;
+  overflow: auto;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column-reverse
 }
 
-.button{
-    background-color: rgb(44, 36, 54);  
-    float: right; 
+.msger-header-title > div {
+  display: inline-block;
 }
 
-.input{
-    width: 80%;
-    float:none; 
-    padding: 4px;
-    padding-left: 4px;
+.msger-header-title > .profile-image {
+  width: 2rem;
+  margin-right: 1rem;
 }
 
-.chat-scrollable {
-    overflow: auto;
-    display: flex;
-    flex-direction: column-reverse;
-    height: 50vh;
+.msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.msg-bubble {
+  padding: 0.75rem;
+  border-radius: 15px;
+  background: var(--left-msg-bg);
+}
+
+.left-msg .msg-bubble {
+  border-bottom-left-radius: 0;
+}
+
+.right-msg {
+  flex-direction: row-reverse;
+}
+.right-msg .msg-bubble {
+  background: var(--right-msg-bg);
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+.right-msg .msg-img {
+  margin: 0 0 0 10px;
+}
+.input-area{
+  display: flex;
+  padding: 10px;
+  border-top: var(--border);
+  background: #eee;
+}
+
+.input-area *{
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+}
+
+.input {
+  flex: 1;
+  background: #ddd;
+}
+
+.send {
+  margin-left: 10px;
+  background: rgb(0, 196, 67);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.send:hover {
+  background: rgb(0, 180, 50);
 }
