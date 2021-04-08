@@ -1,14 +1,13 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import GameSearch from '../gameSearch';
+import {Link, withRouter} from 'react-router-dom';
 
 import './styles.css';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { userSearch:'' };
+        this.state = { userSearch: "" };
 
         this.inputSearch = this.inputSearch.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -19,7 +18,7 @@ export default class Header extends React.Component {
             <div className = 'links'>
                 <Link to = '/logout' className = 'header-link'>Logout</Link>
                 <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>Profile</Link>
-                <Link to = '/post' className = 'header-link'>Post</Link>
+                <Link to = '/post' className = 'header-link'>+Post</Link>
             </div>
         );
     }
@@ -35,7 +34,9 @@ export default class Header extends React.Component {
     }
 
     homeLink() {
-        return <Link to = '/' className = 'header-home'>Home</Link>;
+        return (<div>
+            <b><i style={{color:'lavender'}}>Gamersnet</i></b>
+            <Link to = '/' className = 'header-link' onClick = {() => this.props.sendQueryToHome('')}>Home</Link></div>);
     }
 
     inputSearch(event) {
@@ -43,17 +44,19 @@ export default class Header extends React.Component {
     }
 
     handleSearch(event) {
-        // nothing for now i guess...
+        this.props.sendQueryToHome(this.state.userSearch);
+
+        this.props.history.push('/');
+
+        event.preventDefault();
     }
 
     searchBar() {
         return (
             <div className = 'header-search'>
                 <form onSubmit = {this.handleSearch}>
-                    <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search here...' style = {{marginLeft: '1rem'}}></input>
-                    <Link to = {`/gameSearch/${this.state.userSearch}`} className = 'header-link'>
-                        <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
-                    </Link>
+                    <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search posts here...' style = {{marginLeft: '1rem'}}></input>
+                    <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
                 </form>
             </div>
     )};
@@ -78,3 +81,5 @@ export default class Header extends React.Component {
         }
     }
 }
+
+export default withRouter(Header);
