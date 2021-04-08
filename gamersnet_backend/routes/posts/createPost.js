@@ -4,7 +4,7 @@
 let {addPost} = require('../../persistence/posts');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-let {getUserIDFromToken} = require('../../persistence/tokens.js')
+let {getTokenDocument} = require('../../persistence/tokens.js')
 
 // this function handles the /post/createPost/ endpoint
 async function createPost(request, response) {
@@ -21,7 +21,7 @@ async function createPost(request, response) {
     }
 
     if (loggedIn && verifyBody) {
-        let tokenDocument = await getUserIDFromToken(cookie);
+        let tokenDocument = await getTokenDocument(cookie);
 
         //input type are verified here
         let userID = tokenDocument.userID;

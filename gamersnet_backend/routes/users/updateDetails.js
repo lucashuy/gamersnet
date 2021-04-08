@@ -1,6 +1,6 @@
 'use strict';
 
-let { getUserIDFromToken } = require('../../persistence/tokens');
+let { getTokenDocument } = require('../../persistence/tokens');
 let { updateDetails } = require('../../persistence/users');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
 
@@ -40,7 +40,7 @@ async function updateDetailsCallback(request, response) {
 
     //invalid cookie
     if (await verifyUserLoggedIn(token)) {
-        let tokenDocument = await getUserIDFromToken(token);
+        let tokenDocument = await getTokenDocument(token);
 
         await updateDetails(tokenDocument.userID, body);
 

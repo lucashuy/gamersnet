@@ -6,11 +6,11 @@
 }
 
 .profile-details-change-wrapper > div {
-    width: 40%;
+    width: 45%;
 }
 
 .profile-details-change-wrapper > div > input {
-    width: 100%;
+    width: calc(100% - 1rem);
 }
 
 .details-submit {

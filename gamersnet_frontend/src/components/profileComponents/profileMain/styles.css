@@ -12,14 +12,11 @@
 
 .row {
     margin-bottom: 2rem;
+    width: calc(100% - 2rem);
     padding: 1rem;
 }
 
 .profile-header {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-}
-
-.profile-image-wrapper {
-    width: 17%;
 }
