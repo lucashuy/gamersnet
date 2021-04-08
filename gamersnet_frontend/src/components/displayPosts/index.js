@@ -22,20 +22,20 @@ export default class DisplayPosts extends React.Component{
 	}
 
 	componentDidMount() {
-			let userID = "";
+		let userID = this.props.userID || '';
 				
-			let fetchPosts = APIFetch('/posts/listUserPosts?userID=' + userID, null, 'GET');
+		let fetchPosts = APIFetch('/posts/listUserPosts?userID=' + userID, null, 'GET');
 
-			fetchPosts.then(async (data) => {
-				if (await data.ok) {
-					let posts = await data.json();
-					this.setState({items: posts, status : ""});
-				} else if (await data.status === 404){
-					this.setState({status : "No posts found"});
-				} else {
-					this.setState({status : "Network Problem"});
-				}
-			});
+		fetchPosts.then(async (data) => {
+			if (await data.ok) {
+				let posts = await data.json();
+				this.setState({items: posts, status : ""});
+			} else if (await data.status === 404){
+				this.setState({status : "No posts found"});
+			} else {
+				this.setState({status : "Network Problem"});
+			}
+		});
 	}
 		
 	render() {

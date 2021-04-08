@@ -4,7 +4,7 @@
 let {deletePost} = require('../../persistence/posts');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-let {getUserIDFromToken} = require('../../persistence/tokens.js')
+let {getTokenDocument} = require('../../persistence/tokens.js')
 
 // this function handles the /posts/deletePost endpoint
 async function removePost(request, response) {
@@ -19,7 +19,7 @@ async function removePost(request, response) {
     }
 
     if (loggedIn) {
-        let tokenDocument = await getUserIDFromToken(cookie);
+        let tokenDocument = await getTokenDocument(cookie);
 
         //input type are verified here
         let userID = tokenDocument.userID;

@@ -6,7 +6,7 @@ let {getUserPosts, getPost, getAllPosts, getValidPosts} = require('../../persist
 
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility')
 
-let {getUserIDFromToken} = require('../../persistence/tokens.js')
+let {getTokenDocument} = require('../../persistence/tokens.js')
 
 // this function handles the /posts/listUserPosts/ endpoint
 async function listUserPosts(request, response) {
@@ -21,7 +21,7 @@ async function listUserPosts(request, response) {
     }
 
     if (loggedIn){
-        let tokenDocument = await getUserIDFromToken(cookie);
+        let tokenDocument = await getTokenDocument(cookie);
 
         // Note: when fetching users' posts, an empty string is passed in URL if it is requested by the user that's logged in
         // As lucas already has userID in the frontend, this will be changed after that pr is merged

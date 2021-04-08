@@ -11,6 +11,7 @@ let getUserDetails = require('./getUserDetails');
 let updateDetailsCallback = require('./updateDetails');
 let getAchievements = require('./getAchievements');
 let updateRank = require('./updateRank');
+let getUsername = require('./getUsername');
 
 app.post('/createAccount', createAccount)
 app.post('/authenticate', authenticate)
@@ -18,6 +19,7 @@ app.post('/authenticate', authenticate)
 app.get('/getAvatar/:id', getAvatar);
 app.get('/getUserDetails/:id', getUserDetails);
 app.get('/getAchievements/:id', getAchievements);
+app.get('/getUsername/:id', getUsername);
 
 app.patch('/updatePassword', updatePassword)
 app.patch('/updateAvatar', upload.single('image'), updateAvatar);

@@ -4,18 +4,20 @@
     align-items: center;
 }
 
-.single-post {
-    width: 40%;
-    position: relative;
-    padding: 1.5rem 2rem 1.5rem 2rem;
-    border-radius: 15px;
-    background-color: rgb(205, 205, 224);
-    border: 1px solid var(--accent);
-    margin: 1rem 0rem 1rem;
-}
-
 .post-text {
     font-size: 150%;
     display: flex;
     justify-content: center;
+}
+
+.home {
+    display: flex;
+}
+
+.home > .home-posts {
+    flex: 1 0 auto;
+}
+
+.chat-wrapper > h2 {
+    margin-bottom: 1rem;
 }
