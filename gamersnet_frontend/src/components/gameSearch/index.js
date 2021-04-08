@@ -10,17 +10,57 @@ import './styles.css'
 export default class GameSearch extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
-        // define an initial state for our data we will fetch
+
         this.state = {
 			listOfPosts: [],
+            showListOfPosts:[],
             searchTerm: `${props.match.params.id}`,
             numPosts: 0,
-			status : "loading"
+			status : "loading",
+            validFilter: false
 		};
+
+        this.parseResponse = this.parseResponse.bind(this);
     }
 
-    // this function will be automatically called when react creates this "Home" object in the browser
+    filterFunction = (filterData) => {
+        
+        var minPlayers = filterData.minPlayers;
+        var maxPlayers = filterData.maxPlayers
+        var startDate = filterData.startDate;
+        var endDate = filterData.endDate;
+        var game = filterData.game;
+
+        var count = this.state.numPosts;
+        var postArray = [...this.state.listOfPosts];
+        console.log(count)
+        
+        for(var i = 0; i < count; i++) {
+            
+            if(postArray[i] !== undefined) {
+                if(postArray[i].numPlayers < minPlayers || postArray[i].numPlayers > maxPlayers) {
+                    postArray.splice(i, 1)
+                    console.log("MEEE 1")
+                }
+                else if(startDate !== "" && postArray[i].time < startDate){
+                    postArray.splice(i, 1)
+                    console.log("MEEE 2")
+                }
+                else if(endDate !== "" && postArray[i].time > endDate){
+                    postArray.splice(i, 1)
+                    console.log("MEEE 3")
+                }
+                // else if(game !== "None"){ // get rid of any posts that do not match the selected game
+                //     postArray.splice(i, 1)
+                //     console.log("MEEE 4")
+                // }
+                console.log(postArray.length)
+                this.setState({showListOfPosts: postArray})
+            }
+        }
+
+    }
+    
     componentDidMount() {
         let fetchPosts = APIFetch(`/posts/filterPostsbyText?searchText=${this.state.searchTerm}`, null, 'GET');
 
@@ -41,11 +81,11 @@ export default class GameSearch extends React.Component {
         var postInfo
         var count = (JSON.parse(JSON.stringify(data)).length) - 1;
         this.setState({numPosts: count+1})
-        var numPosts = 10;
-        this.setState({ posts:[] });
-        while(data[count] !== undefined && numPosts > 0){
+        this.setState({ listOfPosts:[] });
+        this.setState({ showListOfPosts:[] });
+        while(data[count] !== undefined){
             postInfo = {
-                game: data[count].gameName,
+                    game: data[count].gameName,
                     description: data[count].description,
                     numPlayers: data[count].numPlayers,
                     location: data[count].location,
@@ -55,10 +95,10 @@ export default class GameSearch extends React.Component {
                     userID: data[count].userID
                 }
             this.setState({
-                listOfPosts: this.state.listOfPosts.concat(postInfo)
+                listOfPosts: this.state.listOfPosts.concat(postInfo),
+                showListOfPosts: this.state.showListOfPosts.concat(postInfo)
             })
             count--;
-            numPosts--;
         }
     }
 
@@ -67,14 +107,18 @@ export default class GameSearch extends React.Component {
             return (
                 <div style = {{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "26px"}}>No posts found</div>
             );
-        } else {
+        } 
+        else if(this.state.validFilter){
+
+        }
+        else {
             return (
                 <div>
-                    {< FilterPosts />}
+                    {< FilterPosts functionCallFromParent = {this.filterFunction.bind(this)}/>}
                     <p className = 'post-text'>Results for: "{this.state.searchTerm}"</p>
                     <div className = 'all-posts'>
                         {
-                            this.state.listOfPosts.map(singlePost => (
+                            this.state.showListOfPosts.map(singlePost => (
                                 <GeneralPost toggleChat = {this.props.toggleChat} post = {singlePost} />
                             ))
                         }

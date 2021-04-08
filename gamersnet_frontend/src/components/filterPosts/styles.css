@@ -12,6 +12,17 @@
     border-color: rgb(47, 47, 255);
 }
 
+.filter-game {
+    display: flex;
+    flex-direction: row;
+}
+
+.game-filter-select {
+    margin-left: 1rem;
+    height: 2rem;
+    border-color: rgb(47, 47, 255)
+}
+
 .calendar-select {
     margin-left: 1rem;
     border-color: rgb(47, 47, 255);
@@ -19,6 +30,7 @@
 
 .filter-min-players {
     margin: 0rem 0rem 0.3rem 0rem;
+    height: 2rem;
 }
 
 .filter-start-date {

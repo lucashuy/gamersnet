@@ -11,17 +11,23 @@ export default class FilterPosts extends React.Component {
         super(props);
 
         this.state = {
+            game: '',
             minPlayers: 1,
-            maxPlatesr: 1,
+            maxPlayers: 8,
             startDate: '',
             endDate: ''
         }
 
+        this.game = this.game.bind(this);
         this.minPlayers = this.minPlayers.bind(this);
         this.maxPlayers = this.maxPlayers.bind(this);
         this.startDate = this.startDate.bind(this);
         this.endDate = this.endDate.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+    }
+
+    game(event) {
+        this.setState({game: event.target.value})
     }
 
     minPlayers(event) {
@@ -42,26 +48,40 @@ export default class FilterPosts extends React.Component {
 
     handleSearch(event) {
         let body = {
+            game: this.state.game,
             minPlayers: this.state.minPlayers,
             maxPlayers: this.state.maxPlayers,
             startDate: this.state.startDate,
             endDate: this.state.endDate
         };
-        
-        this.props.history.push('/');
-        this.props.updateHeader();
-        
 
         event.preventDefault();
+    }
+
+    dataFunction = (event) => {
+        event.preventDefault();
+        this.props.functionCallFromParent(this.state);
     }
 
     render() {
         return (
             <div className = 'filter-section'>
+                <div className = 'filter-game'>
+                    <p className = 'game-text'>Game</p>
+                        <select onChange = {this.game} className = 'game-filter-select' defaultValue="None">
+                            <option value="None"> None </option>
+                            <option value="ApexLegends"> Apex Legends </option>
+                            <option value="Dota"> Dota </option>
+                            <option value="CS:GO"> CS:GO </option>
+                            <option value="Fortnite"> Fortnite </option>
+                            <option value="Fifa 2021"> Fifa 2021 </option>
+                            <option value="PUB-G"> PUB-G </option>
+                        </select>
+                </div>
                 <div className = 'filter-num-players'>
                     <div className = 'filter-min-players'>
                         <p className = 'num-players-text'>Minimum number of players
-                        <select onChange = {this.minPlayers} className = 'num-players-select'>
+                        <select onChange = {this.minPlayers} className = 'num-players-select' defaultValue = "1">
                                 <option value = "1">1</option>
                                 <option value = "2">2</option>
                                 <option value = "3">3</option>
@@ -75,7 +95,7 @@ export default class FilterPosts extends React.Component {
                     </div>
                     <div className = 'filter-max-players'>
                         <p>Maximum number of players
-                        <select onChange = {this.maxPlayers} className = 'num-players-select'>
+                        <select onChange = {this.maxPlayers} className = 'num-players-select' defaultValue = "8">
                                 <option value = "1">1</option>
                                 <option value = "2">2</option>
                                 <option value = "3">3</option>
@@ -101,7 +121,7 @@ export default class FilterPosts extends React.Component {
                     </div>
                 </div>
                 <div className = 'button-container'>
-                    <button type = 'submit' className = 'button-filter' onClick = {this.handleSearch} >Submit filter</button>
+                    <button type = 'submit' className = 'button-filter' onClick ={this.dataFunction.bind(this)} >Submit filter</button>
                 </div>
             </div>
         )

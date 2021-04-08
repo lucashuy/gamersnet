@@ -8,7 +8,7 @@ export default class Header extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { userSearch:'' };
+        this.state = { userSearch: "" };
 
         this.inputSearch = this.inputSearch.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
