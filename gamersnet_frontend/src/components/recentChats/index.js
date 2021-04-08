@@ -1,20 +1,20 @@
 import React from 'react';
 
 import APIFetch from '../../utilities/api';
-import {withRouter} from 'react-router-dom';
+
 import './styles.css';
 import Button from '../button';
-import Input from '../input';
-
 import Chat from '../chat';
+import RoundedBox from '../roundedBox';
+import ProfileAvatar from '../profileComponents/profileAvatar';
 
-class RecentChats extends React.Component{
+export default class RecentChats extends React.Component{
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			items: [],
-			status : "loading",
+			status : 0,
 			select: true,
 			currentChat: undefined
 		};
@@ -25,13 +25,8 @@ class RecentChats extends React.Component{
 		this.localFetch = this.localFetch.bind(this);
 	}
 
-	// this function returns from a chat AND the entire chat menu
 	handleReturn() {
-		if (this.state.select) {
-			this.props.return();
-		} else {
-			this.setState({select: true});
-		}
+		this.setState({select: true});
 	}
 
 	localFetch() {
@@ -41,36 +36,52 @@ class RecentChats extends React.Component{
 			if (await data.ok) {
 				let recentChats = await data.json();
 				
-				this.setState({items: recentChats.users, status : ""});
+				this.setState({items: recentChats.users, status : 200});
 			} else if (await data.status === 404){
-				this.setState({status : "No chats found"});
+				this.setState({status : 404});
 			} else {
-				this.setState({status : "Network Problem"});
+				this.setState({status : 500});
 			}
 		});
 	}
 
-	// componentDidMount() {
-	// 	this.localFetch();
-	// }
-
-	componentDidUpdate(prevProps) {
-		if (this.props.visible !== prevProps.visible) this.localFetch();
+	componentDidMount() {
+		this.localFetch();
 	}
-	
-	openChat(event) {
+
+	componentDidUpdate(prev) {
+		if (this.props.forcedID !== prev.forcedID) {
+			this.localFetch();
+
+			setTimeout(function() {
+				this.setState({
+					select: false,
+					currentChat: this.props.forcedID,
+					currentChatUsername: this.props.forcedUsername
+				});
+			}.bind(this), 100);
+		}
+	}
+
+	openChat(id, username) {
 		this.setState({
 			select: false,
-			currentChat: event.target.getAttribute('data-id')
+			currentChat: id,
+			currentChatUsername: username
 		});
 	}
 
 	renderInteractions() {
 		let chats = [];
 
+		if (this.state.items.length === 0) return <RoundedBox className = 'empty-chat'><div>{'no chats :<'}</div></RoundedBox>
+
 		this.state.items.map(chatSession => (
 			chats.push(
-				<div className = "chat" data-id = {chatSession.id} onClick = {this.openChat}>{chatSession.username}</div>
+				<RoundedBox className = 'chat' onClick = {() => this.openChat(chatSession.id, chatSession.username)}>
+					<ProfileAvatar userID = {chatSession.id} />
+					<div className = 'chat-select-username'>{chatSession.username}</div>
+				</RoundedBox>
 			)
 		));
 
@@ -79,24 +90,21 @@ class RecentChats extends React.Component{
 
 	renderChat() {
 		if (!this.state.select) {
-			return <Chat userID = {this.state.currentChat} />
+			return <Chat userID = {this.state.currentChat} username = {this.state.currentChatUsername} />
 		}
 	}
 		
 	render() {
 		return (
-			<div style = {{display: this.props.visible ? 'initial' : 'none'}}>
-				<div className = 'chat-background'></div>
-				<div className = 'chat-wrapper'>
-					<Button onClick = {this.handleReturn}>return</Button>
-					<div className = 'chat-content'>
-						<div>{this.state.status}</div>
-						{this.state.select && this.renderInteractions()}
-						{!this.state.select && this.renderChat()}
-					</div>
+			<div className = 'chat-wrapper'>
+				<div className = 'chat-header-wrapper'>
+					<div className = 'chat-header'>Chats</div>
+					{this.state.select === false && <Button onClick = {this.handleReturn}>return</Button>}
 				</div>
+
+				{this.state.select && this.renderInteractions()}
+				{!this.state.select && this.renderChat()}
 			</div>
 		); 
 	}
 }
-export default withRouter(RecentChats);

@@ -1,7 +1,9 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import APIFetch from '../../utilities/api';
 import './styles.css'
 import MessageList from './MessageList'
+import ProfileAvatar from '../profileComponents/profileAvatar';
 
 const URL = `ws://${process.env.REACT_APP_WS_SERVER || 'localhost:3000'}`;
 
@@ -111,11 +113,22 @@ export default class Chat extends React.Component {
 
     render() {
 		let messages = this.state.messages;
-		return (
-			<div className = 'chat-inner'>
+		return (	
+			<div>
 				<p>{this.state.status}</p>
-				<MessageList messages = {messages}/>
-				<form onSubmit = {this.handle}>
+
+				<section class="msger">
+  					<header class="msger-header">
+    					<div class="msger-header-title">
+							<ProfileAvatar userID = {this.props.userID} />
+                    		<Link class = "fas fa-comment-alt" to = {`/profile/${this.props.userID}`}>{this.props.username}</Link>
+   						</div>
+					</header>
+
+				<main className="msger-chat">
+					<MessageList messages = {messages}/>
+				</main>
+				<form onSubmit = {this.handle} className="input-area">
 					<input
 						onChange = {this.inputMessage}
 						placeholder="Type your message"
@@ -123,10 +136,11 @@ export default class Chat extends React.Component {
 						value={this.state.sendMessage}
 						className="input"
 					/>
-					<button className="button">Send</button>
-        		</form>
-				<br/>
+					<button className="send">Send</button>
+				</form>
+				</section>
 			</div>
+			
 		);
 	}
 }

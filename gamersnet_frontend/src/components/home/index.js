@@ -2,7 +2,9 @@ import React from 'react';
 
 // include our API helper
 import APIFetch from '../../utilities/api';
+import cookieCheck from '../../utilities/cookieCheck';
 import GeneralPost from '../generalPost';
+import RecentChats from '../recentChats';
 
 import './styles.css'
 
@@ -13,9 +15,22 @@ export default class Home extends React.Component {
         // define an initial state for our data we will fetch
         this.state = {
 			listOfPosts: [],
-			status : "loading"
+			status : "loading",
+            forceChatUserID: undefined,
+            forceChatUsername: undefined
 		};
+
+        this.forceChat = this.forceChat.bind(this);
     }
+
+    forceChat(userID, username) {
+        this.setState({forceChatUserID: userID, forceChatUsername: username});
+    }
+
+	componentDidUpdate(_, prevState) {
+		// console.log('prevhome', prevState);
+		// console.log('thishome', this.state);
+	}
 
     // this function will be automatically called when react creates this "Home" object in the browser
     componentDidMount() {
@@ -25,7 +40,6 @@ export default class Home extends React.Component {
             if (await data.ok) {
                 let posts = await data.json();
                 this.parseResponse(posts);
-                console.log(posts);
             } else if (await data.status === 404){
                 this.setState({status : "No posts found"});
             } else {
@@ -45,7 +59,7 @@ export default class Home extends React.Component {
                 description: data[count].description,
                 numPlayers: data[count].numPlayers,
                 location: data[count].location,
-                time: data[count].gameTimeUTC.substring(0,10),
+                time: data[count].gameTimeUTC,
                 duration: data[count].duration,
                 id: data[count]._id,
                 userID: data[count].userID
@@ -60,13 +74,16 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div>
-                <p className = 'post-text'>Most recent posts!</p>
-                <div className = 'all-posts'>
-                    {this.state.listOfPosts.map(singlePost => (
-                        <GeneralPost toggleChat = {this.props.toggleChat} post = {singlePost} />
-                    ))}
+            <div className = 'home'>
+                <div className = 'home-posts'>
+                    <p className = 'post-text'>Most recent posts!</p>
+                    <div className = 'all-posts'>
+                        {this.state.listOfPosts.map(singlePost => (
+                            <GeneralPost post = {singlePost} forceChat = {this.forceChat} />
+                        ))}
+                    </div>
                 </div>
+                {cookieCheck() && <RecentChats forcedID = {this.state.forceChatUserID} forcedUsername = {this.state.forceChatUsername} />}
             </div>
         );
     }
