@@ -34,10 +34,7 @@ export default class ProfileAchievements extends React.Component {
 
                 for (let achievement of json.achievements) {
                     newElements.push(
-                        <div className = {`achievement-icon ${IMAGE_TABLE[achievement.nameInternal]}`} title = {achievement.description} alt = {achievement.description}>
-                            
-                        </div>
-                        // <img className = 'achievement-icon' src = {IMAGE_TABLE[achievement.nameInternal]} title = {achievement.description} alt = {achievement.description} />
+                        <div className = {`achievement-icon ${IMAGE_TABLE[achievement.nameInternal]}`} title = {achievement.description} alt = {achievement.description} />
                     )
                 }
 
