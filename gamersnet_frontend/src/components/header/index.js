@@ -19,7 +19,7 @@ export default class Header extends React.Component {
             <div className = 'links'>
                 <Link to = '/logout' className = 'header-link'>Logout</Link>
                 <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>Profile</Link>
-                <Link to = '/post' className = 'header-link'>Post</Link>
+                <Link to = '/post' className = 'header-link'>+Post</Link>
             </div>
         );
     }
@@ -35,7 +35,9 @@ export default class Header extends React.Component {
     }
 
     homeLink() {
-        return <Link to = '/' className = 'header-home'>Home</Link>;
+        return (<div>
+            <b><i style={{color:'lavender'}}>Gamersnet</i></b>
+            <Link to = '/' className = 'header-link'>Home</Link></div>);
     }
 
     inputSearch(event) {
@@ -50,7 +52,7 @@ export default class Header extends React.Component {
         return (
             <div className = 'header-search'>
                 <form onSubmit = {this.handleSearch}>
-                    <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search here...' style = {{marginLeft: '1rem'}}></input>
+                    <input type = 'text' onChange = {this.inputSearch} className = 'header-search-bar' placeholder = 'Search posts here...' style = {{marginLeft: '1rem'}}></input>
                     <Link to = {`/gameSearch/${this.state.userSearch}`} className = 'header-link'>
                         <button type = 'submit' onClick = {this.handleSearch} className = 'header-search-button'>Enter</button>
                     </Link>
