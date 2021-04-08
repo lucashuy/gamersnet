@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import APIFetch from '../../../utilities/api';
 import ProfileAvatar from '../profileAvatar';
@@ -66,7 +67,7 @@ export default class ProfileRatingComment extends React.Component {
                 <div className = 'rating-comment-info'>
                     <ProfileAvatar className = 'comment-avatar' userID = {this.props.userID} />
                     <div style = {{marginLeft: '1rem'}}>
-                        <div>{this.state.username}</div>
+                        <Link to = {`/profile/${this.props.userID}`}>{this.state.username}</Link>
                         <div>{this.state.timeDisplay}</div>
                     </div>
                 </div>

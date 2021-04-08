@@ -119,6 +119,18 @@ export default class Profile extends React.Component {
         this.setState({data: data});
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.location.pathname !== this.props.location.pathname) {
+            this.setState({
+                edit: false,
+                us: localStorage.getItem('id') === this.props.match.params.id,
+                editButtonText: EDIT_BUTTON_TEXT.EDIT,
+                data: undefined,
+                userID: this.props.match.params.id
+            });
+        }
+    }
+
     render() {
         return (
             <div className = 'profile'>
@@ -133,7 +145,7 @@ export default class Profile extends React.Component {
                         {this.renderAvatarChange()}
                     </div>
                     <div className = 'profile-info'>
-                        <ProfileInfo userID = {this.props.match.params.id} sendToParent = {this.sendDataToParent} />
+                        <ProfileInfo userID = {this.state.userID} sendToParent = {this.sendDataToParent} />
                         <ProfileAchievements userID = {this.state.userID} />
                     </div>
                 </RoundedBox>

@@ -9,9 +9,11 @@ export default class ProfileAvatar extends React.Component {
         super(props);
 
         this.state = {avatar: undefined};
+
+        this.localFetch = this.localFetch.bind(this);
     }
 
-    componentDidMount() {
+    localFetch() {
         let fetchData = APIFetch('/users/getAvatar/' + this.props.userID);
 
         fetchData.then(async (data) => {
@@ -23,6 +25,16 @@ export default class ProfileAvatar extends React.Component {
                 console.log('profile-avatar', 'network problem happened');
             }
         });
+    }
+
+    componentDidMount() {
+        this.localFetch();
+    }
+    
+    componentDidUpdate(prevProps) {
+        if (prevProps.userID !== this.props.userID) {
+            this.localFetch();
+        }
     }
     
     render() {

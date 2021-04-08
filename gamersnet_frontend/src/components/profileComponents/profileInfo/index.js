@@ -15,9 +15,10 @@ export default class ProfileInfo extends React.Component {
 
         this.renderDetails = this.renderDetails.bind(this);
         this.renderRank = this.renderRank.bind(this);
+        this.localFetch = this.localFetch.bind(this);
     }
 
-    componentDidMount() {
+    localFetch() {
         let fetchData = APIFetch('/users/getUserDetails/' + this.props.userID);
 
         fetchData.then(async (data) => {
@@ -34,7 +35,17 @@ export default class ProfileInfo extends React.Component {
             }
         });
     }
+
+    componentDidMount() {
+        this.localFetch();
+    }
     
+    componentDidUpdate(prevProps) {
+        if (prevProps.userID !== this.props.userID) {
+            this.localFetch();
+        }
+    }
+
     renderDetails() {
         let components = [];
         if (this.state.status) {
