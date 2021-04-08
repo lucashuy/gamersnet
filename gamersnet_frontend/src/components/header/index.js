@@ -20,7 +20,6 @@ export default class Header extends React.Component {
                 <Link to = '/logout' className = 'header-link'>Logout</Link>
                 <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>Profile</Link>
                 <Link to = '/post' className = 'header-link'>Post</Link>
-                <p onClick = {this.props.toggleChatSessions} className = 'header-link'>Chat</p>
             </div>
         );
     }
