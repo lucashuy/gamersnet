@@ -7,6 +7,7 @@
     border-bottom: 1px solid var(--accent);
     margin-bottom: 2rem;
     font-size: 26px;
+    background-color: rgb(30, 44, 124);
 }
 
 .header > * {
@@ -21,12 +22,12 @@
 .header .header-link {
     float: right;
     margin: 0rem 0.5rem 0rem 0.5rem;
-    color: rgb(95, 95, 255);
+    color: rgb(160, 174, 255);
     cursor: pointer;
 }
 
 .header-link:hover {
-    color: rgb(47, 47, 255);
+    color: rgb(180, 210, 235);
 }
 
 .header .header-link-text {
