@@ -74,6 +74,8 @@ export default class RecentChats extends React.Component{
 	renderInteractions() {
 		let chats = [];
 
+		if (this.state.items.length === 0) return <RoundedBox className = 'empty-chat'><div>{'no chats :<'}</div></RoundedBox>
+
 		this.state.items.map(chatSession => (
 			chats.push(
 				<RoundedBox className = 'chat' onClick = {() => this.openChat(chatSession.id, chatSession.username)}>

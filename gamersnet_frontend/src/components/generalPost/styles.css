@@ -15,3 +15,9 @@
     border: 1px solid var(--accent);
     margin: 1rem 0rem 1rem;
 }
+
+.empty-chat {
+    padding: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+}

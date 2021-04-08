@@ -2,6 +2,7 @@ import React from 'react';
 
 // include our API helper
 import APIFetch from '../../utilities/api';
+import cookieCheck from '../../utilities/cookieCheck';
 import GeneralPost from '../generalPost';
 import RecentChats from '../recentChats';
 
@@ -81,7 +82,7 @@ export default class Home extends React.Component {
                         ))}
                     </div>
                 </div>
-                <RecentChats forcedID = {this.state.forceChatUserID} />
+                {cookieCheck() && <RecentChats forcedID = {this.state.forceChatUserID} />}
             </div>
         );
     }

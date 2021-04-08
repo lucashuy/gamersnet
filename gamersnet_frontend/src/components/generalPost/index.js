@@ -5,6 +5,7 @@ import './styles.css';
 
 import APIFetch from '../../utilities/api';
 import cookieCheck from '../../utilities/cookieCheck';
+import ProfileAvatar from '../profileAvatar';
 
 export default class GeneralPost extends React.Component {
     constructor(props) {
@@ -34,12 +35,20 @@ export default class GeneralPost extends React.Component {
     render() {
         return (
             <div className = 'single-post' key = {this.props.post.id}>
-                <p><b>Description: </b>{this.props.post.description}</p>
-                <p><b>Game: </b>{this.props.post.game}</p>
-                <p><b>Looking for: </b>{this.props.post.numPlayers} player(s)</p>
-                <p><b>Location: </b>{this.props.post.location}</p>
-                <p><b>Time: </b>{this.props.post.time}</p>
-                <p><b>Duration: </b>{this.props.post.duration}</p>
+                <div>
+                    <ProfileAvatar userID = {this.props.post.userID} />
+                    <div>
+                        <div>username here</div>
+                    </div>
+                </div>
+                <div>
+                    <p><b>Description: </b>{this.props.post.description}</p>
+                    <p><b>Game: </b>{this.props.post.game}</p>
+                    <p><b>Looking for: </b>{this.props.post.numPlayers} player(s)</p>
+                    <p><b>Location: </b>{this.props.post.location}</p>
+                    <p><b>Time: </b>{this.props.post.time}</p>
+                    <p><b>Duration: </b>{this.props.post.duration}</p>
+                </div>
                 <div className = 'general-post-info'>
                     {cookieCheck() && this.props.post.userID !== localStorage.getItem('id') &&
                         <Button onClick = {this.connect}>connect with user</Button>}
