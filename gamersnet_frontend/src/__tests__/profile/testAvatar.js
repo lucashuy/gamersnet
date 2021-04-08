@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import ProfileChangeAvatar from '../../components/profileChangeAvatar';
+import ProfileChangeAvatar from '../../components/profileComponents/profileChangeAvatar';
 import '@testing-library/jest-dom';
 import { Simulate } from 'react-dom/test-utils';
 

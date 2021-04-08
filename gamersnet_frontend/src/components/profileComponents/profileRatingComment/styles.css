@@ -1,0 +1,11 @@
+.rating-overview-comment:not(:first-child) {
+    margin-top: 2rem;
+}
+
+.rating-overview-comment .profile-image {
+    width: 2.5rem !important;
+}
+
+.rating-comment-info > div {
+    display: inline-block;
+}

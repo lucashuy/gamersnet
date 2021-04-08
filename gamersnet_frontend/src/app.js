@@ -11,7 +11,7 @@ import SignIn from './components/signin';
 import Register from './components/register';
 import Logout from './components/logout';
 import AddPost from './components/createPost';
-import Profile from './components/profile';
+import Profile from './components/profileComponents/profileMain';
 import GameSearch from './components/gameSearch'
 
 // import header

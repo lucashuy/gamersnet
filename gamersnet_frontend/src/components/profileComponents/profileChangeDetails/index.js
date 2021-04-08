@@ -1,10 +1,10 @@
 import React from 'react';
 
-import APIFetch from '../../utilities/api';
+import APIFetch from '../../../utilities/api';
 
-import Input from '../input';
-import Button from '../button';
-import StatusMessage from '../statusMessage';
+import Input from '../../input';
+import Button from '../../button';
+import StatusMessage from '../../statusMessage';
 
 import './styles.css';
 

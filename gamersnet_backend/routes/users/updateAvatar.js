@@ -2,7 +2,7 @@
 
 let {upsertAvatar} = require('../../persistence/avatar');
 let {verifyUserLoggedIn} = require('../utilities/tokenUtility');
-let {getUserIDFromToken} = require('../../persistence/tokens');
+let {getTokenDocument} = require('../../persistence/tokens');
 
 let imageSize = require('image-size');
 
@@ -25,7 +25,7 @@ async function updateAvatar(request, response) {
             let size = imageSize(request.file.buffer);
     
             if (size.height <= 256 && size.width <= 256) {
-                let tokenDocument = await getUserIDFromToken(token);
+                let tokenDocument = await getTokenDocument(token);
                 let userID = tokenDocument.userID;
                 
                 await upsertAvatar(userID, request.file.buffer, request.file.mimetype);
