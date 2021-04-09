@@ -21,3 +21,5 @@
 ### System Architecture Design
 * The architecture can be found [here](https://github.com/itslupus/gamersnet/wiki/Architecture).
 
+### Test the site [here](https://comp4350.itslucas.win/)
+
