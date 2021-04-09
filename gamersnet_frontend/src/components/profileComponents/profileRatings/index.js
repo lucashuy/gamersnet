@@ -133,7 +133,7 @@ export default class ProfileRatings extends React.Component {
                             <div>Fun</div>
                         </div>
                         <div>
-                            <div>{this.state.data.playAgain}%</div>
+                            <div>{Math.floor(this.state.data.playAgain)}%</div>
                             <div>would play again</div>
                         </div>
                     </div>
