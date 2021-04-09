@@ -9,7 +9,7 @@ let URL;
 if (process.env.REACT_APP_WS_SERVER) {
 	URL = `wss://${process.env.REACT_APP_WS_SERVER}`;
 } else {
-	URL = 'localhost:3000';
+	URL = 'ws://localhost:3000';
 }
 
 export default class Chat extends React.Component {
