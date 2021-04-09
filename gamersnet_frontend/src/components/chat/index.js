@@ -5,7 +5,12 @@ import './styles.css'
 import MessageList from './MessageList'
 import ProfileAvatar from '../profileComponents/profileAvatar';
 
-const URL = `ws://${process.env.REACT_APP_WS_SERVER || 'localhost:3000'}`;
+let URL;
+if (process.env.REACT_APP_WS_SERVER) {
+	URL = `wss://${process.env.REACT_APP_WS_SERVER}`;
+} else {
+	URL = 'ws://localhost:3000';
+}
 
 export default class Chat extends React.Component {
     ws = new WebSocket(URL);

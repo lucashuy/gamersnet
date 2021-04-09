@@ -20,7 +20,6 @@ export default class FilterPosts extends React.Component {
         this.maxPlayers = this.maxPlayers.bind(this);
         this.startDate = this.startDate.bind(this);
         this.endDate = this.endDate.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
     }
 
     game(event) {
@@ -41,18 +40,6 @@ export default class FilterPosts extends React.Component {
 
     endDate(event) {
         this.setState({endDate: event.target.valueAsDate})
-    }
-
-    handleSearch(event) {
-        let body = {
-            game: this.state.game,
-            minPlayers: this.state.minPlayers,
-            maxPlayers: this.state.maxPlayers,
-            startDate: this.state.startDate,
-            endDate: this.state.endDate
-        };
-
-        event.preventDefault();
     }
 
     dataFunction = (event) => {

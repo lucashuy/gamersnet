@@ -23,7 +23,8 @@ export default class ProfileRatings extends React.Component {
                 fun: 0,
                 playAgain: 0,
                 comments: []
-            }
+            },
+            numComments: 0
         };
         
         this.renderComments = this.renderComments.bind(this);
@@ -50,7 +51,13 @@ export default class ProfileRatings extends React.Component {
                     return Date.parse(second.rateDate) - Date.parse(first.rateDate);
                 });
 
-                this.setState({status: 200, data: json, commentEnd: maxComments});
+                let nonEmptyComments = 0;
+
+                json.comments.map((comment) => {
+                    if (comment.comment !== '') nonEmptyComments++;
+                })
+
+                this.setState({status: 200, data: json, commentEnd: maxComments, numComments: nonEmptyComments});
             } else {
                 console.log('profile-ratings', 'network problem happened');
             }
@@ -106,7 +113,7 @@ export default class ProfileRatings extends React.Component {
     render() {
         return (
             <div style = {{width: '100%'}}>
-                <div className = 'profile-header'>Ratings</div>
+                <div className = 'profile-header'>Ratings ({this.state.data.comments.length} total)</div>
                 <div className = 'rating-overview-wrapper'>
                     <div className = 'rating-overview-overview'>
                         <div>
@@ -132,7 +139,7 @@ export default class ProfileRatings extends React.Component {
                     </div>
                     <div className = 'rating-overview-comments-wrapper'>
                         <div className = 'rating-overview-header'>
-                            <div className = 'profile-header'>Comments</div>
+                            <div className = 'profile-header'>Comments ({this.state.numComments} total)</div>
                             {this.renderPageControl()}
                         </div>
                         

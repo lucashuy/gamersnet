@@ -21,7 +21,7 @@
 
 .header .header-link {
     float: right;
-    margin: 0rem 0.5rem 0rem 0.5rem;
+    margin-left: 1rem;
     color: rgb(160, 174, 255);
     cursor: pointer;
 }

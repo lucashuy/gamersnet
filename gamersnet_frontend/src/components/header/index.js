@@ -17,7 +17,7 @@ class Header extends React.Component {
         return (
             <div className = 'links'>
                 <Link to = '/logout' className = 'header-link'>Logout</Link>
-                <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>Profile</Link>
+                <Link to = {'/profile/' + localStorage.getItem('id')} className = 'header-link'>{localStorage.getItem('username')}</Link>
                 <Link to = '/post' className = 'header-link'>+Post</Link>
             </div>
         );

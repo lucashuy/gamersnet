@@ -38,7 +38,9 @@ class Register extends React.Component {
             fetchData.then(async (data) => {
                 if (await data.ok) {
                     let result = await data.json();
+
                     localStorage.setItem('id', result.user_id);
+                    localStorage.setItem('username', this.state.username);
                     
                     this.props.history.push('/');
                     this.props.updateHeader();

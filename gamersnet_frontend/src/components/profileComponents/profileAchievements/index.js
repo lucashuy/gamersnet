@@ -4,19 +4,12 @@ import APIFetch from '../../../utilities/api';
 
 import './styles.css';
 
-import post1 from './images/POST_1.png';
-import post5 from './images/POST_5.png';
-import post10 from './images/POST_10.png';
-
-import age0 from './images/AGE_0.png';
-import age7 from './images/AGE_7.png';
-
 const IMAGE_TABLE = {
-    POST_1: post1,
-    POST_5: post5,
-    POST_10: post10,
-    AGE_0: age0,
-    AGE_7: age7
+    POST_1: 'fas fa-pen',
+    POST_5: 'fas fa-sticky-note',
+    POST_10: 'fas fa-book',
+    AGE_0: 'fas fa-birthday-cake',
+    AGE_7: 'fas fa-calendar-week'
 }
 
 export default class ProfileAchievements extends React.Component {
@@ -41,7 +34,7 @@ export default class ProfileAchievements extends React.Component {
 
                 for (let achievement of json.achievements) {
                     newElements.push(
-                        <img className = 'achievement-icon' src = {IMAGE_TABLE[achievement.nameInternal]} title = {achievement.description} alt = {achievement.description} />
+                        <div className = {`achievement-icon ${IMAGE_TABLE[achievement.nameInternal]}`} title = {achievement.description} alt = {achievement.description} />
                     )
                 }
 
