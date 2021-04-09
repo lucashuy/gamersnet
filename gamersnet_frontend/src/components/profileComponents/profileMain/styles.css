@@ -16,6 +16,12 @@
     padding: 1rem;
 }
 
+@media (max-width:1500px) {
+    .profile {
+        width: 80%;
+    }
+}
+
 .profile-header {
     font-size: 1.5rem;
     margin-bottom: 1rem;
