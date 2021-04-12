@@ -33,6 +33,7 @@ export default class GameSearch extends React.Component {
         var postArray = [...this.state.listOfPosts];
         var numSpliced = 0;
         var len = postArray.length
+        console.log("hi from gamesearch")
         
         // check all posts for filter violations
         for(var i = 0; i < len; i++) {
@@ -55,7 +56,6 @@ export default class GameSearch extends React.Component {
                 }
                 // game filter
                 else if(game !== "" && game !== "None" && postArray[i-numSpliced].game !== game){
-                    console.log(postArray[i-numSpliced].game+"\t"+game)
                     postArray.splice(i-numSpliced, 1)
                     numSpliced++;
                 }
