@@ -16,6 +16,8 @@ export default class Home extends React.Component {
         // define an initial state for our data we will fetch
         this.state = {
 			listOfPosts: [],
+            showListOfPosts:[],
+            numPosts: 0,
 			status: "loading",
             headerText: 'Most Recent Posts',
             forceChatUserID: undefined,
@@ -67,9 +69,10 @@ export default class Home extends React.Component {
     parseResponse(data) {
         var postInfo
         var count = (JSON.parse(JSON.stringify(data)).length) - 1;
-        var numPosts = 10;
+        this.setState({numPosts: count+1})
+        this.setState({ showListOfPosts:[] });
         this.setState({ listOfPosts:[] });
-        while(data[count] !== undefined && numPosts > 0){
+        while(data[count] !== undefined){
             postInfo = {
                 game: data[count].gameName,
                 description: data[count].description,
@@ -81,10 +84,10 @@ export default class Home extends React.Component {
                 userID: data[count].userID
             }
             this.setState({
-                listOfPosts: this.state.listOfPosts.concat(postInfo)
+                listOfPosts: this.state.listOfPosts.concat(postInfo),
+                showListOfPosts: this.state.showListOfPosts.concat(postInfo)
             })
             count--;
-            numPosts--;
         }
     }
 
@@ -120,14 +123,13 @@ export default class Home extends React.Component {
                 }
                 // game filter
                 else if(game !== "" && game !== "None" && postArray[i-numSpliced].game !== game){
-                    console.log(postArray[i-numSpliced].game+"\t"+game)
                     postArray.splice(i-numSpliced, 1)
                     numSpliced++;
                 }
             }
             
             // update the list of valid posts
-            this.setState({listOfPosts: postArray})
+            this.setState({showListOfPosts: postArray})
         }
     }
     
@@ -140,7 +142,7 @@ export default class Home extends React.Component {
 
                     <p className = 'post-text'>{this.state.headerText}</p>
                     <div className = 'all-posts'>
-                        {this.state.listOfPosts.map(singlePost => (
+                        {this.state.showListOfPosts.map(singlePost => (
                             <GeneralPost post = {singlePost} forceChat = {this.forceChat} />
                         ))}
                     </div>
