@@ -9,7 +9,7 @@ class AddPost extends React.Component{
         super(props);
 
         this.state = {
-            gameName: 'Apex Legends',
+            gameName: 'Not Listed',
             description: '',
             numPlayers: 1,
             gameTimeUTC: 0,
@@ -102,8 +102,8 @@ class AddPost extends React.Component{
 
                     <br/>
                     <p>Add Game Name you want to play:</p>
-                        <select onChange = {this.inputGameName}>
-                        <option value="Not Listed"> Not Listed </option>
+                        <select onChange = {this.inputGameName} defaultValue="Not Listed">
+                            <option value="Not Listed"> Not Listed </option>
                             <option value="Apex Legends"> Apex Legends </option>
                             <option value="CS:GO"> CS:GO </option>
                             <option value="Dota"> Dota </option>
