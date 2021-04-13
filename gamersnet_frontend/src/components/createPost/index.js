@@ -103,12 +103,14 @@ class AddPost extends React.Component{
                     <br/>
                     <p>Add Game Name you want to play:</p>
                         <select onChange = {this.inputGameName}>
-                            <option value="ApexLegends"> Apex Legends </option>
-                            <option value="Dota"> Dota </option>
+                        <option value="Not Listed"> Not Listed </option>
+                            <option value="Apex Legends"> Apex Legends </option>
                             <option value="CS:GO"> CS:GO </option>
-                            <option value="Fortnite"> Fortnite </option>
+                            <option value="Dota"> Dota </option>
                             <option value="Fifa 2021"> Fifa 2021 </option>
+                            <option value="Fortnite"> Fortnite </option>
                             <option value="PUB-G"> PUB-G </option>
+                            <option value="Super Mario Bros"> Super Mario Bros </option>
                         </select>
         
                     <p>Description</p>
