@@ -9,6 +9,9 @@
 | Lucas Huynh | itslupus | huynhl@myumanitoba.ca
 | Humayra Anjum Rafi | Humayra98 | rafiha@myumanitoba.ca
 
+## Team Leader: 
+* There is no defined group leader for this project as we rotated leaders throughout the sprints.
+
 ### Description
 * A high level description and details about the project can be found [wiki homepage](https://github.com/itslupus/gamersnet/wiki).
 
