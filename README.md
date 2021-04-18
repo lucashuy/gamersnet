@@ -9,6 +9,16 @@
 | Lucas Huynh | itslupus | huynhl@myumanitoba.ca
 | Humayra Anjum Rafi | Humayra98 | rafiha@myumanitoba.ca
 
+## Team Leader: 
+* There is no defined group leader for this project as we rotated leaders throughout the sprints.
+
+| Leader | Sprint |
+| --- | --- |
+| Adam Azarov | Sprint 1 |
+| Lucas Huynh | Sprint 2 |
+| Humayra Anjum Rafi | Sprint 3 |
+| Jay Khakhariya | Sprint 4 |
+
 ### Description
 * A high level description and details about the project can be found [wiki homepage](https://github.com/itslupus/gamersnet/wiki).
 
