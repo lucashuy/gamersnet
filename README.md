@@ -11,6 +11,7 @@
 
 ## Team Leader: 
 * There is no defined group leader for this project as we rotated leaders throughout the sprints.
+
 | Leader | Sprint |
 | --- | --- |
 | Adam Azarov | Sprint 1 |
